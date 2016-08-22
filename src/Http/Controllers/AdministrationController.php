@@ -8,7 +8,7 @@
 
 namespace Activelogiclabs\Administration\Http\Controllers;
 
-use Activelogiclabs\Administration\Core\Core;
+use Activelogiclabs\Administration\Admin\Core;
 use Illuminate\Routing\Controller;
 
 class AdministrationController extends Controller

@@ -7,4 +7,4 @@
  */
 
 
-\App\Admin\Route::admin();
+\Activelogiclabs\Administration\Admin\Route::admin();

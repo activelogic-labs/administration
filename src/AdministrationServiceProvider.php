@@ -20,15 +20,16 @@ class AdministrationServiceProvider extends ServiceProvider {
     
     public function boot()
     {
+        $this->publishes([
+            __DIR__ . '/config' => config_path('')
+        ], 'config');
+
+
         if (! $this->app->routesAreCached()) {
 
             require __DIR__.'/Http/routes.php';
 
         }
-
-        $this->publishes([
-            __DIR__ . '/config' => config_path('')
-        ], 'config');
         
         $this->loadViewsFrom(__DIR__ . '/views', 'active-admin');
     }

@@ -10,9 +10,8 @@
 |--------------------------------------------------------------------------
 | Administration Configuration
 |--------------------------------------------------------------------------
+| TODO: update item descriptions
 |
-|
-
  */
 
 return [
@@ -27,8 +26,20 @@ return [
     | services your application utilizes. Set this in your ".env" file.
     |
     */
+    'title' => '',
 
-    'base_uri' => '',
+    /*
+    |--------------------------------------------------------------------------
+    | Application Users
+    |--------------------------------------------------------------------------
+    |
+    | This value determines the "environment" your application is currently
+    | running in. This may determine how you prefer to configure various
+    | services your application utilizes. Set this in your ".env" file.
+    |
+    */
+
+    'base_uri' => 'admin',
 
     /*
     |--------------------------------------------------------------------------
@@ -54,7 +65,7 @@ return [
     |
     */
 
-    'logo_url' => 'Logo Image URL',
+    'default_controller_route' => '',
 
     /*
     |--------------------------------------------------------------------------
@@ -67,7 +78,7 @@ return [
     |
     */
 
-    'users_table' => 'users',
+    'controllers' => [],
 
     /*
     |--------------------------------------------------------------------------
@@ -80,8 +91,6 @@ return [
     |
     */
 
-    'sections' => [
-
-    ],
+    'navigation_controllers' => [],
 
 ];
