@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'default_controller_route' => 'StandardController@overview',
+    'default_controller_route' => '',
 
     /*
     |--------------------------------------------------------------------------

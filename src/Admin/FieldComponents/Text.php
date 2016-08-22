@@ -2,7 +2,7 @@
 
 namespace Activelogiclabs\Administration\Admin\FieldComponents;
 
-use Activelogiclabs\Administration\FieldComponent;
+use Activelogiclabs\Administration\Admin\FieldComponent;
 
 class Text extends FieldComponent
 {

@@ -2,7 +2,7 @@
 
 namespace Activelogiclabs\Administration\Admin;
 
-use App\Admin\FieldComponents\Text;
+use Activelogiclabs\Administration\Admin\FieldComponents\Text;
 use Illuminate\Database\Eloquent\Model;
 
 abstract class FieldComponent
