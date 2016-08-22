@@ -1,4 +1,4 @@
-@extends("active-admin::layouts.admin")
+@extends("administration::layouts.admin")
 
 @section("header")
     <div class="header">

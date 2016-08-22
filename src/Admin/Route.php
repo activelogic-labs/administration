@@ -58,6 +58,7 @@ class Route
                     /**
                      * Default Routes
                      */
+                    // dd($controller->class);
                     LaravelRoute::get($controller->slug . "/overview", $controller->class . "@overview");
                     LaravelRoute::get($controller->slug . "/detail/{id?}", $controller->class . "@detail");
                     LaravelRoute::post($controller->slug . "/save/{id?}", $controller->class . "@saveField");

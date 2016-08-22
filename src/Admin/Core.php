@@ -71,7 +71,11 @@ class Core
         view()->share("navigation", Core::navigationControllers());
         view()->share("system_title", Core::getConfig('title'));
 
-        return view(self::getConfig("views_path") . '.' . $view, $params);
+        if($viewPath = self::getConfig("views_path")){
+            return view('administration::'.self::getConfig("views_path") . '.' . $view, $params);
+        }
+
+        return view('administration::'.$view, $params);
     }
 
     /**

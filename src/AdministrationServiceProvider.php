@@ -31,7 +31,7 @@ class AdministrationServiceProvider extends ServiceProvider {
 
         }
         
-        $this->loadViewsFrom(__DIR__ . '/views', 'active-admin');
+        $this->loadViewsFrom(__DIR__ . '/views', 'administration');
     }
 
     public function register()

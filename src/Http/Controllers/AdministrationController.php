@@ -50,7 +50,7 @@ class AdministrationController extends Controller
 
         $this->slug = strtolower(str_replace("Controller", "", $uriArray[3]));
         $this->url = Core::url($this->slug . "/overview");
-        $this->class = $uriArray[3];
+        $this->class = get_called_class();
     }
 
     /**
