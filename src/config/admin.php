@@ -56,7 +56,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Logo
+    |
     |--------------------------------------------------------------------------
     |
     | This value determines the "environment" your application is currently
@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'default_controller_route' => '',
+    'default_controller_route' => 'StandardController@overview',
 
     /*
     |--------------------------------------------------------------------------

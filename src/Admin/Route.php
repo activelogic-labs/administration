@@ -42,7 +42,11 @@ class Route
             /**
              * Default Controller
              */
-            LaravelRoute::get('/', Core::getConfig("default_controller_route"));
+            if (Core::getConfig("default_controller_route")) {
+
+                LaravelRoute::get('/', Core::getConfig("default_controller_route"));
+
+            }
 
             /**
              * Controller Based Routes
