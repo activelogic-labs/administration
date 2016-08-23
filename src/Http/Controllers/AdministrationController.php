@@ -136,6 +136,17 @@ class AdministrationController extends Controller
                 $columns[$column] = ucwords(str_replace("_", " ", $column));
             }
 
+            $hidden = $model->getHidden();
+            if (!empty($hidden)) {
+
+                foreach ($hidden as $remove) {
+
+                    unset($columns[$remove]);
+
+                }
+
+            }
+
             $fields = $columns;
         }
 
