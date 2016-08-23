@@ -1,0 +1,41 @@
+#main{
+    #content{
+        #menu_anchor{
+            display:none;
+        }
+    }
+}
+
+@media (max-width: 1115px) {
+    #main{
+        #content{
+            #menu_anchor{
+                display:inline-block;
+            }
+        }
+        #navigation{
+            display:none;
+        }
+    }
+}
+
+@media (max-width: 970px) {
+    .table{
+        th{
+            td{
+                border:none;
+            }
+        }
+        tr{
+            td{
+                border:none;
+            }
+        }
+    }
+    .data-group{
+        .data-group-field{
+            width:100%;
+            border:none;
+        }
+    }
+}

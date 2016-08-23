@@ -24,5 +24,13 @@
         "psr-4": {
             "Activelogiclabs\\Administration\\": "src/"
         }
+    },
+    "scripts": {
+        "post-root-package-install": [],
+        "post-create-project-cmd": [],
+        "post-install-cmd": [],
+        "post-update-cmd": [
+            "echo 'Post update command from package'"
+        ]
     }
 }

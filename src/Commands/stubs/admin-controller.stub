@@ -1,0 +1,41 @@
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\Http\Request;
+
+use DummyRootNamespaceHttp\Requests;
+use Activelogiclabs\Administration\Http\Controllers\AdministrationController;
+
+class DummyClass extends AdministrationController
+{
+    /**
+    * Model associated with section -- Example::class
+    */
+    public $model;
+
+    /**
+    * Title of administration navigation section
+    */
+    public $title;
+
+    /**
+    * Font-Awesome Icon to appear nex to title
+    */
+    public $icon;
+
+    /**
+    * Defines how fields are to be handled
+    */
+    public $fieldDefinitions = [];
+
+    /**
+    * Fields to be displayed on the overview page
+    */
+    public $overviewFields = [];
+
+    /**
+    * Fields to be displayed on the detail page
+    */
+    public $detailFields = [];
+}

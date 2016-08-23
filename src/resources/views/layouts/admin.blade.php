@@ -1,3 +1,38 @@
+<?php
+
+//TODO: figure out where to actually put this
+if (! function_exists('packageElixir')) {
+    /**
+     * Get the path to a versioned Elixir file.
+     *
+     * @param  string  $file
+     * @param  string  $buildDirectory
+     * @return string
+     *
+     * @throws \InvalidArgumentException
+     */
+    function packageElixir($file, $buildDirectory = 'build')
+    {
+        static $manifest;
+        static $manifestPath;
+
+        if (is_null($manifest) || $manifestPath !== $buildDirectory) {
+            $manifest = json_decode(file_get_contents(public_path('vendor/administration/'.$buildDirectory.'/rev-manifest.json')), true);
+
+            $manifestPath = $buildDirectory;
+        }
+
+        if (isset($manifest[$file])) {
+//            dd('/'.trim($buildDirectory.'/'.$manifest[$file], '/'));
+            return '/vendor/administration/'.trim($buildDirectory.'/'.$manifest[$file], '/');
+        }
+
+        throw new InvalidArgumentException("File {$file} not defined in asset manifest.");
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +48,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
+    <link href="{{ packageElixir('css/app.css') }}" rel="stylesheet">
 
 </head>
 <body id="app-layout">
@@ -65,13 +100,13 @@
     </div>
 
     <!-- JavaScripts -->
-    <script src="/components/jquery/dist/jquery.min.js"></script>
+    <script src="/vendor/administration/components/jquery/dist/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    <script src="/components/stacktable.js/stacktable.js"></script>
-    <script src="/components/dropzone/dist/min/dropzone.min.js"></script>
+    <script src="/vendor/administration/components/stacktable.js/stacktable.js"></script>
+    <script src="/vendor/administration/components/dropzone/dist/min/dropzone.min.js"></script>
     <script src="//cdn.ckeditor.com/4.5.10/standard/ckeditor.js"></script>
 
-    <script src="{{ elixir('js/all.js') }}"></script>
+    <script src="{{ packageElixir('js/all.js') }}"></script>
 
     @yield("scripts")
 

@@ -1,0 +1,97 @@
+#main{
+    #content{
+        #menu_anchor{
+            display:inline-block;
+            float:left;
+            border-radius:50%;
+            text-align:center;
+            background:#FFF;
+            box-shadow: 0 0 5px #E0E0E0;
+            text-decoration:none;
+            width:33px;
+            height:33px;
+            margin:11px 0 0 13px;
+            color:#6D6D6D;
+            i{
+                margin:10px 0 0;
+            }
+            &:hover{
+                background: #eaeaea;
+            }
+        }
+        .logged_in_users{
+            padding:0px 0 0 10px;
+            float:left;
+            a.circle{
+                border-radius:50%;
+                background:#FFF;
+                box-shadow: 1px 1px 5px #C0C0C0;
+                padding:8px;
+                display:inline-block;
+                text-align:center;
+                font-size:12px;
+                color:#6D6D6D;
+                margin:10px 5px 0 0;
+                text-decoration:none;
+                &:hover{
+                    background: #f6f6f6;
+                    color:#153263;
+                }
+            }
+        }
+        .toolbar{
+            height:54px;
+            background:#609a44;
+        }
+        .header{
+            background:#FFF;
+            box-shadow: 1px 1px 5px #D5D4D3;
+            height:64px;
+            h1{
+                float:left;
+                font-size:16px;
+                color:#6D6D6D;
+                margin:0;
+                padding:25px 25px 0;
+                span{
+                    font-size:12px;
+                    color:#C0C0C0;
+                    display:inline-block;
+                    margin-left:10px;
+                }
+            }
+            .buttons{
+                float:right;
+                margin:18px;
+                a{
+                    display:inline-block;
+                    margin:0 10px;
+                    padding:5px 10px;
+                    text-decoration: none;
+                    border:solid 1px #E8E7E5;
+                    color:#6D6D6D;
+                    font-size:12px;
+                    &:hover{
+                        color: #464646;
+                        border:solid 1px #cdccca;
+                    }
+                }
+            }
+        }
+        .area{
+            padding:0 25px 25px 25px;
+            h1{
+                font-size:16px;
+                color:#6D6D6D;
+                margin:40px 0 20px;
+                padding:0;
+                span{
+                    font-size:12px;
+                    color:#B5B3AF;
+                    display:inline-block;
+                    margin-left:15px;
+                }
+            }
+        }
+    }
+}

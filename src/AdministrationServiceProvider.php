@@ -8,6 +8,7 @@
 
 namespace Activelogiclabs\Administration;
 
+use Activelogiclabs\Administration\Commands\AdminControllerMakeCommand;
 use Activelogiclabs\Administration\Commands\MakeAdministrationCommand;
 use Illuminate\Support\ServiceProvider;
 
@@ -15,6 +16,7 @@ class AdministrationServiceProvider extends ServiceProvider {
 
     protected $commands = [
         MakeAdministrationCommand::class,
+        AdminControllerMakeCommand::class,
     ];
     
     
@@ -24,6 +26,10 @@ class AdministrationServiceProvider extends ServiceProvider {
             __DIR__ . '/config' => config_path('')
         ], 'config');
 
+        $this->publishes([
+            __DIR__ . '/public' => public_path("vendor/administration")
+        ], 'public');
+
 
         if (! $this->app->routesAreCached()) {
 
@@ -31,7 +37,7 @@ class AdministrationServiceProvider extends ServiceProvider {
 
         }
         
-        $this->loadViewsFrom(__DIR__ . '/views', 'administration');
+        $this->loadViewsFrom(__DIR__ . '/resources/views', 'administration');
     }
 
     public function register()
