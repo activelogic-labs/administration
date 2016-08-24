@@ -50,6 +50,10 @@ if (! function_exists('packageElixir')) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link href="{{ packageElixir('css/app.css') }}" rel="stylesheet">
 
+    @foreach (config('admin.styles') as $style)
+        <link href="{{ $style }}" rel="stylesheet">
+    @endforeach
+
 </head>
 <body id="app-layout">
 
@@ -107,6 +111,10 @@ if (! function_exists('packageElixir')) {
     <script src="//cdn.ckeditor.com/4.5.10/standard/ckeditor.js"></script>
 
     <script src="{{ packageElixir('js/all.js') }}"></script>
+
+    @foreach (config('admin.scripts') as $script)
+        <link href="{{ $script }}" rel="stylesheet">
+    @endforeach
 
     @yield("scripts")
 
