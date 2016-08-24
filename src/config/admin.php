@@ -1,16 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: daltongibbs
- * Date: 8/12/16
- * Time: 10:21 AM
- */
 
 /*
 |--------------------------------------------------------------------------
 | Administration Configuration
 |--------------------------------------------------------------------------
-| TODO: update item descriptions
 |
  */
 
@@ -18,37 +11,70 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Application Users
+    | Application Title
     |--------------------------------------------------------------------------
     |
-    | This value determines the "environment" your application is currently
-    | running in. This may determine how you prefer to configure various
-    | services your application utilizes. Set this in your ".env" file.
+    | Sets the meta title for the application
     |
     */
-    'title' => '',
+
+    'title' => 'Summit System',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Logo
+    |--------------------------------------------------------------------------
+    |
+    | Sets the logo on top left side of application
+    |
+    */
+
+    'logo_url' => '/images/Logo@2x.jpg',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Styles
+    |--------------------------------------------------------------------------
+    |
+    | Allows user to extend styles by including their own
+    | We recommend using Elixir for cache busting
+    |
+    */
+
+    'styles' => [
+        elixir("css/app.css")
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Scripts
+    |--------------------------------------------------------------------------
+    |
+    | Allows user to extend scripts by including their own
+    |
+    */
+
+    'scripts' => [
+
+    ],
 
     /*
     |--------------------------------------------------------------------------
     | Application Users
     |--------------------------------------------------------------------------
     |
-    | This value determines the "environment" your application is currently
-    | running in. This may determine how you prefer to configure various
-    | services your application utilizes. Set this in your ".env" file.
+    | Defines the base URI (eg. http://localhost/admin)
     |
     */
 
-    'base_uri' => 'admin',
+    'base_uri' => '',
 
     /*
     |--------------------------------------------------------------------------
     | Application Users
     |--------------------------------------------------------------------------
     |
-    | This value determines the "environment" your application is currently
-    | running in. This may determine how you prefer to configure various
-    | services your application utilizes. Set this in your ".env" file.
+    | Defines the views path if the user chooses to place into a subdirectory
     |
     */
 
@@ -59,38 +85,48 @@ return [
     |
     |--------------------------------------------------------------------------
     |
-    | This value determines the "environment" your application is currently
-    | running in. This may determine how you prefer to configure various
-    | services your application utilizes. Set this in your ".env" file.
+    | Sets the default controller when accessing the base route
+    | Eg. \App\Http\Controllers\UsersController@listAllUsers
     |
     */
 
-    'default_controller_route' => '',
+    'default_controller_route' => '\App\Http\Controllers\Dashboard@index',
 
     /*
     |--------------------------------------------------------------------------
     | Application Users
     |--------------------------------------------------------------------------
     |
-    | This value determines the "environment" your application is currently
-    | running in. This may determine how you prefer to configure various
-    | services your application utilizes. Set this in your ".env" file.
+    | Register all the controllers for the application
     |
     */
 
-    'controllers' => [],
+    'controllers' => [
+        \App\Http\Controllers\Dashboard::class,
+        \App\Http\Controllers\Policies::class,
+        \App\Http\Controllers\Customers::class,
+        \App\Http\Controllers\Agents::class,
+        \App\Http\Controllers\Products::class,
+        \App\Http\Controllers\Commissions::class,
+    ],
 
     /*
     |--------------------------------------------------------------------------
     | Application Users
     |--------------------------------------------------------------------------
     |
-    | This value determines the "environment" your application is currently
-    | running in. This may determine how you prefer to configure various
-    | services your application utilizes. Set this in your ".env" file.
+    | Set which controllers belong in the navigation bar
+    | Be sure to set the controller properties title and optional icon (FontAwesome)
     |
     */
 
-    'navigation_controllers' => [],
+    'navigation_controllers' => [
+        \App\Http\Controllers\Dashboard::class,
+        \App\Http\Controllers\Policies::class,
+        \App\Http\Controllers\Customers::class,
+        \App\Http\Controllers\Agents::class,
+        \App\Http\Controllers\Products::class,
+        \App\Http\Controllers\Commissions::class,
+    ],
 
 ];
