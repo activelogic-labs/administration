@@ -92,13 +92,15 @@ abstract class FieldComponent
      * @param array $definitions
      * @return mixed
      */
-    public static function buildComponents($model, $fields, $definitions = [], $rawData = null)
+    public static function buildComponents($model, $fields, $definitions = [], $request, $rawData = null)
     {
         if (empty($rawData)) {
 
             $rawData = self::retrieveData($model, $fields);
 
         }
+
+        $requestParams = $request->all();
 
         $dataSet = [];
 

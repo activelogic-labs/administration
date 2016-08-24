@@ -16,6 +16,21 @@ if (! function_exists('packageElixir')) {
         static $manifest;
         static $manifestPath;
 
+        if (env('APP_ENV') == 'local') {
+
+            $buildPath = base_path("vendor/activelogiclabs/administration/src/public/build");
+
+            if (is_null($manifest) || $manifestPath !== $buildDirectory) {
+                $manifest = json_decode(file_get_contents($buildPath . "/rev-manifest.json"), true);
+                $manifestPath = $buildDirectory;
+            }
+
+            if (isset($manifest[$file])) {
+                return $buildPath.'/'.$manifest[$file];
+            }
+
+        }
+
         if (is_null($manifest) || $manifestPath !== $buildDirectory) {
             $manifest = json_decode(file_get_contents(public_path('vendor/administration/'.$buildDirectory.'/rev-manifest.json')), true);
 
@@ -23,7 +38,6 @@ if (! function_exists('packageElixir')) {
         }
 
         if (isset($manifest[$file])) {
-//            dd('/'.trim($buildDirectory.'/'.$manifest[$file], '/'));
             return '/vendor/administration/'.trim($buildDirectory.'/'.$manifest[$file], '/');
         }
 
@@ -48,7 +62,8 @@ if (! function_exists('packageElixir')) {
 
     <!-- Styles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link href="{{ packageElixir('css/app.css') }}" rel="stylesheet">
+    {{--<link href="{{ packageElixir('css/app.css') }}" rel="stylesheet">--}}
+    <link href="{{ elixir('css/app.css', 'vendor/administration/build') }}" rel="stylesheet">
 
     @foreach (config('admin.styles') as $style)
         <link href="{{ $style }}" rel="stylesheet">
@@ -110,7 +125,7 @@ if (! function_exists('packageElixir')) {
     <script src="/vendor/administration/components/dropzone/dist/min/dropzone.min.js"></script>
     <script src="//cdn.ckeditor.com/4.5.10/standard/ckeditor.js"></script>
 
-    <script src="{{ packageElixir('js/all.js') }}"></script>
+    <script src="{{ elixir('js/all.js', 'vendor/administration/build') }}"></script>
 
     @foreach (config('admin.scripts') as $script)
         <link href="{{ $script }}" rel="stylesheet">
