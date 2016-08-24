@@ -60,7 +60,7 @@ if (! function_exists('packageElixir')) {
             <!-- Navigation Header -->
             <div class="header">
                 <a href="/" class="logo">
-                    <img src="/images/fgi_logo.png">
+                    <img src="{{ config("admin.logo_url") }}">
                 </a>
                 <a href="#" class="collapse">
                     <span class="fa fa-chevron-circle-left"></span>
