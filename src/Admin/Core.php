@@ -8,7 +8,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\URL;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\View;
 
 class Core
 {
@@ -71,11 +71,17 @@ class Core
         view()->share("navigation", Core::navigationControllers());
         view()->share("system_title", Core::getConfig('title'));
 
+        $fullViewPath = 'administration::'.$view;
+
         if($viewPath = self::getConfig("views_path")){
-            return view('administration::'.self::getConfig("views_path") . '.' . $view, $params);
+            $fullViewPath = 'administration::'.self::getConfig("views_path") . '.' . $view;
         }
 
-        return view('administration::'.$view, $params);
+        if(!View::exists($fullViewPath)){
+            $fullViewPath = $view;
+        }
+
+        return view($fullViewPath, $params);
     }
 
     /**
