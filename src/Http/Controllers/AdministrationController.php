@@ -8,10 +8,13 @@
 
 namespace Activelogiclabs\Administration\Http\Controllers;
 
+use Activelogiclabs\Administration\Admin\AdministrationPaginationPresenter;
 use Activelogiclabs\Administration\Admin\Core;
 use Activelogiclabs\Administration\Admin\FieldComponent;
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
+
 
 class AdministrationController extends Controller
 {
@@ -65,11 +68,9 @@ class AdministrationController extends Controller
      */
     public function overview(Request $request)
     {
-        $model = new $this->model();
+        $data = FieldComponent::buildComponents($this->model, $this->buildFields($this->overviewFields), $this->fieldDefinitions);
 
-        $methods = get_class_methods($model);
-
-        $this->sortById();
+        $links = $data->links(new AdministrationPaginationPresenter($data));
 
         return Core::view( Core::PAGE_TYPE_OVERVIEW, [
             'title' => $this->title,
@@ -77,7 +78,8 @@ class AdministrationController extends Controller
             'sort_url' => Core::url($this->slug . "/overview/sort"),
             'overviewFields' => $this->buildFields($this->overviewFields),
             'overviewTitleButtons' => $this->buildTitleButtons($this->titleButtons),
-            'data' => FieldComponent::buildComponents($this->model, $this->buildFields($this->overviewFields), $this->fieldDefinitions, $request)
+            'data' => $data,
+            'page_links' => $links
         ]);
     }
 
@@ -201,6 +203,8 @@ class AdministrationController extends Controller
                 }
 
             }
+
+            //TODO: Deal with visible fields
 
             if ($model->usesTimestamps()) {
 

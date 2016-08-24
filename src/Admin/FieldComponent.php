@@ -92,17 +92,28 @@ abstract class FieldComponent
      * @param array $definitions
      * @return mixed
      */
-    public static function buildComponents($model, $fields, $definitions = [], $request, $rawData = null)
+    public static function buildComponents($model, $fields, $definitions = [], $rawData = null)
     {
+        $dataSet = [];
+
         if (empty($rawData)) {
 
-            $rawData = self::retrieveData($model, $fields);
+            $paginator = self::retrieveData($model, $fields);
+
+            foreach ($paginator as $id => $row) {
+
+                foreach ($row->getAttributes() as $key => $value) {
+
+                    $dataSet[$row->{$row->getKeyName()}][$key] = self::buildComponent([$key => $value], $definitions);
+
+                }
+
+            }
+
+            return $paginator->setCollection(collect($dataSet));
 
         }
 
-        $requestParams = $request->all();
-
-        $dataSet = [];
 
         foreach ($rawData as $id => $row) {
 
@@ -160,14 +171,6 @@ abstract class FieldComponent
 
         }
 
-        //--- Set array key as row's primary key
-        $keyedArray = [];
-        foreach ($query->get() as $key => $value) {
-
-            $keyedArray[$value->$primaryKey] = $value->toArray();
-
-        }
-
-        return $keyedArray;
+        return $query->paginate();
     }
 }
