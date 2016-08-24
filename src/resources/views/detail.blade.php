@@ -4,7 +4,8 @@
     <div class="header">
         <h1>{{ $title }} <span>{{ $subtitle }}</span></h1>
         <div class="buttons">
-            <a href="/"><i class="fa fa-angle-left"></i> Back</a>
+            <a href="{{ $back_url }}"><i class="fa fa-angle-left"></i> Back</a>
+            <a href="{{ $delete_url }}" style="border: solid 1px #c50000; color: #c50000"><i class="fa fa-trash"></i> Delete</a>
         </div>
     </div>
 @endsection
@@ -13,7 +14,7 @@
 
     <form action="{{ $save_url }}" method="POST">
 
-        @foreach($detailData as $detailGroup)
+        @foreach($detailGroups as $detailGroup)
 
             <!-- Group: Standard Field -->
             @if($detailGroup['group_type'] == \Activelogiclabs\Administration\Admin\Core::GROUP_STANDARD)
@@ -58,11 +59,7 @@
 
                 <div class="data-group full_page">
 
-                    @foreach($detailGroup['data'] as $key => $row)
-                        @foreach($detailGroup['group_fields'] as $id => $value)
-                            {!! $row[$id]->fieldView() !!}
-                        @endforeach
-                    @endforeach
+                    {!! $detailGroup['data']->fieldView() !!}
 
                 </div>
 

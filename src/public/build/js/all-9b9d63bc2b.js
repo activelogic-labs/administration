@@ -78,6 +78,8 @@ $(function(){
 
         $.post(parentForm.attr("action"), formParams, function(response){
             console.log(response);
+
+            console.log(parentForm.attr("action"));
         });
 
     });
