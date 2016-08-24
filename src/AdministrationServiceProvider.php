@@ -8,6 +8,7 @@
 
 namespace Activelogiclabs\Administration;
 
+use Activelogiclabs\Administration\Admin\Core;
 use Activelogiclabs\Administration\Commands\AdminControllerMakeCommand;
 use Activelogiclabs\Administration\Commands\MakeAdministrationCommand;
 use Illuminate\Support\ServiceProvider;
@@ -22,6 +23,8 @@ class AdministrationServiceProvider extends ServiceProvider {
     
     public function boot()
     {
+        $this->register_global_view_variables();
+
         $this->publishes([
             __DIR__ . '/config' => config_path('')
         ], 'config');
@@ -47,6 +50,15 @@ class AdministrationServiceProvider extends ServiceProvider {
             $this->commands($this->commands);
 
         }
+    }
+
+    /**
+     * Register global view variables
+     */
+    public function register_global_view_variables()
+    {
+        view()->share("navigation", Core::navigationControllers());
+        view()->share("system_title", Core::getConfig('title'));
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace Activelogiclabs\Administration\Admin;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route as LaravelRoute;
 
 /**
@@ -122,11 +123,6 @@ class Route
                 }
 
             }
-
-            /**
-             * Authorization Routes
-             */
-            LaravelRoute::auth();
         });
     }
 

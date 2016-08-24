@@ -22,7 +22,7 @@ class DummyClass extends AdministrationController
     /**
     * Font-Awesome Icon to appear nex to title
     */
-    public $icon;
+    public $icon = 'fa-chevron-right';
 
     /**
     * Defines how fields are to be handled

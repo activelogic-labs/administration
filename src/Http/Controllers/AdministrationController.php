@@ -23,7 +23,7 @@ class AdministrationController extends Controller
     public $type = Core::CONTROLLER_TYPE_CRUD;
     public $model;
     public $title;
-    public $icon;
+    public $icon = 'fa-chevron-right';
     public $paginationLength = 10;
 
     public $fieldDefinitions;

@@ -68,9 +68,6 @@ class Core
      */
     public static function view($view, $params = [])
     {
-        view()->share("navigation", Core::navigationControllers());
-        view()->share("system_title", Core::getConfig('title'));
-
         $fullViewPath = 'administration::'.$view;
 
         if($viewPath = self::getConfig("views_path")){
