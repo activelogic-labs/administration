@@ -80,7 +80,7 @@ if (! function_exists('packageElixir')) {
 
             <!-- Navigation Header -->
             <div class="header">
-                <a href="/" class="logo">
+                <a href="/{{ config('admin.base_uri') }}" class="logo">
                     <img src="{{ config("admin.logo_url") }}">
                 </a>
                 <a href="#" class="collapse">
