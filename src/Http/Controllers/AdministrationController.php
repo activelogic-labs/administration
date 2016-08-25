@@ -8,7 +8,6 @@
 
 namespace Activelogiclabs\Administration\Http\Controllers;
 
-use Activelogiclabs\Administration\Admin\AdministrationPaginationPresenter;
 use Activelogiclabs\Administration\Admin\Core;
 use Activelogiclabs\Administration\Admin\FieldComponent;
 use App\Http\Controllers\Controller;
@@ -70,7 +69,7 @@ class AdministrationController extends Controller
     {
         $data = FieldComponent::buildComponents($this->model, $this->buildFields($this->overviewFields), $this->fieldDefinitions);
 
-        $links = $data->links(new AdministrationPaginationPresenter($data));
+        $links = $data->links('administration::pagination.default');
 
         return Core::view( Core::PAGE_TYPE_OVERVIEW, [
             'title' => $this->title,
