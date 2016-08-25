@@ -90,8 +90,12 @@ class Core
     {
         $returnArray = [];
 
-        foreach(self::getConfig("navigation_controllers") as $section) {
-            $returnArray[] = new $section;
+        if(self::getConfig("navigation_controllers")){
+
+            foreach(self::getConfig("navigation_controllers") as $section) {
+                $returnArray[] = new $section;
+            }
+
         }
 
         return Collection::make($returnArray);

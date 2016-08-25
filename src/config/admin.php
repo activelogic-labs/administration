@@ -18,7 +18,7 @@ return [
     |
     */
 
-    'title' => 'Summit System',
+    'title' => "Administration",
 
     /*
     |--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'logo_url' => '/images/Logo@2x.jpg',
+    'logo_url' => "",
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +42,7 @@ return [
     */
 
     'styles' => [
-        elixir("css/app.css")
+
     ],
 
     /*
@@ -102,12 +102,7 @@ return [
     */
 
     'controllers' => [
-        \App\Http\Controllers\Dashboard::class,
-        \App\Http\Controllers\Policies::class,
-        \App\Http\Controllers\Customers::class,
-        \App\Http\Controllers\Agents::class,
-        \App\Http\Controllers\Products::class,
-        \App\Http\Controllers\Commissions::class,
+
     ],
 
     /*
@@ -121,12 +116,7 @@ return [
     */
 
     'navigation_controllers' => [
-        \App\Http\Controllers\Dashboard::class,
-        \App\Http\Controllers\Policies::class,
-        \App\Http\Controllers\Customers::class,
-        \App\Http\Controllers\Agents::class,
-        \App\Http\Controllers\Products::class,
-        \App\Http\Controllers\Commissions::class,
+
     ],
 
 ];
