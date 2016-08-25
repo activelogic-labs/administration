@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'logo_url' => "",
+    'logo_url' => "/vendor/administration/images/ActiveLogicLabs-Logo.png",
 
     /*
     |--------------------------------------------------------------------------

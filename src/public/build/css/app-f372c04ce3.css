@@ -477,13 +477,12 @@ body {
   background: #FFF;
   box-shadow: 0 0 5px #C0C0C0; }
   #main #navigation .header {
-    height: 54px;
     text-align: center; }
     #main #navigation .header .logo {
       margin: 17px 10px 0;
       text-decoration: none; }
       #main #navigation .header .logo img {
-        width: 80%;
+        width: 100px;
         margin: 20px 0 0; }
     #main #navigation .header .collapse {
       display: inline-block;
@@ -578,7 +577,7 @@ body {
 
 #main #content .toolbar {
   height: 54px;
-  background: #609a44; }
+  background: #BA1C1E; }
 
 #main #content .header {
   background: #FFF;
