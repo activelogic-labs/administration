@@ -126,6 +126,7 @@ if (! function_exists('packageElixir')) {
     <script src="/vendor/administration/components/stacktable.js/stacktable.js"></script>
     <script src="/vendor/administration/components/dropzone/dist/min/dropzone.min.js"></script>
     <script src="//cdn.ckeditor.com/4.5.10/standard/ckeditor.js"></script>
+    <script src="/vendor/administration/components/jquery-circle-progress/dist/circle-progress.js"></script>
 
     <script src="{{ elixir('js/all.js', 'vendor/administration/build') }}"></script>
 
