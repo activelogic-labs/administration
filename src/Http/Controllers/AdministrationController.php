@@ -53,6 +53,10 @@ class AdministrationController extends Controller
         $this->slug = strtolower(str_replace("Controller", "", end($uriArray)));
         $this->url = Core::url($this->slug . "/overview");
         $this->class = get_called_class();
+
+        if($this->type == Core::CONTROLLER_TYPE_CUSTOM){
+            $this->url = Core::url($this->slug);
+        }
     }
 
     public function __call($method, $parameters)
