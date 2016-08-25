@@ -90,7 +90,7 @@ return [
     |
     */
 
-    'default_controller_route' => '\App\Http\Controllers\Dashboard@index',
+    'default_controller_route' => '',
 
     /*
     |--------------------------------------------------------------------------
