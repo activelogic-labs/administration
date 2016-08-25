@@ -65,9 +65,11 @@ if (! function_exists('packageElixir')) {
     {{--<link href="{{ packageElixir('css/app.css') }}" rel="stylesheet">--}}
     <link href="{{ elixir('css/app.css', 'vendor/administration/build') }}" rel="stylesheet">
 
-    @foreach (config('admin.styles') as $style)
-        <link href="{{ $style }}" rel="stylesheet">
-    @endforeach
+    @if(!empty(config('admin.styles')))
+        @foreach (config('admin.styles') as $style)
+            <link href="{{ $style }}" rel="stylesheet">
+        @endforeach
+    @endif
 
 </head>
 <body id="app-layout">
@@ -128,9 +130,11 @@ if (! function_exists('packageElixir')) {
 
     <script src="{{ elixir('js/all.js', 'vendor/administration/build') }}"></script>
 
-    @foreach (config('admin.scripts') as $script)
-        <link href="{{ $script }}" rel="stylesheet">
-    @endforeach
+    @if(!empty(config('admin.scripts')))
+        @foreach (config('admin.scripts') as $script)
+            <link href="{{ $script }}" rel="stylesheet">
+        @endforeach
+    @endif
 
     @yield("scripts")
 
