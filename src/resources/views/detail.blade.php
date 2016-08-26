@@ -2,7 +2,7 @@
 
 @section("header")
     <div class="header">
-        <h1>{{ $title }} <span>{{ $subtitle }}</span></h1>
+        <h1>{{ $title }} <span id="subtitle">{{ $subtitle }}</span></h1>
         <div class="buttons">
             <a href="{{ $back_url }}"><i class="fa fa-angle-left"></i> Back</a>
             <a href="{{ $delete_url }}" style="border: solid 1px #c50000; color: #c50000"><i class="fa fa-trash"></i> Delete</a>
@@ -52,7 +52,7 @@
                     <h1>{{ $detailGroup['group_title'] }}</h1>
                     <ul>
                         <li><span><i class="fa fa-pencil"></i> Click field to edit, then click save</span></li>
-                        <li><a href="" id="{{$detailGroup['field']}}_wysiwyg_save" class="data-group-submit">Save</a></li>
+                        <li><a href="#" id="{{$detailGroup['field']}}_wysiwyg_save" class="data-group-submit">Save</a></li>
                     </ul>
                     <div class="clearfix"></div>
                 </div>
