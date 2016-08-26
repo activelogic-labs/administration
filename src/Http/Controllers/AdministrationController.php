@@ -125,7 +125,7 @@ class AdministrationController extends Controller
 
         $model->{$component->name} = $component->onSubmit();
 
-        if (!$model->save()) {
+        if (!$model->save() and $model->isDirty()) {
 
             return Core::errorResponse($data, "Failed to save record");
 
@@ -299,7 +299,7 @@ class AdministrationController extends Controller
 
     public function buildFullDataGroup($dataGroup, $model)
     {
-
+        $dataGroup['data'] = FieldComponent::buildComponent([$dataGroup['field'] => $model->{$dataGroup['field']}], $this->fieldDefinitions);
         return $dataGroup;
     }
 

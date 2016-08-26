@@ -12,11 +12,11 @@
 
 @section("content")
 
-    <form action="{{ $save_url }}" method="POST">
+    <form id="detailForm" action="{{ $save_url }}" method="POST">
 
         @foreach($detailGroups as $detailGroup)
 
-            <!-- Group: Standard Field -->
+            <!-- Group: Standard -->
             @if($detailGroup['group_type'] == \Activelogiclabs\Administration\Admin\Core::GROUP_STANDARD)
 
                 <div class="data-header">
@@ -45,15 +45,35 @@
 
             @endif
 
-            <!-- Group: Full Page -->
+            <!-- Group: WYSIWYG -->
             @if($detailGroup['group_type'] == \Activelogiclabs\Administration\Admin\Core::GROUP_WYSIWYG)
 
                 <div class="data-header">
                     <h1>{{ $detailGroup['group_title'] }}</h1>
                     <ul>
                         <li><span><i class="fa fa-pencil"></i> Click field to edit, then click save</span></li>
-                        <li><a href="#" class="data-group-submit">Save</a></li>
+                        <li><a href="" id="{{$detailGroup['field']}}_wysiwyg_save" class="data-group-submit">Save</a></li>
                     </ul>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="data-group full_page">
+
+                    {!! $detailGroup['data']->fieldView() !!}
+
+                </div>
+
+            @endif
+
+            <!-- Group: Full -->
+            @if($detailGroup['group_type'] == \Activelogiclabs\Administration\Admin\Core::GROUP_FULL)
+
+                <div class="data-header">
+                    <h1>{{ $detailGroup['group_title'] }}</h1>
+                    {{--<ul>--}}
+                        {{--<li><span><i class="fa fa-pencil"></i> Click field to edit, then click save</span></li>--}}
+                        {{--<li><a href="#" class="data-group-submit">Save</a></li>--}}
+                    {{--</ul>--}}
                     <div class="clearfix"></div>
                 </div>
 

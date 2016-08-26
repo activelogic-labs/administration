@@ -136,7 +136,7 @@ abstract class FieldComponent
 
         }
 
-        return new $definitions[key($data)]['type'](key($data), current($data));
+        return new $definitions[key($data)]['type'](key($data), current($data), $definitions[key($data)]);
     }
 
     /**

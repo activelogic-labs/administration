@@ -10,7 +10,18 @@
 $("[wysiwyg='true']").each(function(index, value)
 {
     var attrId = $(this).attr('id');
-    editor = CKEDITOR.inline(attrId);
+    var parentForm = $(this).closest("form");
+    var saveButton = $("#"+attrId+"_save");
+    var editor = CKEDITOR.inline(attrId);
+
+    saveButton.on('click', function(event) {
+        var formParams = {};
+        formParams[$("#"+attrId).attr('name').replace("_wysiwyg", "")] = editor.getData();
+
+        $.post(parentForm.attr("action"), formParams, function(response){
+            console.log(response);
+        });
+    });
 });
 
 /**
@@ -84,13 +95,35 @@ $(function(){
 
     });
 
-    // Static Submit Button
-    $(".data-group-submit").click(function(){
+    $('.data-group-field select').blur(function() {
 
-        console.log("??");
+        $('.data-group-field').removeClass('active');
 
-        return false;
+        var parentForm = $(this).closest("form");
+        var formParams = {};
+        formParams[$(this).attr('name')] = $(this).val();
+
+        $.post(parentForm.attr("action"), formParams, function(response){
+            console.log(response);
+        });
+
     });
 
+    // Static Submit Button
+    // $(".data-group-submit").click(function(){
+    //
+    //     console.log("??");
+    //
+    //     return false;
+    // });
+
+    function saveWYSIWYG()
+    {
+        var parentForm = $(this).closest('form');
+        var formParams = {};
+        formParams[$(this).attr('name')] = $(this).val();
+
+        console.log(formParams);
+    }
 });
 //# sourceMappingURL=all.js.map
