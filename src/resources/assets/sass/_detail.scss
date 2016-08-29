@@ -114,5 +114,16 @@
                 }
             }
         }
+        .image-field{
+            .image-display{
+                display: inline-block;
+                background-size: cover;
+                width: 75px;
+                height: 75px;
+            }
+            input{
+                display: inline-block;
+            }
+        }
     }
 }

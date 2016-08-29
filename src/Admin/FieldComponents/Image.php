@@ -27,6 +27,6 @@ class Image extends FieldComponent
 
     public function onSubmit()
     {
-        return $this->value;
+        return $this->value->store($this->definition['storage_path']);
     }
 }

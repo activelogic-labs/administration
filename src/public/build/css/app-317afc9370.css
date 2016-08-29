@@ -728,8 +728,7 @@ body {
       font-size: 12px;
       width: 150px;
       display: table-cell;
-      padding: 10px 0 10px 15px;
-      vertical-align: middle; }
+      padding: 10px 0 10px 15px; }
     .data-group .data-group-field .value {
       display: table-cell;
       padding: 10px; }
@@ -737,6 +736,12 @@ body {
         cursor: pointer;
         outline: none;
         background: none;
+        border: solid 1px #FFF;
+        padding: 7px;
+        font-size: 12px;
+        color: #9F9F9F;
+        width: 100%; }
+      .data-group .data-group-field .value span {
         border: solid 1px #FFF;
         padding: 7px;
         font-size: 12px;
@@ -765,13 +770,10 @@ body {
       display: block; }
     .data-group .data-group-field .image-field .image-display {
       display: inline-block;
+      background-size: cover;
       width: 75px;
-      height: 75px;
-      border: solid 1px #ECECEC; }
-    .data-group .data-group-field .image-field button {
-      margin: 10px 20px; }
-
-.full_page {
-  padding: 20px; }
+      height: 75px; }
+    .data-group .data-group-field .image-field input {
+      display: inline-block; }
 
 /*# sourceMappingURL=app.css.map */
