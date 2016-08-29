@@ -7,6 +7,9 @@
 @import "stackable";
 @import "detail";
 
-//.cke_textarea_inline{
-//    padding:20px;
-//}
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+  background-color:#E0E0E0;
+  border-color: #CCCCCC;
+  color:#000;
+  font-size:12px;
+}

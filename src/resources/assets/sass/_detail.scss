@@ -81,6 +81,16 @@
                 color:#9F9F9F;
                 width:100%;
             }
+            select {
+                border:solid 1px #FFF;
+                background:none;
+                -webkit-box-shadow: none;
+                -moz-box-shadow: none;
+                box-shadow: none;
+                width:auto;
+                color:#9F9F9F;
+                font-size:12px;
+            }
         }
         .submit{
             width:60px;

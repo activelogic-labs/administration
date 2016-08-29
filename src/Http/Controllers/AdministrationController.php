@@ -73,7 +73,7 @@ class AdministrationController extends Controller
     {
         $data = FieldComponent::buildComponents($this->model, $this->buildFields($this->overviewFields), $this->fieldDefinitions);
 
-        $links = $data->links('administration::pagination.default');
+        $links = $data->links('administration::pagination.admin-pagination');
 
         return Core::view( Core::PAGE_TYPE_OVERVIEW, [
             'title' => $this->title,
