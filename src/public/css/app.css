@@ -728,7 +728,8 @@ body {
       font-size: 12px;
       width: 150px;
       display: table-cell;
-      padding: 10px 0 10px 15px; }
+      padding: 10px 0 10px 15px;
+      vertical-align: middle; }
     .data-group .data-group-field .value {
       display: table-cell;
       padding: 10px; }
@@ -762,6 +763,13 @@ body {
       color: #000; }
     .data-group .data-group-field.active .submit input {
       display: block; }
+    .data-group .data-group-field .image-field .image-display {
+      display: inline-block;
+      width: 75px;
+      height: 75px;
+      border: solid 1px #ECECEC; }
+    .data-group .data-group-field .image-field button {
+      margin: 10px 20px; }
 
 .full_page {
   padding: 20px; }

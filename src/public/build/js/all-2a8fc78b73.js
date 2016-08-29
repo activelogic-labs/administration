@@ -99,6 +99,34 @@ $(function(){
         $(this).closest('.data-group-field').addClass('active');
     });
 
+    $('.data-group-field input[type=file]').focus(function() {
+        console.log("File input focus");
+
+    });
+
+    $('.data-group-field input[type=file]').change(function() {
+        console.log("File input change");
+
+        var parentForm = $(this).closest('form');
+        var formParams = {};
+        formParams[$(this).attr('name')] = $(this).val();
+
+        // $.post(parentForm.attr('action'), formParams, function (response){
+        //     console.log(response);
+        // });
+
+        $.ajax({
+            url: parentForm.attr('action'),
+            type: 'POST',
+            data: new FormData( this ),
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                console.log(response);
+            }
+        })
+    });
+
     // Details field BLUR
     $('.data-group-field input[type=text]').blur(function() {
 

@@ -20,7 +20,9 @@ class Image extends FieldComponent
     public function fieldView()
     {
         //TODO: convert to file input when layout is decided
-        return "<input type='text' name='{$this->name}' value='{$this->value}' >";
+        $src = '/images/' . $this->value;
+
+        return view('administration::components.image', ['name' => $this->name, 'value' => $this->value, 'src' => $src]);
     }
 
     public function onSubmit()
