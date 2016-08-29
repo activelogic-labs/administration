@@ -25,14 +25,19 @@ class Relationship extends FieldComponent
     public function fieldView()
     {
         $related = new $this->definition['model']();
-
         $options = $related->get();
 
+        $optionsArray = [];
+        $foreignKey = isset($this->definition['foreign_key']) ? $this->definition['foreign_key'] : "id";
+        $foreignValue = $this->definition['display'];
+
+        foreach($options as $option){
+            $optionsArray[$option->$foreignKey] = $option->$foreignValue;
+        }
+
         $viewData = [
-            'options' => $options,
-            'value' => isset($this->definition['foreign_key']) ? $this->definition['foreign_key'] : "id",
-            'display' => $this->definition['display'],
             'name' => $this->name,
+            'options' => $optionsArray,
             'selected' => $this->value
         ];
 
