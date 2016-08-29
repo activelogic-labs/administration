@@ -12,8 +12,6 @@
 
 @section("content")
 
-    <h1>Upcoming Courses <span>In the next 7 days</span></h1>
-
     <table class="table">
         <thead>
             <tr>
