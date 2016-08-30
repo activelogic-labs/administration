@@ -9,6 +9,7 @@
 namespace Activelogiclabs\Administration\Admin\FieldComponents;
 
 use Activelogiclabs\Administration\Admin\FieldComponent;
+use Illuminate\Support\Facades\Storage;
 
 class Image extends FieldComponent
 {
@@ -39,6 +40,10 @@ class Image extends FieldComponent
 
     public function onDelete()
     {
-        
+        if (Storage::delete($this->value)) {
+            return null;
+        }
+
+        return $this->value;
     }
 }

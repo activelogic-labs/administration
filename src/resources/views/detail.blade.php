@@ -4,8 +4,8 @@
     <div class="header">
         <h1>{{ $title }} <span id="subtitle">{{ $subtitle }}</span></h1>
         <div class="buttons">
-            <a href="{{ $back_url }}"><i class="fa fa-angle-left"></i> Back</a>
-            <a href="{{ $delete_url }}" style="border: solid 1px #c50000; color: #c50000"><i class="fa fa-trash"></i> Delete</a>
+            <a id="backButton" href="{{ $back_url }}"><i class="fa fa-angle-left"></i> Back</a>
+            <a id="deleteButton" href="{{ $delete_url }}" style="border: solid 1px #c50000; color: #c50000"><i class="fa fa-trash"></i> Delete</a>
         </div>
     </div>
 @endsection

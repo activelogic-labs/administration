@@ -30,6 +30,11 @@ abstract class FieldComponent
     abstract function fieldView();
     abstract function onSubmit();
 
+    public function onDelete()
+    {
+        return '';
+    }
+
     /**
      * Builds the view data for section
      *

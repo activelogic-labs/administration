@@ -26,15 +26,27 @@ $(function(){
     });
 
     $('.data-group-field .image-field .image-upload').click(function() {
-        $(this).siblings('input').click();
+        $(this).siblings('form').children('input').click();
+    });
+
+    $('.data-group-field .image-field .image-delete').click(function() {
+        var field = $(this);
+        var fieldName = field.data('name');
+        var deleteUrl = $("#deleteButton").attr('href') + "/" + fieldName;
+
+        $.get(deleteUrl, function(response) {
+
+            field.siblings('.image-display').css({
+                'background-image' : "url()"
+            })
+
+        });
     });
 
     $('.data-group-field input[type=file]').change(function() {
 
         var detailForm = $('#detailForm');
         var form = $(this).closest('form');
-
-        console.log(detailForm.data('action'));
 
         $.ajax({
             url: detailForm.data('action'),
@@ -51,7 +63,7 @@ $(function(){
 
                 if (response.value) {
 
-                    $(form).children(':first-child').css({
+                    $(form).siblings('.image-display').css({
                         'background-image' : "url(" + response.value + ")"
                     });
 

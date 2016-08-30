@@ -142,6 +142,28 @@ class AdministrationController extends Controller
         return Core::successResponse($responseData);
     }
 
+    public function deleteField(Request $request, $id = null, $field = null)
+    {
+        $model = $this->model;
+        $model = $model::find($id);
+
+        $component = FieldComponent::buildComponent($data = [$field => $model->$field], $this->fieldDefinitions);
+
+        $model->$field = $component->onDelete();
+
+        if (!$model->save() and $model->isDirty()) {
+
+            return Core::errorResponse($data, "Failed to save record");
+
+        }
+
+        $responseData = [
+            $primaryKey = $model->getKeyName() => $model->$primaryKey
+        ];
+
+        Core::successResponse($responseData);
+    }
+
     public function deleteRecord(Request $request, $id = null)
     {
         if (empty($id)) {
