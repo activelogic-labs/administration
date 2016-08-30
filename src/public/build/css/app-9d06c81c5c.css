@@ -775,6 +775,26 @@ body {
       color: #000; }
     .data-group .data-group-field.active .submit input {
       display: block; }
+    .data-group .data-group-field .image-field .image-display {
+      float: left;
+      display: inline-block;
+      background-size: cover;
+      background-position: center center;
+      height: 75px;
+      width: 75px;
+      border: solid 1px #ececec; }
+    .data-group .data-group-field .image-field a {
+      display: inline-block;
+      margin: 25px 0 25px 75px;
+      padding: 5px 10px;
+      text-decoration: none;
+      border: solid 1px #E8E7E5;
+      color: #6D6D6D;
+      font-size: 12px;
+      cursor: pointer; }
+      .data-group .data-group-field .image-field a:hover {
+        color: #464646;
+        border: solid 1px #cdccca; }
 
 .pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
   background-color: #E0E0E0;

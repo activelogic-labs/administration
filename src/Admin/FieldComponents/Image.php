@@ -12,6 +12,8 @@ use Activelogiclabs\Administration\Admin\FieldComponent;
 
 class Image extends FieldComponent
 {
+    public $imageUrl;
+
     public function dataView()
     {
         return "<img src='/images/{$this->value}'>";
@@ -27,6 +29,16 @@ class Image extends FieldComponent
 
     public function onSubmit()
     {
-        return $this->value;
+        return $this->imageUrl = $this->value->store($this->definition['storage_path']);
+    }
+
+    public function getUrl()
+    {
+        return '/images/' . $this->imageUrl;
+    }
+
+    public function onDelete()
+    {
+        
     }
 }

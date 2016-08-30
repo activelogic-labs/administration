@@ -25,18 +25,16 @@ $(function(){
         $(this).closest('.data-group-field').addClass('active');
     });
 
-    $('.data-group-field input[type=file]').focus(function() {
-        console.log("File input focus");
-
+    $('.data-group-field .image-field .image-upload').click(function() {
+        $(this).siblings('input').click();
     });
 
     $('.data-group-field input[type=file]').change(function() {
-        console.log("File input change");
 
         var detailForm = $('#detailForm');
         var form = $(this).closest('form');
 
-        console.log(detailForm, form);
+        console.log(detailForm.data('action'));
 
         $.ajax({
             url: detailForm.data('action'),
@@ -50,8 +48,17 @@ $(function(){
                     updateDetailWithId(response.id);
 
                 }
+
+                if (response.value) {
+
+                    $(form).children(':first-child').css({
+                        'background-image' : "url(" + response.value + ")"
+                    });
+
+                }
             }
-        })
+        });
+
     });
 
     // Details field BLUR

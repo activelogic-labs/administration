@@ -12,7 +12,7 @@
 
 @section("content")
 
-    <form id="detailForm" action="{{ $save_url }}" method="POST">
+    <div id="detailForm" data-action="{{ $save_url }}">
 
         @foreach($detailGroups as $detailGroup)
 
@@ -87,7 +87,7 @@
 
         @endforeach
 
-    </form>
+    </div>
 
 @endsection
 

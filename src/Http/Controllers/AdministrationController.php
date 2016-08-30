@@ -131,7 +131,15 @@ class AdministrationController extends Controller
 
         }
 
-        return Core::successResponse([$primaryKey = $model->getKeyName() => $model->$primaryKey]);
+        $responseData = [
+            $primaryKey = $model->getKeyName() => $model->$primaryKey
+        ];
+
+        if (property_exists($component, 'imageUrl')) {
+            $responseData['value'] = $component->getUrl();
+        }
+
+        return Core::successResponse($responseData);
     }
 
     public function deleteRecord(Request $request, $id = null)

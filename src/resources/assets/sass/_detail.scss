@@ -124,5 +124,30 @@
                 }
             }
         }
+        .image-field{
+            .image-display{
+                float: left;
+                display: inline-block;
+                background-size: cover;
+                background-position: center center;
+                height: 75px;
+                width: 75px;
+                border: solid 1px #ececec;
+            }
+            a{
+                display:inline-block;
+                margin:25px 0 25px 75px;
+                padding:5px 10px;
+                text-decoration: none;
+                border:solid 1px #E8E7E5;
+                color:#6D6D6D;
+                font-size:12px;
+                cursor: pointer;
+                &:hover{
+                    color: #464646;
+                    border:solid 1px #cdccca;
+                }
+            }
+        }
     }
 }

@@ -1,3 +1,29 @@
+
+$(function(){
+    $(".data-group .data-group-field").each(function(i, domElem){
+
+        var currentElement = $(domElem);
+        var currentHeight = currentElement.height();
+
+        if( i % 2 ){
+            var previousElement = $(currentElement).prev();
+            var previousHeight = previousElement.height();
+
+            if(currentHeight > previousHeight){
+
+                //console.log("1: Set previous element height to current elements height");
+                previousElement.height(currentHeight);
+
+            }else{
+
+                //console.log("2: Set current element height to previous elements height");
+                currentElement.height(previousHeight);
+
+            }
+        }
+
+    });
+})
 /**
  * Created by daltongibbs on 8/22/16.
  */
@@ -99,32 +125,40 @@ $(function(){
         $(this).closest('.data-group-field').addClass('active');
     });
 
-    $('.data-group-field input[type=file]').focus(function() {
-        console.log("File input focus");
-
+    $('.data-group-field .image-field .image-upload').click(function() {
+        $(this).siblings('input').click();
     });
 
     $('.data-group-field input[type=file]').change(function() {
-        console.log("File input change");
 
-        var parentForm = $(this).closest('form');
-        var formParams = {};
-        formParams[$(this).attr('name')] = $(this).val();
+        var detailForm = $('#detailForm');
+        var form = $(this).closest('form');
 
-        // $.post(parentForm.attr('action'), formParams, function (response){
-        //     console.log(response);
-        // });
+        console.log(detailForm.data('action'));
 
         $.ajax({
-            url: parentForm.attr('action'),
+            url: detailForm.data('action'),
             type: 'POST',
-            data: new FormData( this ),
+            data: new FormData( form[0] ),
             processData: false,
             contentType: false,
             success: function (response) {
-                console.log(response);
+                if (!response.error && detailForm.data("action").search(response.id) == -1) {
+
+                    updateDetailWithId(response.id);
+
+                }
+
+                if (response.value) {
+
+                    $(form).children(':first-child').css({
+                        'background-image' : "url(" + response.value + ")"
+                    });
+
+                }
             }
-        })
+        });
+
     });
 
     // Details field BLUR
@@ -132,13 +166,13 @@ $(function(){
 
         $('.data-group-field').removeClass('active');
 
-        var parentForm = $(this).closest("form");
+        var parentForm = $('#detailForm');
         var formParams = {};
         formParams[$(this).attr('name')] = $(this).val();
 
-        $.post(parentForm.attr("action"), formParams, function(response){
+        $.post(parentForm.data("action"), formParams, function(response){
 
-            if (!response.error && parentForm.attr("action").search(response.id) == -1) {
+            if (!response.error && parentForm.data("action").search(response.id) == -1) {
 
                 updateDetailWithId(response.id);
 
@@ -152,13 +186,13 @@ $(function(){
 
         $('.data-group-field').removeClass('active');
 
-        var parentForm = $(this).closest("form");
+        var parentForm = $('#detailForm');
         var formParams = {};
         formParams[$(this).attr('name')] = $(this).val();
 
-        $.post(parentForm.attr("action"), formParams, function(response){
+        $.post(parentForm.data("action"), formParams, function(response){
 
-            if (!response.error && parentForm.attr("action").search(response.id) == -1) {
+            if (!response.error && parentForm.data("action").search(response.id) == -1) {
 
                 updateDetailWithId(response.id);
 
@@ -186,7 +220,7 @@ $(function(){
         var deleteHref = formAction.replace('save', 'delete');
         var deleteButton = $("a[href='" + deleteHref + "']");
 
-        form.attr('action', formAction + "/" + id);
+        form.data('action', formAction + "/" + id);
         deleteButton.attr('href', deleteHref + "/" + id);
         subtitle.html(id);
     }
