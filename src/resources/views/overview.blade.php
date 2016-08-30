@@ -5,7 +5,6 @@
         <h1>{{ $title }}</h1>
         <div class="buttons">
             <a href="{{ $detail_url }}"><i class="icon"></i>Create New {{ \Illuminate\Support\Str::singular($title) }}</a>
-            <a href="{{ $sort_url }}"><i class="fa fa-sort"></i> Sort</a>
         </div>
     </div>
 @endsection
