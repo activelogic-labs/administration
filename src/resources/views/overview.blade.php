@@ -6,6 +6,10 @@
         <div class="buttons">
             <a href="{{ $detail_url }}"><i class="icon fa fa-plus"></i> Create New {{ \Illuminate\Support\Str::singular($title) }}</a>
             <a href="{{ $export_url }}"><i class="icon fa fa-upload"></i> Export {{ \Illuminate\Support\Str::plural($title) }}</a>
+
+            @foreach($title_buttons as $button)
+                <a href="{{ $button["route_uri"] }}"><i class="icon fa fa-upload"></i> Export {{ $button["title"] }}</a>
+            @endforeach
         </div>
     </div>
 @endsection

@@ -25,7 +25,7 @@ class AdministrationController extends Controller
     public $fieldDefinitions;
     public $overviewFields;
     public $detailGroups;
-    public $titleButtons;
+    public $titleButtons = [];
 
     /**
      * System Definitions
@@ -78,7 +78,8 @@ class AdministrationController extends Controller
             'overviewFields' => $this->buildFields($this->overviewFields),
             'overviewTitleButtons' => $this->buildTitleButtons($this->titleButtons),
             'data' => $data,
-            'page_links' => $links
+            'page_links' => $links,
+            'title_buttons' => $this->titleButtons
         ]);
     }
 
@@ -452,6 +453,7 @@ class AdministrationController extends Controller
         $callback = function() use ($data, $model) {
 
             if ($model->usesTimestamps()) {
+                unset($data[1][$model->getKeyName()]);
                 unset($data[1][$model->getCreatedAtColumn()]);
                 unset($data[1][$model->getUpdatedAtColumn()]);
             }
@@ -461,6 +463,7 @@ class AdministrationController extends Controller
 
             foreach($data as $line) {
                 if ($model->usesTimestamps()) {
+                    unset($line[$model->getKeyName()]);
                     unset($line[$model->getCreatedAtColumn()]);
                     unset($line[$model->getUpdatedAtColumn()]);
                 }
