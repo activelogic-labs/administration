@@ -11,11 +11,6 @@ use Illuminate\Http\Response;
 
 class AdministrationController extends Controller
 {
-    /**
-     * Required Definitions
-     *
-     * @var
-     */
     public $type = Core::CONTROLLER_TYPE_CRUD;
     public $model;
     public $title;

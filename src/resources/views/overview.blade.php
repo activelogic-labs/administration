@@ -8,7 +8,7 @@
             <a href="{{ $export_url }}"><i class="icon fa fa-upload"></i> Export {{ \Illuminate\Support\Str::plural($title) }}</a>
 
             @foreach($title_buttons as $button)
-                <a href="{{ $button["route_uri"] }}"><i class="icon fa fa-upload"></i> {{ $button["title"] }}</a>
+                <a href="{{ $button["route_uri"] }}"><i class="icon fa {{ $button["icon"] }}"></i> {{ $button["title"] }}</a>
             @endforeach
         </div>
     </div>
