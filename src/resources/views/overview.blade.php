@@ -4,7 +4,8 @@
     <div class="header">
         <h1>{{ $title }}</h1>
         <div class="buttons">
-            <a href="{{ $detail_url }}"><i class="icon"></i>Create New {{ \Illuminate\Support\Str::singular($title) }}</a>
+            <a href="{{ $detail_url }}"><i class="icon fa fa-plus"></i> Create New {{ \Illuminate\Support\Str::singular($title) }}</a>
+            <a href="{{ $export_url }}"><i class="icon fa fa-upload"></i> Export {{ \Illuminate\Support\Str::plural($title) }}</a>
         </div>
     </div>
 @endsection

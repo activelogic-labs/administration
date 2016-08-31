@@ -66,6 +66,7 @@ class Route
                     LaravelRoute::get($controller->slug . "/delete/{id}", $controller->class . "@deleteRecord");
                     LaravelRoute::get($controller->slug . "/delete/{id}/{field}", $controller->class . "@deleteField");
                     LaravelRoute::get($controller->slug . "/overview/sort", $controller->class . "@sortId");
+                    LaravelRoute::get($controller->slug . "/export_data", $controller->class . "@exportData");
 
                     /**
                      * Custom Routes

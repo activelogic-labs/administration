@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: daltongibbs
- * Date: 7/14/16
- * Time: 2:17 PM
- */
 
 namespace Activelogiclabs\Administration\Http\Controllers;
 
@@ -13,7 +7,7 @@ use Activelogiclabs\Administration\Admin\FieldComponent;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Http\Response;
 
 class AdministrationController extends Controller
 {
@@ -78,6 +72,8 @@ class AdministrationController extends Controller
         return Core::view( Core::PAGE_TYPE_OVERVIEW, [
             'title' => $this->title,
             'detail_url' => Core::url($this->slug . "/detail"),
+            'import_url' => Core::url($this->slug . "/import_data"),
+            'export_url' => Core::url($this->slug . "/export_data"),
             'sort_url' => Core::url($this->slug . "/overview/sort"),
             'overviewFields' => $this->buildFields($this->overviewFields),
             'overviewTitleButtons' => $this->buildTitleButtons($this->titleButtons),
@@ -115,6 +111,13 @@ class AdministrationController extends Controller
         ]);
     }
 
+    /**
+     * Save Field
+     *
+     * @param Request $request
+     * @param null $id
+     * @return mixed
+     */
     public function saveField(Request $request, $id = null)
     {
         $model = $this->model;
@@ -142,6 +145,14 @@ class AdministrationController extends Controller
         return Core::successResponse($responseData);
     }
 
+    /**
+     * Delete Field
+     *
+     * @param Request $request
+     * @param null $id
+     * @param null $field
+     * @return mixed
+     */
     public function deleteField(Request $request, $id = null, $field = null)
     {
         $model = $this->model;
@@ -164,6 +175,13 @@ class AdministrationController extends Controller
         Core::successResponse($responseData);
     }
 
+    /**
+     * Delete Record
+     *
+     * @param Request $request
+     * @param null $id
+     * @return mixed
+     */
     public function deleteRecord(Request $request, $id = null)
     {
         if (empty($id)) {
@@ -178,6 +196,11 @@ class AdministrationController extends Controller
         return redirect(Core::url($this->slug . "/overview"));
     }
 
+    /**
+     * Create Record
+     *
+     * @return array
+     */
     private function createRecord()
     {
         $model = new $this->model();
@@ -185,6 +208,12 @@ class AdministrationController extends Controller
         return $this->buildDetailGroups($model);
     }
 
+    /**
+     * Load Record
+     *
+     * @param $id
+     * @return array
+     */
     private function loadRecord($id)
     {
         $model = $this->retrieveModel($id);
@@ -192,6 +221,12 @@ class AdministrationController extends Controller
         return $this->buildDetailGroups($model);
     }
 
+    /**
+     * Build Detail Groups
+     *
+     * @param $model
+     * @return array
+     */
     private function buildDetailGroups($model)
     {
         $detailGroups = [];
@@ -212,8 +247,12 @@ class AdministrationController extends Controller
         return $detailGroups;
     }
 
-
-
+    /**
+     * Build Fields
+     *
+     * @param array $fields
+     * @return array
+     */
     private function buildFields($fields = [])
     {
         if (empty($fields)) {
@@ -252,6 +291,12 @@ class AdministrationController extends Controller
         return $fields;
     }
 
+    /**
+     * Build Default Detail Group
+     *
+     * @param $model
+     * @return array
+     */
     public function buildDefaultDetailGroup($model)
     {
         $fields = $this->buildFields();
@@ -279,6 +324,11 @@ class AdministrationController extends Controller
         return $info;
     }
 
+    /**
+     * Build Title Buttons
+     *
+     * @param $titleButtons
+     */
     private function buildTitleButtons($titleButtons)
     {
         if (empty($titleButtons)) {
@@ -288,6 +338,13 @@ class AdministrationController extends Controller
         }
     }
 
+    /**
+     * Build Detail Group
+     *
+     * @param $dataGroup
+     * @param $model
+     * @return mixed
+     */
     private function buildDetailGroup($dataGroup, $model)
     {
         switch ($dataGroup['group_type']) {
@@ -312,6 +369,13 @@ class AdministrationController extends Controller
         }
     }
 
+    /**
+     * Build Standard Data Group
+     *
+     * @param $dataGroup
+     * @param $model
+     * @return mixed
+     */
     public function buildStandardDataGroup($dataGroup, $model)
     {
         $modelData = $model->getAttributes();
@@ -327,23 +391,86 @@ class AdministrationController extends Controller
         return $dataGroup;
     }
 
+    /**
+     * Build Full Data Group
+     *
+     * @param $dataGroup
+     * @param $model
+     * @return mixed
+     */
     public function buildFullDataGroup($dataGroup, $model)
     {
         $dataGroup['data'] = FieldComponent::buildComponent([$dataGroup['field'] => $model->{$dataGroup['field']}], $this->fieldDefinitions);
         return $dataGroup;
     }
 
+    /**
+     * Build WYSIWYG Data Group
+     *
+     * @param $dataGroup
+     * @param $model
+     * @return mixed
+     */
     public function buildWysiwygDataGroup($dataGroup, $model)
     {
         $dataGroup['data'] = FieldComponent::buildComponent([$dataGroup['field'] => $model->{$dataGroup['field']}], $this->fieldDefinitions);
         return $dataGroup;
     }
 
+    /**
+     * Retrieve Instance of MOdel
+     *
+     * @param $id
+     * @return mixed
+     */
     private function retrieveModel($id)
     {
         $model = $this->model;
         $model = $model::findOrNew($id);
 
         return $model;
+    }
+
+    /**
+     * Export/Stream CSV
+     *
+     * @return mixed
+     */
+    public function exportData()
+    {
+        $headers = [
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Content-type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename='.$this->slug.'.csv',
+            'Expires' => '0',
+            'Pragma' => 'public'
+        ];
+
+        $model = new $this->model();
+        $data = $model::all()->toArray();
+
+        $callback = function() use ($data, $model) {
+
+            if ($model->usesTimestamps()) {
+                unset($data[1][$model->getCreatedAtColumn()]);
+                unset($data[1][$model->getUpdatedAtColumn()]);
+            }
+
+            $out = fopen('php://output', 'w');
+            fputcsv($out, array_keys($data[1]));
+
+            foreach($data as $line) {
+                if ($model->usesTimestamps()) {
+                    unset($line[$model->getCreatedAtColumn()]);
+                    unset($line[$model->getUpdatedAtColumn()]);
+                }
+
+                fputcsv($out, $line);
+            }
+
+            fclose($out);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 }
