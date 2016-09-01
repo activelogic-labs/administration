@@ -113,6 +113,30 @@ if (! function_exists('packageElixir')) {
 
             @yield("header")
 
+            @if($error)
+            <div class="error">
+                <a href="#" class="dismiss"><i class="fa fa-times"></i></a>
+                <strong><i class="fa fa-exclamation-circle"></i> Error!</strong> {{ $error }}
+            </div>
+            @endif
+
+            @if (count($errors) > 0)
+                <div class="error">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li><i class="fa fa-exclamation-circle"></i> {{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @if($success)
+            <div class="success">
+                <a href="#" class="dismiss"><i class="fa fa-times"></i></a>
+                <strong><i class="fa fa-check-circle"></i> Success!</strong> {{ $success }}
+            </div>
+            @endif
+
             <div class="area">
                 @yield("content")
             </div>

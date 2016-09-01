@@ -47,7 +47,6 @@
             background:#FFF;
             box-shadow: 1px 1px 5px #D5D4D3;
             height:64px;
-            margin-bottom: 25px;
 
             h1{
                 float:left;
@@ -80,7 +79,44 @@
                 }
             }
         }
+        .error{
+            background: #9f0000;
+            box-shadow: 1px 1px 5px #D5D4D3;
+            color:#FFF;
+            padding:25px;
+            text-shadow: 1px 1px 0 #620000;
+            strong{
+                display:inline-block;
+                margin-right:20px;
+            }
+            ul{
+                margin:0;
+                padding:0;
+                li{
+                    margin:0;
+                    padding:0;
+                    list-style:none;
+                }
+            }
+        }
+        .success{
+            background: #848484;
+            box-shadow: 1px 1px 5px #D5D4D3;
+            color:#FFF;
+            padding:25px;
+            text-shadow: 1px 1px 0 #575757;
+            strong{
+                display:inline-block;
+                margin-right:10px;
+            }
+        }
+        .dismiss{
+            display:inline-block;
+            float:right;
+            color:#FFF;
+        }
         .area{
+            margin-top:25px;
             padding:25px 25px 25px 25px;
             h1{
                 font-size:16px;
