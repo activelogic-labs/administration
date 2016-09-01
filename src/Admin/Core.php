@@ -93,7 +93,7 @@ class Core
         if(self::getConfig("navigation_controllers")){
 
             foreach(self::getConfig("navigation_controllers") as $section) {
-                $returnArray[] = new $section;
+                $returnArray[] = new $section();
             }
 
         }
@@ -139,6 +139,12 @@ class Core
         ];
     }
 
+    /**
+     * Return Success Response
+     *
+     * @param array $data
+     * @return mixed
+     */
     public static function successResponse($data = [])
     {
         $success = [
@@ -150,6 +156,13 @@ class Core
         return response()->json($success);
     }
 
+    /**
+     * Return Error Response
+     *
+     * @param $data
+     * @param $message
+     * @return mixed
+     */
     public static function errorResponse($data, $message)
     {
         $error = [
@@ -159,5 +172,23 @@ class Core
         ];
 
         return response()->json($error);
+    }
+
+    /**
+     * Send Success Response To Page
+     *
+     * @param $msg
+     */
+    public static function setSuccessResponse($msg){
+        session()->flash("administration_success", $msg);
+    }
+
+    /**
+     * Send Error Response To Page
+     *
+     * @param $msg
+     */
+    public static function setErrorResponse($msg){
+        session()->flash("administration_error", $msg);
     }
 }

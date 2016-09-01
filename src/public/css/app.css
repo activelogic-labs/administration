@@ -582,8 +582,7 @@ body {
 #main #content .header {
   background: #FFF;
   box-shadow: 1px 1px 5px #D5D4D3;
-  height: 64px;
-  margin-bottom: 25px; }
+  height: 64px; }
   #main #content .header h1 {
     float: left;
     font-size: 16px;
@@ -610,7 +609,40 @@ body {
         color: #464646;
         border: solid 1px #cdccca; }
 
+#main #content .error {
+  background: #9f0000;
+  box-shadow: 1px 1px 5px #D5D4D3;
+  color: #FFF;
+  padding: 25px;
+  text-shadow: 1px 1px 0 #620000; }
+  #main #content .error strong {
+    display: inline-block;
+    margin-right: 20px; }
+  #main #content .error ul {
+    margin: 0;
+    padding: 0; }
+    #main #content .error ul li {
+      margin: 0;
+      padding: 0;
+      list-style: none; }
+
+#main #content .success {
+  background: #848484;
+  box-shadow: 1px 1px 5px #D5D4D3;
+  color: #FFF;
+  padding: 25px;
+  text-shadow: 1px 1px 0 #575757; }
+  #main #content .success strong {
+    display: inline-block;
+    margin-right: 10px; }
+
+#main #content .dismiss {
+  display: inline-block;
+  float: right;
+  color: #FFF; }
+
 #main #content .area {
+  margin-top: 25px;
   padding: 25px 25px 25px 25px; }
   #main #content .area h1 {
     font-size: 16px;

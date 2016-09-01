@@ -38,7 +38,7 @@ class Route
 
     public static function admin()
     {
-        LaravelRoute::group(['prefix' => Core::getConfig('base_uri'), 'middleware'=>['web']], function() {
+        LaravelRoute::group(['prefix' => Core::getConfig('base_uri'), 'middleware'=>['web', 'globalViewData']], function() {
 
             /**
              * Default Controller
