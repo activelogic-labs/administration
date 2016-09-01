@@ -70,7 +70,7 @@ class Core
     {
         $fullViewPath = 'administration::'.$view;
 
-        if($viewPath = self::getConfig("views_path")){
+        if(self::getConfig("views_path")){
             $fullViewPath = 'administration::'.self::getConfig("views_path") . '.' . $view;
         }
 

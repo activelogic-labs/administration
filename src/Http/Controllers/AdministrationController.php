@@ -442,15 +442,16 @@ class AdministrationController extends Controller
             'Pragma' => 'public'
         ];
 
+        //TODO: rewrite to avoid storing large data sets in memory
         $model = new $this->model();
         $data = $model::all()->toArray();
 
         $callback = function() use ($data, $model) {
 
             if ($model->usesTimestamps()) {
-                unset($data[1][$model->getKeyName()]);
-                unset($data[1][$model->getCreatedAtColumn()]);
-                unset($data[1][$model->getUpdatedAtColumn()]);
+                unset($data[0][$model->getKeyName()]);
+                unset($data[0][$model->getCreatedAtColumn()]);
+                unset($data[0][$model->getUpdatedAtColumn()]);
             }
 
             $out = fopen('php://output', 'w');
