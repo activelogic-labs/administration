@@ -578,6 +578,16 @@ body {
 #main #content .toolbar {
   height: 54px;
   background: #BA1C1E; }
+  #main #content .toolbar .buttons {
+    display: block;
+    margin: 17px 17px 0 0;
+    padding: 0;
+    float: right; }
+    #main #content .toolbar .buttons li {
+      list-style: none;
+      margin: 0;
+      padding: 0 10px;
+      float: left; }
 
 #main #content .header {
   background: #FFF;

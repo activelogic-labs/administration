@@ -42,6 +42,18 @@
         .toolbar{
             height:54px;
             background:#BA1C1E;
+            .buttons{
+                display:block;
+                margin:17px 17px 0 0;
+                padding:0;
+                float:right;
+                li{
+                    list-style:none;
+                    margin:0;
+                    padding:0 10px;
+                    float:left;
+                }
+            }
         }
         .header{
             background:#FFF;
