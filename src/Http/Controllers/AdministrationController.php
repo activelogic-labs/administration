@@ -189,7 +189,7 @@ class AdministrationController extends Controller
         $model = $this->retrieveModel($id);
         $model->delete();
 
-        return redirect(Core::url($this->slug . "/overview"));
+        return redirect(Core::url($this->slug));
     }
 
     /**
