@@ -109,6 +109,12 @@ if (! function_exists('packageElixir')) {
                 <a href="#" id="menu_anchor">
                     <i class="fa fa-bars"></i>
                 </a>
+
+                @if(view()->exists('toolbar'))
+                    @include("toolbar")
+                @else
+                    @include("administration::toolbar")
+                @endif
             </div>
 
             @yield("header")
