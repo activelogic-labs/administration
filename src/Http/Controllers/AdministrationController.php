@@ -40,7 +40,7 @@ class AdministrationController extends Controller
         $uriArray = explode("\\", get_called_class());
 
         $this->slug = strtolower(str_replace("Controller", "", end($uriArray)));
-        $this->url = Core::url($this->slug . "/overview");
+        $this->url = Core::url($this->slug);
         $this->class = get_called_class();
 
         if($this->type == Core::CONTROLLER_TYPE_CUSTOM){
@@ -58,7 +58,7 @@ class AdministrationController extends Controller
      *
      * @return mixed
      */
-    public function overview(Request $request)
+    public function index(Request $request)
     {
         $data = FieldComponent::buildComponents($this->model, $this->buildFields($this->overviewFields), $this->fieldDefinitions);
 
@@ -100,7 +100,7 @@ class AdministrationController extends Controller
         return Core::view( Core::PAGE_TYPE_DETAIL, [
             'save_url' => Core::url($this->slug . "/save/" . $id),
             'delete_url' => Core::url($this->slug . "/delete/" . $id),
-            'back_url' => Core::url($this->slug . "/overview"),
+            'back_url' => Core::url($this->slug),
             'title' => 'Details',
             'subtitle' => $id,
             'detailGroups' => $detailGroups
@@ -249,7 +249,7 @@ class AdministrationController extends Controller
      * @param array $fields
      * @return array
      */
-    private function buildFields($fields = [])
+    protected function buildFields($fields = [])
     {
         if (empty($fields)) {
 
@@ -265,9 +265,7 @@ class AdministrationController extends Controller
             if (!empty($hidden)) {
 
                 foreach ($hidden as $remove) {
-
                     unset($columns[$remove]);
-
                 }
 
             }
@@ -275,10 +273,8 @@ class AdministrationController extends Controller
             //TODO: Deal with visible fields
 
             if ($model->usesTimestamps()) {
-
                 unset($columns[$model->getCreatedAtColumn()]);
                 unset($columns[$model->getUpdatedAtColumn()]);
-
             }
 
             $fields = $columns;

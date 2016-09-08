@@ -136,9 +136,7 @@ abstract class FieldComponent
     public static function buildComponent($data = [], $definitions = [])
     {
         if (!isset($definitions[key($data)])) {
-
             return new Text(key($data), current($data));
-
         }
 
         return new $definitions[key($data)]['type'](key($data), current($data), $definitions[key($data)]);
@@ -146,8 +144,7 @@ abstract class FieldComponent
 
     /**
      * Retrieves the data for a section
-     *
-     * TODO: Refactor to allow pagination
+     * @ToDo: Refactor to allow pagination
      *
      * @param $model
      * @param $fields
@@ -156,24 +153,18 @@ abstract class FieldComponent
     public static function retrieveData($model, $fields)
     {
         if (is_string($model)) {
-
             $model = new $model();
-
         }
 
         //--- Always include primary key
         if (!in_array($primaryKey = $model->getKeyName(), array_keys($fields))) {
-
             $fields[$primaryKey] = ucfirst($primaryKey);
-
         }
 
         $query = $model->query();
 
         if (!empty($fields)) {
-
             $query = $query->select(array_keys($fields));
-
         }
 
         return $query->paginate();
