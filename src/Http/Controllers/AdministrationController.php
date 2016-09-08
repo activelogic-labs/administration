@@ -122,10 +122,12 @@ class AdministrationController extends Controller
         //--- Build component
         $component = FieldComponent::buildComponent($data = $request->all(), $this->fieldDefinitions);
 
-        if($data = $component->onSubmit()){
-            $model->{$component->name} = $data;
+        $submitValue = $component->onSubmit();
+
+        if($submitValue != FieldComponent::SKIP_SAVE){
+            $model->{$component->name} = $submitValue;
         }
-        
+
         if (!$model->save() and $model->isDirty()) {
 
             return Core::errorResponse($data, "Failed to save record");

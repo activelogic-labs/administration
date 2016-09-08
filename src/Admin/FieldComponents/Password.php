@@ -33,6 +33,6 @@ class Password extends FieldComponent
             return Hash::make($this->value);
         }
 
-        return false;
+        return self::SKIP_SAVE;
     }
 }

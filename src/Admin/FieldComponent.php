@@ -12,6 +12,8 @@ abstract class FieldComponent
     public $value;
     public $definition;
 
+    const SKIP_SAVE = '*=skipsave=*';
+
     /**
      * FieldComponent constructor.
      *
