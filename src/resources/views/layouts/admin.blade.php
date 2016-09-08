@@ -162,7 +162,7 @@ if (! function_exists('packageElixir')) {
 
     @if(!empty(config('admin.scripts')))
         @foreach (config('admin.scripts') as $script)
-            <link href="{{ $script }}" rel="stylesheet">
+            <script src="{{ $script }}"></script>
         @endforeach
     @endif
 

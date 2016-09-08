@@ -114,6 +114,24 @@ $(function(){
 
     });
 
+    $('.data-group-field input[type=\'checkbox\']').change(function() {
+
+        var parentForm = $('#detailForm');
+        var formParams = {};
+        formParams[$(this).attr('name')] = $(this).is(':checked') ? "1" : "0";
+
+        $.post(parentForm.data("action"), formParams, function(response){
+
+            if (!response.error && parentForm.data("action").search(response.id) == -1) {
+
+                updateDetailWithId(response.id);
+
+            }
+
+        });
+
+    });
+
     // Static Submit Button
     // $(".data-group-submit").click(function(){
     //
