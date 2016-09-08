@@ -20,7 +20,7 @@ $(function(){
     });
 
     // Details field FOCUS
-    $('.data-group-field input[type=text]').focus(function() {
+    $('.data-group-field input[type=text],.data-group-field input[type=password]').focus(function() {
         $('.data-group-field').removeClass('active');
         $(this).closest('.data-group-field').addClass('active');
     });
@@ -74,7 +74,7 @@ $(function(){
     });
 
     // Details field BLUR
-    $('.data-group-field input[type=text]').blur(function() {
+    $('.data-group-field input[type=text],.data-group-field input[type=password]').blur(function() {
 
         $('.data-group-field').removeClass('active');
 
