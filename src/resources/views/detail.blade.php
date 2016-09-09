@@ -12,7 +12,7 @@
 
 @section("content")
 
-    <form method="POST" id="detailForm" action="{{ $save_url }}">
+    <form method="POST" id="detailForm" action="{{ $save_url }}" enctype="multipart/form-data">
 
         @foreach($detailGroups as $detailGroup)
 

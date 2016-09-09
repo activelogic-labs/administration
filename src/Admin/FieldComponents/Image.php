@@ -30,7 +30,11 @@ class Image extends FieldComponent
 
     public function onSubmit()
     {
-        return $this->imageUrl = $this->value->store($this->definition['storage_path']);
+        if (!empty($this->value)) {
+            $this->imageUrl = $this->value->store($this->definition['storage_path']);
+        }
+
+        return $this->imageUrl;
     }
 
     public function getUrl()

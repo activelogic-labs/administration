@@ -5,8 +5,6 @@
     <a class="image-delete" data-name="{{ $name }}"><i class="fa fa-trash"></i> Delete</a>
     <div class="clearfix"></div>
 
-    <form>
-        <input type="file" name="{{ $name }}" class="hidden">
-    </form>
+    <input type="file" name="{{ $name }}" class="hidden">
 
 </div>

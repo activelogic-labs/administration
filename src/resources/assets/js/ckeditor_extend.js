@@ -10,6 +10,7 @@ $("[wysiwyg='true']").each(function(index, value)
     var editor = CKEDITOR.inline(attrId);
 
     saveButton.on('click', function(event) {
+        console.log("wysiwyg save click");
         var formParams = {};
         formParams[$("#"+attrId).attr('name').replace("_wysiwyg", "")] = editor.getData();
 

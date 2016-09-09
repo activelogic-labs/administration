@@ -114,6 +114,8 @@ class AdministrationController extends Controller
     {
         try{
 
+            $a = $request->input('content_wysiwyg');
+
             $model = new $this->model;
 
             if($request->id){
@@ -394,9 +396,8 @@ class AdministrationController extends Controller
      */
     public function buildFullDataGroup($dataGroup, $model)
     {
-        dd($dataGroup, $model);
         $dataGroup['data'] = FieldComponent::buildComponent($dataGroup['field'], $model->{$dataGroup['field']}, $this->fieldDefinitions);
-        return [$dataGroup['field'] => $model->{$dataGroup['field']}];
+        return $dataGroup;
     }
 
     /**
@@ -409,7 +410,7 @@ class AdministrationController extends Controller
     public function buildWysiwygDataGroup($dataGroup, $model)
     {
         $dataGroup['data'] = FieldComponent::buildComponent($dataGroup['field'], $model->{$dataGroup['field']}, $this->fieldDefinitions);
-        return [$dataGroup['field'] => $model->{$dataGroup['field']}];
+        return $dataGroup;
     }
 
     /**

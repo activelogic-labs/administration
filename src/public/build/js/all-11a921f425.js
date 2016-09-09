@@ -41,7 +41,6 @@ $("[wysiwyg='true']").each(function(index, value)
     var editor = CKEDITOR.inline(attrId);
 
     saveButton.on('click', function(event) {
-        console.log("wysiwyg save click");
         var formParams = {};
         formParams[$("#"+attrId).attr('name').replace("_wysiwyg", "")] = editor.getData();
 
@@ -128,22 +127,6 @@ $(function(){
         $('.data-group-field').removeClass('active');
     });
 
-    $('.data-group-field .image-field .image-upload').click(function() {
-        $(this).siblings('input').click();
-    });
-
-    $('.data-group-field .image-field .image-delete').click(function() {
-        var field = $(this);
-        var fieldName = field.data('name');
-        var deleteUrl = $("#deleteButton").attr('href') + "/" + fieldName;
-
-        $.get(deleteUrl, function(response) {
-
-            field.siblings('.image-display').css({
-                'background-image' : "url()"
-            })
-
-        });
-    });
 });
+
 //# sourceMappingURL=all.js.map
