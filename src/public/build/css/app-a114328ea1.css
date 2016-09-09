@@ -666,6 +666,18 @@ body {
       color: #B5B3AF;
       display: inline-block;
       margin-left: 15px; }
+  #main #content .area form input[type='submit'] {
+    display: inline-block;
+    margin: 0;
+    padding: 5px 10px 4px;
+    text-decoration: none;
+    border: solid 1px #6D6D6D;
+    color: #6D6D6D;
+    font-size: 12px;
+    background: none; }
+    #main #content .area form input[type='submit']:hover {
+      border: solid 1px #000;
+      color: #000; }
 
 #main #content #menu_anchor {
   display: none; }
