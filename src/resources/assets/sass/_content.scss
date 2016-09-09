@@ -110,23 +110,29 @@
                     list-style:none;
                 }
             }
+            .dismiss{
+                display:inline-block;
+                float:right;
+                color:#FFF;
+            }
         }
         .success{
-            background: #848484;
+            background: #dff0d8;
             box-shadow: 1px 1px 5px #D5D4D3;
-            color:#FFF;
-            padding:25px;
-            text-shadow: 1px 1px 0 #575757;
+            color:#3c763d;
+            padding:10px 25px;
+            text-shadow: 1px 1px 0 #ebfce4;
             strong{
                 display:inline-block;
                 margin-right:10px;
             }
+            .dismiss{
+                display:inline-block;
+                float:right;
+                color:#3c763d;
+            }
         }
-        .dismiss{
-            display:inline-block;
-            float:right;
-            color:#FFF;
-        }
+
         .area{
             padding:25px 25px 25px 25px;
             h1{

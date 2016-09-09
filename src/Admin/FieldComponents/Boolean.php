@@ -32,6 +32,6 @@ class Boolean extends FieldComponent
     }
 
     public function onSubmit(){
-        return $this->value;
+        return $this->value ? '1' : '0';
     }
 }

@@ -5,14 +5,14 @@
         <h1>{{ $title }} <span id="subtitle">{{ $subtitle }}</span></h1>
         <div class="buttons">
             <a id="backButton" href="{{ $back_url }}"><i class="fa fa-angle-left"></i> Back</a>
-            <a id="deleteButton" href="{{ $delete_url }}" style="border: solid 1px #c50000; color: #c50000"><i class="fa fa-trash"></i> Delete</a>
+            <a id="deleteButton" href="{{ $delete_url }}" style="border: solid 1px #c50000; color: #c50000" onClick="Javascript:return confirm('Are you sure you want to delete this record?');"><i class="fa fa-trash"></i> Delete</a>
         </div>
     </div>
 @endsection
 
 @section("content")
 
-    <div id="detailForm" data-action="{{ $save_url }}">
+    <form method="POST" id="detailForm" action="{{ $save_url }}">
 
         @foreach($detailGroups as $detailGroup)
 
@@ -23,6 +23,7 @@
                     <h1>{{ $detailGroup['group_title'] }}</h1>
                     <ul>
                         <li><span><i class="fa fa-pencil"></i> Click field to edit</span></li>
+                        <li><input type="submit" name="submit" value="Save" /></li>
                     </ul>
                     <div class="clearfix"></div>
                 </div>
@@ -34,7 +35,7 @@
                             <div class="data-group-field">
                                 <div class="title">{{ $value }}</div>
                                 <div class="value">{!! $row[$id]->fieldView() !!}</div>
-                                <div class="submit"><input type="button" name="save" value="Save"></div>
+                                {{--<div class="submit"><input type="button" name="save" value="Save"></div>--}}
                             </div>
                         @endforeach
                     @endforeach
@@ -87,7 +88,7 @@
 
         @endforeach
 
-    </div>
+    </form>
 
 @endsection
 

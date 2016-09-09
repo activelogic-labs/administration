@@ -12,8 +12,6 @@ abstract class FieldComponent
     public $value;
     public $definition;
 
-    const SKIP_SAVE = '*=skipsave=*';
-
     /**
      * FieldComponent constructor.
      *
@@ -111,7 +109,7 @@ abstract class FieldComponent
 
                 foreach ($row->getAttributes() as $key => $value) {
 
-                    $dataSet[$row->{$row->getKeyName()}][$key] = self::buildComponent([$key => $value], $definitions);
+                    $dataSet[$row->{$row->getKeyName()}][$key] = self::buildComponent($key, $value, $definitions);
 
                 }
 
@@ -126,7 +124,7 @@ abstract class FieldComponent
 
             foreach ($row as $key => $value) {
 
-                $dataSet[$id][$key] = self::buildComponent([$key => $value], $definitions);
+                $dataSet[$id][$key] = self::buildComponent($key, $value, $definitions);
 
             }
 
@@ -135,13 +133,17 @@ abstract class FieldComponent
         return collect($dataSet);
     }
 
-    public static function buildComponent($data = [], $definitions = [])
+    public static function buildComponent($name, $value, $definitions = [])
     {
-        if (!isset($definitions[key($data)])) {
-            return new Text(key($data), current($data));
+        if(!is_string($name)){
+            Throw new \Exception("Name arg must be of type string");
         }
 
-        return new $definitions[key($data)]['type'](key($data), current($data), $definitions[key($data)]);
+        if (!isset($definitions[$name])) {
+            return new Text($name, $value);
+        }
+
+        return new $definitions[$name]['type']($name, $value, $definitions[$name]);
     }
 
     /**

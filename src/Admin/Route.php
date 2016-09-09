@@ -61,7 +61,7 @@ class Route
                 // Default Routes
                 LaravelRoute::get($controller->slug, $controller->class . "@index");
                 LaravelRoute::get($controller->slug . "/detail/{id?}", $controller->class . "@detail");
-                LaravelRoute::post($controller->slug . "/save/{id?}", $controller->class . "@saveField");
+                LaravelRoute::post($controller->slug . "/save/{id?}", $controller->class . "@saveForm");
                 LaravelRoute::get($controller->slug . "/delete/{id}", $controller->class . "@deleteRecord");
                 LaravelRoute::get($controller->slug . "/delete/{id}/{field}", $controller->class . "@deleteField");
                 LaravelRoute::get($controller->slug . "/export_data", $controller->class . "@exportData");

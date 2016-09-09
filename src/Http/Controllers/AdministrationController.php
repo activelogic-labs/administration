@@ -107,42 +107,38 @@ class AdministrationController extends Controller
         ]);
     }
 
-    /**
-     * Save Field
-     *
-     * @param Request $request
-     * @param null $id
-     * @return mixed
-     */
-    public function saveField(Request $request, $id = null)
+    public function saveForm(Request $request)
     {
-        $model = $this->model;
-        $model = $model::findOrNew($id);
+        try{
 
-        //--- Build component
-        $component = FieldComponent::buildComponent($data = $request->all(), $this->fieldDefinitions);
+            $model = new $this->model;
 
-        $submitValue = $component->onSubmit();
+            if($request->id){
+                $model = $model::find($request->id);
+            }
 
-        if($submitValue != FieldComponent::SKIP_SAVE){
-            $model->{$component->name} = $submitValue;
+            foreach($this->buildFields() as $field => $label){
+
+                $component = FieldComponent::buildComponent($field, $request->$field, $this->fieldDefinitions);
+                $submitValue = $component->onSubmit();
+
+                if($submitValue != null){
+                    $model->$field = $submitValue;
+                }
+
+            }
+
+            $model->save();
+
+            Core::setSuccessResponse("Object #".$model->id." has been saved");
+
+            return redirect( $this->url . "/detail/" . $model->id );
+
+        }catch (\Exception $e){
+
+            return redirect()->back()->withErrors($e->getMessage());
+
         }
-
-        if (!$model->save() and $model->isDirty()) {
-
-            return Core::errorResponse($data, "Failed to save record");
-
-        }
-
-        $responseData = [
-            $primaryKey = $model->getKeyName() => $model->$primaryKey
-        ];
-
-        if (property_exists($component, 'imageUrl')) {
-            $responseData['value'] = $component->getUrl();
-        }
-
-        return Core::successResponse($responseData);
     }
 
     /**
@@ -158,14 +154,12 @@ class AdministrationController extends Controller
         $model = $this->model;
         $model = $model::find($id);
 
-        $component = FieldComponent::buildComponent($data = [$field => $model->$field], $this->fieldDefinitions);
+        $component = FieldComponent::buildComponent($field, $model->$field, $this->fieldDefinitions);
 
         $model->$field = $component->onDelete();
 
         if (!$model->save() and $model->isDirty()) {
-
-            return Core::errorResponse($data, "Failed to save record");
-
+            return Core::errorResponse($field, "Failed to save record");
         }
 
         $responseData = [
@@ -185,13 +179,13 @@ class AdministrationController extends Controller
     public function deleteRecord(Request $request, $id = null)
     {
         if (empty($id)) {
-
             return redirect()->back();
-
         }
 
         $model = $this->retrieveModel($id);
         $model->delete();
+
+        Core::setSuccessResponse("Object id " . $id . " was deleted success");
 
         return redirect(Core::url($this->slug));
     }
@@ -253,7 +247,7 @@ class AdministrationController extends Controller
      * @param array $fields
      * @return array
      */
-    protected function buildFields($fields = [])
+    protected function buildFields($fields = [], $includeHiddenFields = false)
     {
         if (empty($fields)) {
 
@@ -265,17 +259,16 @@ class AdministrationController extends Controller
                 $columns[$column] = ucwords(str_replace("_", " ", $column));
             }
 
-            $hidden = $model->getHidden();
-            if (!empty($hidden)) {
-
-                foreach ($hidden as $remove) {
-                    unset($columns[$remove]);
+            if($includeHiddenFields == false){
+                $hidden = $model->getHidden();
+                if (!empty($hidden)) {
+                    foreach ($hidden as $remove) {
+                        unset($columns[$remove]);
+                    }
                 }
-
             }
 
             //TODO: Deal with visible fields
-
             if ($model->usesTimestamps()) {
                 unset($columns[$model->getCreatedAtColumn()]);
                 unset($columns[$model->getUpdatedAtColumn()]);
@@ -396,8 +389,8 @@ class AdministrationController extends Controller
      */
     public function buildFullDataGroup($dataGroup, $model)
     {
-        $dataGroup['data'] = FieldComponent::buildComponent([$dataGroup['field'] => $model->{$dataGroup['field']}], $this->fieldDefinitions);
-        return $dataGroup;
+        $dataGroup['data'] = FieldComponent::buildComponent($dataGroup['field'], $model->{$dataGroup['field']}, $this->fieldDefinitions);
+        return [$dataGroup['field'] => $model->{$dataGroup['field']}];
     }
 
     /**
@@ -409,8 +402,8 @@ class AdministrationController extends Controller
      */
     public function buildWysiwygDataGroup($dataGroup, $model)
     {
-        $dataGroup['data'] = FieldComponent::buildComponent([$dataGroup['field'] => $model->{$dataGroup['field']}], $this->fieldDefinitions);
-        return $dataGroup;
+        $dataGroup['data'] = FieldComponent::buildComponent($dataGroup['field'], $model->{$dataGroup['field']}, $this->fieldDefinitions);
+        return [$dataGroup['field'] => $model->{$dataGroup['field']}];
     }
 
     /**
