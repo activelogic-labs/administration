@@ -135,7 +135,7 @@ class Core
 
         return [
             'section' => trim($routeArray[0]),
-            'page' => (!empty(trim($routeArray[1])) ? trim($routeArray[1]) : "overview")
+            'page' => (!empty($routeArray[1]) ? trim($routeArray[1]) : "overview")
         ];
     }
 

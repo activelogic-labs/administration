@@ -4,8 +4,14 @@
     <div class="header">
         <h1>{{ $title }}</h1>
         <div class="buttons">
+
+            @if($enable_adding_records)
             <a href="{{ $detail_url }}"><i class="icon fa fa-plus"></i> Create New {{ \Illuminate\Support\Str::singular($title) }}</a>
+            @endif
+
+            @if($enable_exporting_records)
             <a href="{{ $export_url }}"><i class="icon fa fa-upload"></i> Export {{ \Illuminate\Support\Str::plural($title) }}</a>
+            @endif
 
             @foreach($title_buttons as $button)
                 <a href="{{ $button["route_uri"] }}"><i class="icon fa {{ $button["icon"] }}"></i> {{ $button["title"] }}</a>
@@ -16,28 +22,36 @@
 
 @section("content")
 
-    <table class="table">
-        <thead>
-            <tr>
-                @foreach($overviewFields as $key => $value)
-                    <th>{{ $value }}</th>
-                @endforeach
-            </tr>
-        </thead>
+    @if($data->total() == 0)
 
-        <tbody>
-            @foreach($data as $key => $row)
-                <tr href="{{ $detail_url . "/" . $key }}">
-                    @foreach($overviewFields as $id => $value)
-                        <td>{!! $row[$id]->dataView() !!}</td>
+        <div class="missing_records">There are no records...</div>
+
+    @else
+
+        <table class="table">
+            <thead>
+                <tr>
+                    @foreach($overviewFields as $key => $value)
+                        <th>{{ $value }}</th>
                     @endforeach
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
 
-    <div align="center">
-        {{ $page_links }}
-    </div>
+            <tbody>
+                @foreach($data as $key => $row)
+                    <tr @if($enableDetailView) href="{{ $detail_url . "/" . $key }}" @else class="no_link" @endif>
+                        @foreach($overviewFields as $id => $value)
+                            <td>{!! $row[$id]->dataView() !!}</td>
+                        @endforeach
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+        <div align="center">
+            {{ $page_links }}
+        </div>
+
+    @endif
 
 @endsection

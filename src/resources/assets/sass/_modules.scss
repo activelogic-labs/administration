@@ -1,0 +1,45 @@
+#modules{
+  display:table;
+  width:100%;
+  margin-bottom:25px;
+
+  // Individual Module
+  .module{
+    display:table-cell;
+    width:auto;
+
+    // First Container
+    &:first-child{
+      .container{
+        margin-left:0;
+      }
+    }
+
+    // Last container
+    &:last-child{
+      .container{
+        margin-right:0;
+      }
+    }
+    // Container
+    .container{
+      margin:5px;
+      background:#FFF;
+      padding:10px;
+      box-shadow:1px 1px 4px #C0C0C0;
+      width:auto !important;
+
+      // Module Area
+      .module-area{
+        .constant{
+          font-size:22px;
+          color:#000;
+        }
+        .title{
+          font-size:14px;
+          color:#666;
+        }
+      }
+    }
+  }
+}

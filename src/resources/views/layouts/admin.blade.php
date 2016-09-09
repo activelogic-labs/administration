@@ -102,6 +102,7 @@ if (! function_exists('packageElixir')) {
                 @endforeach
             </ul>
         </div>
+
         <div id="content">
 
             <!-- Toolbar -->
@@ -144,6 +145,17 @@ if (! function_exists('packageElixir')) {
             @endif
 
             <div class="area">
+                @if($modules)
+                    <div id="modules">
+                        @foreach($modules as $module)
+                            <div class="module">
+                                <div class="container">{!! $module !!}</div>
+                            </div>
+                        @endforeach
+                        <div class="clearfix"></div>
+                    </div>
+                @endif
+
                 @yield("content")
             </div>
 

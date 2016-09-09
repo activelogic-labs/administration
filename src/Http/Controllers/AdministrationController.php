@@ -19,8 +19,13 @@ class AdministrationController extends Controller
 
     public $fieldDefinitions;
     public $overviewFields;
+    public $modules;
     public $detailGroups;
     public $titleButtons = [];
+
+    public $enableAddingRecords = true;
+    public $enableExportingRecords = true;
+    public $enableDetailView = true;
 
     /**
      * System Definitions
@@ -48,11 +53,6 @@ class AdministrationController extends Controller
         }
     }
 
-    public function __call($method, $parameters)
-    {
-        $stop = '';
-    }
-
     /**
      * Standard Overview
      *
@@ -74,7 +74,10 @@ class AdministrationController extends Controller
             'overviewTitleButtons' => $this->buildTitleButtons($this->titleButtons),
             'data' => $data,
             'page_links' => $links,
-            'title_buttons' => $this->titleButtons
+            'title_buttons' => $this->titleButtons,
+            'enable_adding_records' => $this->enableAddingRecords,
+            'enable_exporting_records' => $this->enableExportingRecords,
+            'enableDetailView' => $this->enableDetailView
         ]);
     }
 
@@ -386,9 +389,12 @@ class AdministrationController extends Controller
      * @param $dataGroup
      * @param $model
      * @return mixed
+     *
+     * @ToDo: I don't think this works... It expects one field but an array is commonly passed back. Need to re-think this.
      */
     public function buildFullDataGroup($dataGroup, $model)
     {
+        dd($dataGroup, $model);
         $dataGroup['data'] = FieldComponent::buildComponent($dataGroup['field'], $model->{$dataGroup['field']}, $this->fieldDefinitions);
         return [$dataGroup['field'] => $model->{$dataGroup['field']}];
     }
@@ -437,7 +443,13 @@ class AdministrationController extends Controller
 
         //TODO: rewrite to avoid storing large data sets in memory
         $model = new $this->model();
-        $data = $model::all()->toArray();
+        $data = $model::all();
+
+        if($data->count() == 0){
+            return redirect()->back()->withErrors("There is no data to export");
+        }
+
+        $data = $data->toArray();
 
         $callback = function() use ($data, $model) {
 

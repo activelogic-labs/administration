@@ -20,8 +20,7 @@ class AdministrationServiceProvider extends ServiceProvider {
         MakeAdministrationCommand::class,
         AdminControllerMakeCommand::class,
     ];
-    
-    
+
     public function boot()
     {
         $this->publishes([
@@ -32,13 +31,12 @@ class AdministrationServiceProvider extends ServiceProvider {
             __DIR__ . '/public' => public_path("vendor/administration")
         ], 'public');
 
-
-        if (! $this->app->routesAreCached()) {
+        if (!$this->app->routesAreCached()) {
             require __DIR__.'/Http/routes.php';
         }
 
         $this->app['router']->middleware('globalViewData', GlobalViewData::class);
-        
+
         $this->loadViewsFrom(__DIR__ . '/resources/views', 'administration');
     }
 

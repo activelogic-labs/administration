@@ -35,7 +35,6 @@
                             <div class="data-group-field">
                                 <div class="title">{{ $value }}</div>
                                 <div class="value">{!! $row[$id]->fieldView() !!}</div>
-                                {{--<div class="submit"><input type="button" name="save" value="Save"></div>--}}
                             </div>
                         @endforeach
                     @endforeach
@@ -53,15 +52,13 @@
                     <h1>{{ $detailGroup['group_title'] }}</h1>
                     <ul>
                         <li><span><i class="fa fa-pencil"></i> Click field to edit, then click save</span></li>
-                        <li><a href="#" id="{{$detailGroup['field']}}_wysiwyg_save" class="data-group-submit">Save</a></li>
+                        <li><input type="submit" name="submit" value="Save" /></li>
                     </ul>
                     <div class="clearfix"></div>
                 </div>
 
                 <div class="data-group full_page">
-
                     {!! $detailGroup['data']->fieldView() !!}
-
                 </div>
 
             @endif
@@ -71,17 +68,15 @@
 
                 <div class="data-header">
                     <h1>{{ $detailGroup['group_title'] }}</h1>
-                    {{--<ul>--}}
-                        {{--<li><span><i class="fa fa-pencil"></i> Click field to edit, then click save</span></li>--}}
-                        {{--<li><a href="#" class="data-group-submit">Save</a></li>--}}
-                    {{--</ul>--}}
+                    <ul>
+                        <li><span><i class="fa fa-pencil"></i> Click field to edit</span></li>
+                        <li><input type="submit" name="submit" value="Save" /></li>
+                    </ul>
                     <div class="clearfix"></div>
                 </div>
 
                 <div class="data-group full_page">
-
                     {!! $detailGroup['data']->fieldView() !!}
-
                 </div>
 
             @endif

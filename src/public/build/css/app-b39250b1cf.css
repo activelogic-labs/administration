@@ -452,11 +452,11 @@ body {
       display: block;
       overflow: hidden;
       height: 15px; }
-  .table tbody tr:hover td {
+  .table tbody tr:hover:not(.no_link) td {
     cursor: pointer;
     color: #000;
     background: #fbfbfb; }
-    .table tbody tr:hover td .circle {
+    .table tbody tr:hover:not(.no_link) td .circle {
       color: #000; }
 
 .pagination li a {
@@ -852,6 +852,30 @@ body {
       .data-group .data-group-field .image-field a:hover {
         color: #464646;
         border: solid 1px #cdccca; }
+
+#modules {
+  display: table;
+  width: 100%;
+  margin-bottom: 25px; }
+  #modules .module {
+    display: table-cell;
+    width: auto; }
+    #modules .module:first-child .container {
+      margin-left: 0; }
+    #modules .module:last-child .container {
+      margin-right: 0; }
+    #modules .module .container {
+      margin: 5px;
+      background: #FFF;
+      padding: 10px;
+      box-shadow: 1px 1px 4px #C0C0C0;
+      width: auto !important; }
+      #modules .module .container .module-area .constant {
+        font-size: 22px;
+        color: #000; }
+      #modules .module .container .module-area .title {
+        font-size: 14px;
+        color: #666; }
 
 .pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
   background-color: #E0E0E0;

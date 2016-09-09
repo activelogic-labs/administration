@@ -110,12 +110,14 @@ body{
                 }
             }
             &:hover{
-                td{
-                    cursor:pointer;
-                    color:#000;
-                    background: #fbfbfb;
-                    .circle{
+                &:not(.no_link){
+                    td{
+                        cursor:pointer;
                         color:#000;
+                        background: #fbfbfb;
+                        .circle{
+                            color:#000;
+                        }
                     }
                 }
             }

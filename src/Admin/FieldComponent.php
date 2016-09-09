@@ -160,6 +160,13 @@ abstract class FieldComponent
             $model = new $model();
         }
 
+        //--- Get Primary Key
+        $primaryKey = $model->getKeyName();
+
+        if(!$primaryKey){
+            Throw new \Exception("Primary key for model \"".get_class($model)."\" cannot be found");
+        }
+
         //--- Always include primary key
         if (!in_array($primaryKey = $model->getKeyName(), array_keys($fields))) {
             $fields[$primaryKey] = ucfirst($primaryKey);
