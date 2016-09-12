@@ -11,7 +11,6 @@ use Illuminate\Http\Response;
 
 class AdministrationController extends Controller
 {
-    public $type = Core::CONTROLLER_TYPE_CRUD;
     public $model;
     public $title;
     public $icon = 'fa-chevron-right';
@@ -47,10 +46,6 @@ class AdministrationController extends Controller
         $this->slug = strtolower(str_replace("Controller", "", end($uriArray)));
         $this->url = Core::url($this->slug);
         $this->class = get_called_class();
-
-        if($this->type == Core::CONTROLLER_TYPE_CUSTOM){
-            $this->url = Core::url($this->slug);
-        }
     }
 
     /**
