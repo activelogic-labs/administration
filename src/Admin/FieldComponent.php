@@ -102,7 +102,7 @@ abstract class FieldComponent
     {
         $dataSet = [];
 
-        if (empty($rawData)) {
+        if (is_null($rawData)) {
 
             $paginator = self::retrieveData($model, $fields);
 

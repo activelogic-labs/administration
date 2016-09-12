@@ -65,6 +65,10 @@ class AdministrationController extends Controller
      */
     public function baseIndex($data)
     {
+        if(empty($data)){
+            $data = [];
+        }
+
         if(is_array($data)){
             $data = FieldComponent::buildComponents($this->model, $this->buildFields($this->overviewFields), $this->fieldDefinitions, $data);
         }
