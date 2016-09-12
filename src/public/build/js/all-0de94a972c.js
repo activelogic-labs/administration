@@ -28,7 +28,7 @@ $(function(){
 $("#main #content .success .dismiss, #main #content .error .dismiss").click(function(){
     $(this).parent().hide();
     return false;
-});
+}); 
 /**
  * Created by daltongibbs on 8/22/16.
  */
