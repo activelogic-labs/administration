@@ -31,16 +31,16 @@ abstract class AdministrationModule
         $data = false;
 
         if($this->type == self::TYPE_RING_GRAPH){
-            if(!$this->ring_percentage){
-                Throw new \Exception("A ring percentage (ring_percentage) must be set to use the ring graph module");
+            if(is_null($this->ring_percentage)){
+                Throw new \Exception(get_called_class() . ": A ring percentage (ring_percentage) must be set to use the ring graph module");
             }
 
             $data = $this->ring_percentage;
         }
 
         if($this->type == self::TYPE_NUMBER){
-            if(!$this->number_constant){
-                Throw new \Exception("A number constant (number_constant) must be set to use the number module");
+            if(is_null($this->number_constant)){
+                Throw new \Exception(get_called_class() . ": A number constant (number_constant) must be set to use the number module");
             }
 
             $data = $this->number_constant;
