@@ -4,7 +4,6 @@ var elixir = require('laravel-elixir');
 elixir.config.assetsPath = 'src/resources/assets';
 elixir.config.publicPath = 'src/public';
 
-
 /*
  |--------------------------------------------------------------------------
  | Elixir Asset Management
@@ -18,7 +17,7 @@ elixir.config.publicPath = 'src/public';
 
 elixir(function(mix) {
     mix
-    //Sass compilation
+        //Sass compilation
         .sass([
             '*.scss'
         ])
@@ -33,9 +32,4 @@ elixir(function(mix) {
             'css/app.css',
             'js/all.js'
         ])
-
-        //Live reload
-        .browserSync({
-            proxy: 'lp.dev'
-        });
 });

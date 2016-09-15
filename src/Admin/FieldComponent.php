@@ -4,6 +4,7 @@ namespace Activelogiclabs\Administration\Admin;
 
 use Activelogiclabs\Administration\Admin\FieldComponents\Text;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 abstract class FieldComponent
 {
@@ -101,7 +102,7 @@ abstract class FieldComponent
     {
         $dataSet = [];
 
-        if (empty($rawData)) {
+        if (is_null($rawData)) {
 
             $paginator = self::retrieveData($model, $fields);
 
@@ -130,7 +131,9 @@ abstract class FieldComponent
 
         }
 
-        return collect($dataSet);
+        $paginator = new LengthAwarePaginator(collect($dataSet), count($dataSet), 15);
+
+        return $paginator;
     }
 
     public static function buildComponent($name, $value, $definitions = [])

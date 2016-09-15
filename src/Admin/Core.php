@@ -20,12 +20,6 @@ class Core
     const PAGE_TYPE_SAVE = 'save';
 
     /**
-     * Controller Types
-     */
-    const CONTROLLER_TYPE_CRUD = 'standard';
-    const CONTROLLER_TYPE_CUSTOM = 'custom';
-
-    /**
      * Detail Group Types
      */
     const GROUP_STANDARD = 'standard';

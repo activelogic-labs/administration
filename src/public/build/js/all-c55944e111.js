@@ -25,6 +25,10 @@ $(function(){
     });
 })
 
+
+Chart.defaults.global.legend.display = false;
+Chart.defaults.global.tooltips.enabled = false;
+
 $("#main #content .success .dismiss, #main #content .error .dismiss").click(function(){
     $(this).parent().hide();
     return false;

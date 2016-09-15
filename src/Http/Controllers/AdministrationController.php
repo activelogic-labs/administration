@@ -11,7 +11,6 @@ use Illuminate\Http\Response;
 
 class AdministrationController extends Controller
 {
-    public $type = Core::CONTROLLER_TYPE_CRUD;
     public $model;
     public $title;
     public $icon = 'fa-chevron-right';
@@ -47,10 +46,6 @@ class AdministrationController extends Controller
         $this->slug = strtolower(str_replace("Controller", "", end($uriArray)));
         $this->url = Core::url($this->slug);
         $this->class = get_called_class();
-
-        if($this->type == Core::CONTROLLER_TYPE_CUSTOM){
-            $this->url = Core::url($this->slug);
-        }
     }
 
     /**
@@ -61,6 +56,22 @@ class AdministrationController extends Controller
     public function index(Request $request)
     {
         $data = FieldComponent::buildComponents($this->model, $this->buildFields($this->overviewFields), $this->fieldDefinitions);
+        return $this->baseIndex($data);
+    }
+
+    /**
+     * @param array $rawDataArray
+     * @return mixed
+     */
+    public function baseIndex($data)
+    {
+        if(empty($data)){
+            $data = [];
+        }
+
+        if(is_array($data)){
+            $data = FieldComponent::buildComponents($this->model, $this->buildFields($this->overviewFields), $this->fieldDefinitions, $data);
+        }
 
         $links = $data->links('administration::pagination.admin-pagination');
 
