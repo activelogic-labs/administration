@@ -334,7 +334,7 @@ class AdministrationController extends Controller
      *
      * @param $titleButtons
      */
-    private function buildTitleButtons($titleButtons)
+    public function buildTitleButtons($titleButtons)
     {
         if (empty($titleButtons)) {
 
