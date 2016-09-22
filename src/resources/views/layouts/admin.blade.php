@@ -170,12 +170,22 @@ if (! function_exists('packageElixir')) {
         </div>
     </div>
 
-    <!-- JavaScripts -->
+    <!-- JavaScript -->
     <script src="/vendor/administration/components/jquery/dist/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="/vendor/administration/components/stacktable.js/stacktable.js"></script>
     <script src="/vendor/administration/components/dropzone/dist/min/dropzone.min.js"></script>
     <script src="//cdn.ckeditor.com/4.5.10/standard/ckeditor.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.2/Chart.bundle.min.js"></script>
+    <script>
+
+        Chart.defaults.global.responsive = false;
+        Chart.defaults.global.maintainAspectRatio = false;
+        Chart.defaults.global.legend.display = false;
+        Chart.defaults.global.tooltips.enabled = false;
+
+    </script>
 
     <script src="{{ elixir('js/all.js', 'vendor/administration/build') }}"></script>
 
@@ -185,6 +195,7 @@ if (! function_exists('packageElixir')) {
         @endforeach
     @endif
 
+    @stack("js")
     @yield("scripts")
 
 </body>

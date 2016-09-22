@@ -2,6 +2,8 @@
 
 namespace Activelogiclabs\Administration\Admin;
 
+use Illuminate\Support\Str;
+
 abstract class AdministrationModule
 {
     /*
@@ -16,6 +18,9 @@ abstract class AdministrationModule
     public $title = "Module Title";
     public $type = self::TYPE_NUMBER;
     public $ring_percentage;
+    public $ring_primary_color = "#D0021B";
+    public $ring_secondary_color = "#E0E0E0";
+
     public $number_constant;
 
    /*
@@ -29,6 +34,7 @@ abstract class AdministrationModule
     public function generate()
     {
         $data = false;
+        $options = [];
 
         if($this->type == self::TYPE_RING_GRAPH){
             if(is_null($this->ring_percentage)){
@@ -36,6 +42,10 @@ abstract class AdministrationModule
             }
 
             $data = $this->ring_percentage;
+            $options = [
+                'primary_color' => $this->ring_primary_color,
+                'secondary_color' => $this->ring_secondary_color,
+            ];
         }
 
         if($this->type == self::TYPE_NUMBER){
@@ -48,7 +58,9 @@ abstract class AdministrationModule
 
         return view("administration::modules." . $this->type, [
             'title' => $this->title,
-            'data' => $data
+            'data' => $data,
+            'slug' => Str::slug($this->title),
+            'options' => $options
         ]);
     }
 }
