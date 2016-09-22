@@ -57,7 +57,7 @@
                     <div class="clearfix"></div>
                 </div>
 
-                <div class="data-group full_page">
+                <div class="data-group group_wysiwyg">
                     {!! $detailGroup['data']->fieldView() !!}
                 </div>
 

@@ -852,6 +852,9 @@ body {
       .data-group .data-group-field .image-field a:hover {
         color: #464646;
         border: solid 1px #cdccca; }
+  .data-group.group_wysiwyg {
+    padding: 0;
+    box-shadow: none; }
 
 #modules {
   display: table;
