@@ -39,7 +39,7 @@
 
             <tbody>
                 @foreach($data as $key => $row)
-                    <tr @if($enableDetailView) href="{{ $detail_url . "/" . $key }}" @else class="no_link" @endif>
+                    <tr @if($enableDetailView) href="{{ $detail_url . "/" . $row['id']->value }}" @else class="no_link" @endif>
                         @foreach($overviewFields as $id => $value)
                             <td>{!! $row[$id]->dataView() !!}</td>
                         @endforeach
