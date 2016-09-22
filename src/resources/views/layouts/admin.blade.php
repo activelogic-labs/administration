@@ -101,14 +101,6 @@ if (! function_exists('packageElixir')) {
 
                 @endforeach
             </ul>
-            <ul>
-                <li>
-                    <a href="/">
-                        <i class="fa fa-home"></i>
-                        <span>Main Site</span>
-                    </a>
-                </li>
-            </ul>
         </div>
 
         <div id="content">
