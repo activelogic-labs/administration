@@ -19,7 +19,7 @@ class Relationship extends FieldComponent
 
         $related = $related->where(isset($this->definition['foreign_key']) ? $this->definition['foreign_key'] : 'id', $this->value)->first();
 
-        return $related->{$this->definition['display']};
+        return isset($related->{$this->definition['display']}) ? $related->{$this->definition['display']} : '';
     }
 
     public function fieldView()
