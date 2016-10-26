@@ -4,7 +4,9 @@
     Time: 3:39 PM
 --}}
 
-<div class="apply-filters filter-button">
-    <i class=""></i>
-    <span>Apply Filters</span>
-</div>
+@if($filterable)
+    <div class="apply-filters filter-button">
+        <i class=""></i>
+        <span>Apply Filters</span>
+    </div>
+@endif

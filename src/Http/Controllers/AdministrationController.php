@@ -86,7 +86,7 @@ class AdministrationController extends Controller
             $data = $this->buildComponents($this->model, $this->buildFields($this->overviewFields), $this->fieldDefinitions, [], $data);
         }
 
-        $links = $data->links('administration::pagination.admin-pagination');
+        $links = $data->appends($this->paginateFilters())->links('administration::pagination.admin-pagination');
 
         return Core::view( Core::PAGE_TYPE_OVERVIEW, [
             'title' => $this->title,
@@ -105,6 +105,17 @@ class AdministrationController extends Controller
             'enable_exporting_records' => $this->enableExportingRecords,
             'enableDetailView' => $this->enableDetailView,
         ]);
+    }
+
+    public function paginateFilters()
+    {
+        $formatted = [];
+
+        foreach ($this->filters as $column => $value) {
+            $formatted["filters[$column]"] = $value;
+        }
+
+        return $formatted;
     }
 
     /**

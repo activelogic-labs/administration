@@ -978,21 +978,25 @@ body {
         position: absolute;
         pointer-events: none;
         display: block; }
-      .filters .add-filter .add-filter-form .define-filter {
-        width: 100%;
-        border: solid 1px gray;
-        padding: 5px;
-        border-radius: 0;
-        margin: 5px 0 10px 0; }
-      .filters .add-filter .add-filter-form .add-filter-button {
-        border: solid 1px #BA1C1E;
-        color: #BA1C1E;
-        background: #FFFFFF;
-        display: inherit;
-        margin: 5px auto; }
+      .filters .add-filter .add-filter-form .filter-input {
+        display: none; }
+        .filters .add-filter .add-filter-form .filter-input .define-filter {
+          width: 100%;
+          border: solid 1px gray;
+          padding: 5px;
+          border-radius: 0;
+          margin: 5px 0 10px 0; }
+        .filters .add-filter .add-filter-form .filter-input .add-filter-button {
+          border: solid 1px #BA1C1E;
+          color: #BA1C1E;
+          background: #FFFFFF;
+          display: inherit;
+          margin: 5px auto; }
   .filters .apply-filters {
-    border: solid 1px #BA1C1E;
-    color: #BA1C1E; }
+    color: #6D6D6D;
+    border-style: solid;
+    border-color: #E8E7E5;
+    border-width: 1px; }
 
 .pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
   background-color: #E0E0E0;

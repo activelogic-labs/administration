@@ -10,7 +10,8 @@ var self,
         buttons: {
             newFilter: $(".new-filter-button"),
             applyFilters: $(".apply-filters"),
-            removeFilter: $(".remove-filter")
+            removeFilter: $(".remove-filter"),
+            addFilter: $(".add-filter-button")
         },
 
         addFilterForm: $(".add-filter-form"),
@@ -24,6 +25,7 @@ var self,
             buttons = this.buttons;
 
             this.bindUIActions();
+            this.removeAppliedFiltersFromSelection();
         },
 
         bindUIActions: function() {
@@ -32,9 +34,9 @@ var self,
             });
 
             $(document).mouseup(function (event) {
-                console.log(event.target);
                 if (!self.addFilterForm.is(event.target) && self.addFilterForm.has(event.target).length === 0) {
-                    console.log("outside form");
+                    self.addFilterForm.find("[name=filterColumn] :first-child").prop('selected', 'selected');
+                    self.addFilterForm.find(".filter-input").hide();
                     self.addFilterForm.hide();
                 }
             });
@@ -42,13 +44,19 @@ var self,
             self.filterSelect.change(function() {
                 var selected = $(this).val();
                 var filterConfig = settings[selected];
+                var currentInput = self.addFilterForm.find(".define-filter");
+
+                if (currentInput.length !== 0) {
+                    currentInput.remove();
+                }
+
+                self.addFilterForm.find(".filter-input").show();
 
                 if (filterConfig.hasOwnProperty('type')) {
                     window["Filters"][filterConfig.type + "Input"](filterConfig);
                 } else {
                     self.stringInput();
                 }
-
             });
 
             self.addFilterForm.submit(function(event) {
@@ -67,7 +75,36 @@ var self,
                 input.val('');
                 selectBox.find(':first-child').prop('selected', 'selected');
                 self.addFilterForm.toggle();
+
+                self.bindApplyFiltersAction();
             });
+
+            buttons.removeFilter.on("click", function() {
+                var column = $(this).siblings(".column").text();
+                var filter = $(this).parent();
+
+                self.addFilterForm.find('select').append($("<option></option>").text(column));
+
+                filter.remove();
+            });
+
+            if (self.filters.children(":not(:first-child)").length !== 0) {
+                self.bindApplyFiltersAction();
+            }
+        },
+
+        addFilter: function(column, value) {
+            var newFilter = self.filters.find(".filter").first().clone(true);
+
+            newFilter.find(".column").html(column);
+            newFilter.find(".value").html(value);
+
+            self.filters.append(newFilter);
+        },
+
+        bindApplyFiltersAction: function() {
+            buttons.applyFilters.css("color", "#BA1C1E");
+            buttons.applyFilters.css("border-color", "#BA1C1E");
 
             buttons.applyFilters.on("click", function() {
                 var url = $(location).attr('pathname') + "?";
@@ -85,29 +122,22 @@ var self,
 
                 window.location = url;
             });
-
-            buttons.removeFilter.on("click", function() {
-                var column = $(this).siblings(".column").text();
-                var filter = $(this).parent();
-
-                self.addFilterForm.find('select').append($("<option></option>").text(column));
-
-                filter.remove();
-            });
         },
 
-        addFilter: function(column, value) {
-            var newFilter = self.filters.find(".filter").first().clone(true);
+        removeAppliedFiltersFromSelection: function() {
+            self.filters.children(":not(:first-child)").each(function(index, filter) {
+                var column = $(filter).find(".column").html();
 
-            newFilter.find(".column").html(column);
-            newFilter.find(".value").html(value);
-
-            self.filters.append(newFilter);
+                var select = self.addFilterForm.find("[name=filterColumn] option:contains(" + column + ")");
+                select.remove();
+            });
         },
 
         stringInput: function() {
             var input = $("<input>").attr('class', 'define-filter').attr('name', 'filterValue').attr('placeholder', 'Filter Value');
             self.addFilterForm.find(".define-filter-label").after(input);
+
+            input.focus();
         },
 
         selectInput: function(filterConfig) {
@@ -124,6 +154,8 @@ var self,
             }
 
             self.addFilterForm.find(".define-filter-label").after(input);
+
+            input.focus();
         },
 
         booleanInput: function() {

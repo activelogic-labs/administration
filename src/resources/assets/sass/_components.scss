@@ -145,32 +145,38 @@
                 }
             }
 
-            .define-filter-label {
+            .filter-input {
+                display: none;
 
-            }
+                .define-filter-label {
 
-            .define-filter {
-                width: 100%;
-                border: solid 1px gray;
-                padding: 5px;
-                border-radius: 0;
-                margin: 5px 0 10px 0;
+                }
 
-            }
+                .define-filter {
+                    width: 100%;
+                    border: solid 1px gray;
+                    padding: 5px;
+                    border-radius: 0;
+                    margin: 5px 0 10px 0;
 
-            .add-filter-button {
-                border: solid 1px $theme-primary;
-                color: $theme-primary;
-                background: #FFFFFF;
-                display: inherit;
-                margin: 5px auto;
+                }
+
+                .add-filter-button {
+                    border: solid 1px $theme-primary;
+                    color: $theme-primary;
+                    background: #FFFFFF;
+                    display: inherit;
+                    margin: 5px auto;
+                }
             }
         }
     }
 
     .apply-filters {
-        border: solid 1px $theme-primary;
-        color: $theme-primary;
+        color: #6D6D6D;
+        border-style: solid;
+        border-color: #E8E7E5;
+        border-width: 1px;
 
     }
 }

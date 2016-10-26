@@ -2,8 +2,8 @@
 
 @section("header")
     <div class="header" style="height: auto;">
-        <h1 style="float: none !important;">{{ $title }} <small>{{ $data->total()}} {{ \Illuminate\Support\Str::plural($title) }} found matching filters</small></h1>
-        <div class="">
+        <h1>{{ $title }} <small>{{ $data->total()}} {{ \Illuminate\Support\Str::plural($title) }} found matching filters</small></h1>
+        @if($filterable)
             <div class="filters">
                 <div class="applied-filters">
                     <div class="filter filter-button">
@@ -18,23 +18,23 @@
                     @include('administration::components.apply-filters')
                 </div>
             </div>
+        @endif
 
-            <div class="buttons">
+        <div class="buttons">
 
-                @if($enable_adding_records)
-                    <a href="{{ $detail_url }}"><i class="icon fa fa-plus"></i> Create New {{ \Illuminate\Support\Str::singular($title) }}</a>
-                @endif
+            @if($enable_adding_records)
+                <a href="{{ $detail_url }}"><i class="icon fa fa-plus"></i> Create New {{ \Illuminate\Support\Str::singular($title) }}</a>
+            @endif
 
-                @if($enable_exporting_records)
-                    <a href="{{ $export_url }}"><i class="icon fa fa-upload"></i> Export {{ \Illuminate\Support\Str::plural($title) }}</a>
-                @endif
+            @if($enable_exporting_records)
+                <a href="{{ $export_url }}"><i class="icon fa fa-upload"></i> Export {{ \Illuminate\Support\Str::plural($title) }}</a>
+            @endif
 
-                @foreach($title_buttons as $button)
-                    <a href="{{ $button["route_uri"] }}"><i class="icon fa {{ $button["icon"] }}"></i> {{ $button["title"] }}</a>
-                @endforeach
-            </div>
-            <div class="clearfix"></div>
+            @foreach($title_buttons as $button)
+                <a href="{{ $button["route_uri"] }}"><i class="icon fa {{ $button["icon"] }}"></i> {{ $button["title"] }}</a>
+            @endforeach
         </div>
+        <div class="clearfix"></div>
     </div>
 @endsection
 
