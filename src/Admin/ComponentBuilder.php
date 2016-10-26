@@ -1,103 +1,24 @@
 <?php
+/**
+ * Created by Dalton Gibbs
+ * Date: 10/25/16
+ * Time: 7:38 PM
+ */
 
 namespace Activelogiclabs\Administration\Admin;
 
 use Activelogiclabs\Administration\Admin\FieldComponents\Text;
-use App\Contact;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 
-abstract class FieldComponent
+trait ComponentBuilder
 {
-    public $name;
-    public $label;
-    public $value;
-    public $definition;
-
-    /**
-     * FieldComponent constructor.
-     *
-     * @param null $name
-     * @param null $value
-     * @param array $definition
-     */
-    public function __construct($name = null, $value = null, $definition = [])
-    {
-        $this->name = $name;
-        $this->value = $value;
-        $this->definition = $definition;
-    }
-
-    abstract function dataView();
-    abstract function fieldView();
-    abstract function onSubmit();
-
-    public function onDelete()
-    {
-        return '';
-    }
-
-    /**
-     * Builds the view data for section
-     *
-     * @param $model
-     * @param $fields
-     * @param $definitions
-     * @return mixed
-     */
-    public static function dataViews($model, $fields, $definitions)
-    {
-        $data = self::buildComponents($model, $fields, $definitions);
-
-        $viewSet = [];
-
-        foreach ($data as $key => $row) {
-
-            foreach ($row as $id => $value) {
-
-                $viewSet[$key][$id] = $value->dataView();
-
-            }
-
-        }
-
-        return collect($viewSet);
-    }
-
-    /**
-     * Builds the component fields for the section
-     *
-     * @param $model
-     * @param $fields
-     * @param $definitions
-     * @return mixed
-     */
-    public static function fieldViews($model, $fields, $definitions)
-    {
-        $data = self::buildComponents($model, $fields, $definitions);
-
-        $viewSet = [];
-
-        foreach ($data as $key => $row) {
-
-            foreach ($row as $id => $value) {
-
-                $viewSet[$key][$id] = $value->fieldView();
-
-            }
-
-        }
-
-        return collect($viewSet);
-    }
-
-    public static function buildComponentsWithFilters($model, $fields, $definitions = [], $filters = [])
+    public function buildComponentsWithFilters($model, $fields, $definitions = [], $filters = [])
     {
         return self::buildComponents($model, $fields, $definitions, $filters);
     }
 
-    public static function buildComponentsFromData($model, $fields, $definitions = [], $rawData = null)
+    public function buildComponentsFromData($model, $fields, $definitions = [], $rawData = null)
     {
         return self::buildComponents($model, $fields, $definitions, [], $rawData);
     }
@@ -110,7 +31,7 @@ abstract class FieldComponent
      * @param array $definitions
      * @return mixed
      */
-    public static function buildComponents($model, $fields, $definitions = [], $filters = [], $rawData = null)
+    public function buildComponents($model, $fields, $definitions = [], $filters = [], $rawData = null)
     {
         $dataSet = [];
 
@@ -148,7 +69,7 @@ abstract class FieldComponent
         return $paginator;
     }
 
-    public static function buildComponent($name, $value, $definitions = [])
+    public function buildComponent($name, $value, $definitions = [])
     {
         if(!is_string($name)){
             Throw new \Exception("Name arg must be of type string");
@@ -169,7 +90,7 @@ abstract class FieldComponent
      * @return mixed
      * @throws \Exception
      */
-    public static function retrieveData($model, $fields, $filters)
+    public function retrieveData($model, $fields, $filters)
     {
         if (is_string($model)) {
             $model = new $model();
@@ -196,6 +117,24 @@ abstract class FieldComponent
         if (!empty($filters)) {
 
             foreach ($filters as $column => $value) {
+                $filter = $this->filterable[Str::snake($column)];
+
+                if (isset($filter['scope'])) {
+
+                    if (method_exists($model, "scope" . ucfirst($filter['scope']))) {
+
+                        $query->{$filter['scope']}($value);
+
+                    } else {
+
+                        throw new FilterException("Query scope does not exist on model");
+
+                    }
+
+                    continue;
+
+                }
+
                 $query->where(Str::snake($column), $value);
             }
 
@@ -204,3 +143,5 @@ abstract class FieldComponent
         return $query->paginate();
     }
 }
+
+class FilterException extends \Exception {}

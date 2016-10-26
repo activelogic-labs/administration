@@ -1,0 +1,172 @@
+@import "variables";
+
+.filters {
+    display: inline-block;
+    margin: 20px;
+    font-size: 12px;
+
+    .applied-filters {
+        display: inherit;
+
+    }
+
+    .filter-actions {
+        display: inherit;
+    }
+
+    .filter-button {
+        padding: 5px 10px;
+        font-weight: 300;
+        display: inline-block;
+        margin: 0 5px;
+    }
+
+    .filter {
+        background-color: $theme-primary;
+        color: #FFFFFF;
+        border: solid 1px $theme-primary;
+
+        &:first-child {
+            display: none;
+
+        }
+
+        .column {
+
+            &:after{
+                content: ':';
+            }
+        }
+
+        .value {
+            color: #F5F5F5;
+
+            &:after {
+                content: '';
+                margin-right: 10px;
+            }
+        }
+
+        .remove-filter {
+            color: #FFFFFF;
+        }
+    }
+
+    .add-filter {
+        display: inline-block;
+        position: relative;
+
+        .new-filter-button {
+            border: solid 1px $theme-primary;
+            color: $theme-primary;
+
+            i {
+                margin-right: 5px;
+            }
+        }
+
+        .add-filter-form {
+            border: solid 1px $theme-primary;
+            background: #FFFFFF;
+            width: 200px;
+            position: absolute;
+            left: -50%;
+            right: -50%;
+            display: none;
+            padding: 10px;
+            top: 98%;
+
+            &:before {
+                content: '';
+                position: absolute;
+                border-style: solid;
+                border-width: 0 5px 5px;
+                border-color: $theme-primary transparent;
+                display: block;
+                width: 0;
+                z-index: 0;
+                margin-left: -5px;
+                top: -6px;
+                left: 50%;
+            }
+
+            &:after {
+                content: '';
+                position: absolute;
+                border-style: solid;
+                border-width: 0 5px 5px;
+                border-color: #FFFFFF transparent;
+                display: block;
+                width: 0;
+                z-index: 1;
+                margin-left: -5px;
+                top: -5px;
+                left: 50%;
+            }
+
+            .select-filter-label {
+
+            }
+
+            .select-filter {
+
+                select {
+                    border: solid 1px gray;
+                    border-radius: 0;
+                    width: 100%;
+                    padding: 5px;
+
+                }
+
+                &:before {
+                    content:'>';
+                    font:11px "Consolas", monospace;
+                    color:#aaa;
+                    -webkit-transform:rotate(90deg);
+                    -moz-transform:rotate(90deg);
+                    -ms-transform:rotate(90deg);
+                    transform:rotate(90deg);
+                    right:8px; top:2px;
+                    padding:0 0 2px;
+                    border-bottom:1px solid #ddd;
+                    position:absolute;
+                    pointer-events:none;
+                }
+
+                &:after {
+                    content:'';
+                    right:6px; top:0px;
+                    width:20px; height:20px;
+                    background:#f8f8f8;
+                    position:absolute;
+                    pointer-events:none;
+                    display:block;
+                }
+            }
+
+            .define-filter-label {
+
+            }
+
+            .define-filter {
+                width: 100%;
+                border: solid 1px gray;
+                padding: 5px;
+                border-radius: 0;
+
+            }
+
+            .add-filter-button {
+                border: solid 1px $theme-primary;
+                color: $theme-primary;
+                background: #FFFFFF;
+            }
+        }
+    }
+
+    .apply-filters {
+        border: solid 1px $theme-primary;
+        color: $theme-primary;
+
+    }
+}

@@ -2,15 +2,20 @@
 
 namespace Activelogiclabs\Administration\Http\Controllers;
 
+use Activelogiclabs\Administration\Admin\ComponentBuilder;
 use Activelogiclabs\Administration\Admin\Core;
 use Activelogiclabs\Administration\Admin\FieldComponent;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class AdministrationController extends Controller
 {
+    use ComponentBuilder;
+
     public $model;
     public $title;
     public $icon = 'fa-chevron-right';
@@ -21,6 +26,7 @@ class AdministrationController extends Controller
     public $modules;
     public $detailGroups;
     public $titleButtons = [];
+    public $filterable = [];
 
     public $enableAddingRecords = true;
     public $enableExportingRecords = true;
@@ -35,6 +41,7 @@ class AdministrationController extends Controller
     public $url;
     public $class;
     public $routes;
+    public $filters = [];
 
     /**
      * Section constructor.
@@ -55,7 +62,13 @@ class AdministrationController extends Controller
      */
     public function index(Request $request)
     {
-        $data = FieldComponent::buildComponents($this->model, $this->buildFields($this->overviewFields), $this->fieldDefinitions);
+        if ($request->has('filters')) {
+            foreach ($request->input('filters') as $column => $value) {
+                $this->filters[$column] = $value;
+            }
+        }
+
+        $data = $this->buildComponentsWithFilters($this->model, $this->buildFields($this->overviewFields), $this->fieldDefinitions, $this->filters);
         return $this->baseIndex($data);
     }
 
@@ -70,7 +83,7 @@ class AdministrationController extends Controller
         }
 
         if(is_array($data)){
-            $data = FieldComponent::buildComponents($this->model, $this->buildFields($this->overviewFields), $this->fieldDefinitions, $data);
+            $data = $this->buildComponents($this->model, $this->buildFields($this->overviewFields), $this->fieldDefinitions, [], $data);
         }
 
         $links = $data->links('administration::pagination.admin-pagination');
@@ -83,12 +96,14 @@ class AdministrationController extends Controller
             'sort_url' => Core::url($this->slug . "/overview/sort"),
             'overviewFields' => $this->buildFields($this->overviewFields),
             'overviewTitleButtons' => $this->buildTitleButtons($this->titleButtons),
+            'filterable' => $this->filterable,
+            'filters' => $this->filters,
             'data' => $data,
             'page_links' => $links,
             'title_buttons' => $this->titleButtons,
             'enable_adding_records' => $this->enableAddingRecords,
             'enable_exporting_records' => $this->enableExportingRecords,
-            'enableDetailView' => $this->enableDetailView
+            'enableDetailView' => $this->enableDetailView,
         ]);
     }
 
@@ -135,7 +150,7 @@ class AdministrationController extends Controller
 
             foreach($this->buildFields() as $field => $label){
 
-                $component = FieldComponent::buildComponent($field, $request->$field, $this->fieldDefinitions);
+                $component = $this->buildComponent($field, $request->$field, $this->fieldDefinitions);
                 $submitValue = $component->onSubmit();
 
                 if($submitValue != null){
@@ -170,7 +185,7 @@ class AdministrationController extends Controller
         $model = $this->model;
         $model = $model::find($id);
 
-        $component = FieldComponent::buildComponent($field, $model->$field, $this->fieldDefinitions);
+        $component = $this->buildComponent($field, $model->$field, $this->fieldDefinitions);
 
         $model->$field = $component->onDelete();
 
@@ -317,7 +332,7 @@ class AdministrationController extends Controller
             $rawData = array_fill_keys(array_keys($fields), null);
         }
 
-        $data = FieldComponent::buildComponents($model, $fields, $this->fieldDefinitions, [$rawData]);
+        $data = $this->buildComponents($model, $fields, $this->fieldDefinitions, [$rawData]);
 
         $info = [
             'group_title' => "General Information",
@@ -391,7 +406,7 @@ class AdministrationController extends Controller
 
         }
 
-        $dataGroup['data'] = FieldComponent::buildComponents($model, $this->buildFields($dataGroup['group_fields']), $this->fieldDefinitions, [$modelData]);
+        $dataGroup['data'] = $this->buildComponents($model, $this->buildFields($dataGroup['group_fields']), $this->fieldDefinitions, [$modelData]);
 
         return $dataGroup;
     }
@@ -407,7 +422,7 @@ class AdministrationController extends Controller
      */
     public function buildFullDataGroup($dataGroup, $model)
     {
-        $dataGroup['data'] = FieldComponent::buildComponent($dataGroup['field'], $model->{$dataGroup['field']}, $this->fieldDefinitions);
+        $dataGroup['data'] = $this->buildComponent($dataGroup['field'], $model->{$dataGroup['field']}, $this->fieldDefinitions);
         return $dataGroup;
     }
 
@@ -420,7 +435,7 @@ class AdministrationController extends Controller
      */
     public function buildWysiwygDataGroup($dataGroup, $model)
     {
-        $dataGroup['data'] = FieldComponent::buildComponent($dataGroup['field'], $model->{$dataGroup['field']}, $this->fieldDefinitions);
+        $dataGroup['data'] = $this->buildComponent($dataGroup['field'], $model->{$dataGroup['field']}, $this->fieldDefinitions);
         return $dataGroup;
     }
 

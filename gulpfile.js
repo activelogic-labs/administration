@@ -1,5 +1,7 @@
 var elixir = require('laravel-elixir');
 
+require('./elixir-extensions');
+
 //--- Configure Elixir for the package
 elixir.config.assetsPath = 'src/resources/assets';
 elixir.config.publicPath = 'src/public';
@@ -32,4 +34,6 @@ elixir(function(mix) {
             'css/app.css',
             'js/all.js'
         ])
+
+        .publish('php ../../../artisan vendor:publish --tag=admin-public --force')
 });

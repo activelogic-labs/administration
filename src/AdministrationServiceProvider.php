@@ -29,7 +29,7 @@ class AdministrationServiceProvider extends ServiceProvider {
 
         $this->publishes([
             __DIR__ . '/public' => public_path("vendor/administration")
-        ], 'public');
+        ], 'admin-public');
 
         if (!$this->app->routesAreCached()) {
             require __DIR__.'/Http/routes.php';

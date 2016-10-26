@@ -7,6 +7,8 @@
 @import "stackable";
 @import "detail";
 @import "modules";
+@import "components";
+@import "variables";
 
 .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
   background-color:#E0E0E0;

@@ -1,52 +1,3 @@
-<?php
-
-//TODO: figure out where to actually put this
-if (! function_exists('packageElixir')) {
-    /**
-     * Get the path to a versioned Elixir file.
-     *
-     * @param  string  $file
-     * @param  string  $buildDirectory
-     * @return string
-     *
-     * @throws \InvalidArgumentException
-     */
-    function packageElixir($file, $buildDirectory = 'build')
-    {
-        static $manifest;
-        static $manifestPath;
-
-        if (env('APP_ENV') == 'local') {
-
-            $buildPath = base_path("vendor/activelogiclabs/administration/src/public/build");
-
-            if (is_null($manifest) || $manifestPath !== $buildDirectory) {
-                $manifest = json_decode(file_get_contents($buildPath . "/rev-manifest.json"), true);
-                $manifestPath = $buildDirectory;
-            }
-
-            if (isset($manifest[$file])) {
-                return $buildPath.'/'.$manifest[$file];
-            }
-
-        }
-
-        if (is_null($manifest) || $manifestPath !== $buildDirectory) {
-            $manifest = json_decode(file_get_contents(public_path('vendor/administration/'.$buildDirectory.'/rev-manifest.json')), true);
-
-            $manifestPath = $buildDirectory;
-        }
-
-        if (isset($manifest[$file])) {
-            return '/vendor/administration/'.trim($buildDirectory.'/'.$manifest[$file], '/');
-        }
-
-        throw new InvalidArgumentException("File {$file} not defined in asset manifest.");
-    }
-}
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,7 +13,6 @@ if (! function_exists('packageElixir')) {
 
     <!-- Styles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    {{--<link href="{{ packageElixir('css/app.css') }}" rel="stylesheet">--}}
     <link href="{{ elixir('css/app.css', 'vendor/administration/build') }}" rel="stylesheet">
 
     @if(!empty(config('admin.styles')))
@@ -186,6 +136,10 @@ if (! function_exists('packageElixir')) {
             <script src="{{ $script }}"></script>
         @endforeach
     @endif
+
+    <script>
+        Filters.init({!! json_encode($filterable) !!});
+    </script>
 
     @stack("js")
     @yield("scripts")

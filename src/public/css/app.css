@@ -606,7 +606,7 @@ body {
       margin-left: 10px; }
   #main #content .header .buttons {
     float: right;
-    margin: 18px; }
+    margin: 20px; }
     #main #content .header .buttons a {
       display: inline-block;
       margin: 0 10px;
@@ -879,6 +879,116 @@ body {
       #modules .module .container .module-area .title {
         font-size: 12px;
         color: #666; }
+
+.filters {
+  display: inline-block;
+  margin: 20px;
+  font-size: 12px; }
+  .filters .applied-filters {
+    display: inherit; }
+  .filters .filter-actions {
+    display: inherit; }
+  .filters .filter-button {
+    padding: 5px 10px;
+    font-weight: 300;
+    display: inline-block;
+    margin: 0 5px; }
+  .filters .filter {
+    background-color: #BA1C1E;
+    color: #FFFFFF;
+    border: solid 1px #BA1C1E; }
+    .filters .filter:first-child {
+      display: none; }
+    .filters .filter .column:after {
+      content: ':'; }
+    .filters .filter .value {
+      color: #F5F5F5; }
+      .filters .filter .value:after {
+        content: '';
+        margin-right: 10px; }
+    .filters .filter .remove-filter {
+      color: #FFFFFF; }
+  .filters .add-filter {
+    display: inline-block;
+    position: relative; }
+    .filters .add-filter .new-filter-button {
+      border: solid 1px #BA1C1E;
+      color: #BA1C1E; }
+      .filters .add-filter .new-filter-button i {
+        margin-right: 5px; }
+    .filters .add-filter .add-filter-form {
+      border: solid 1px #BA1C1E;
+      background: #FFFFFF;
+      width: 200px;
+      position: absolute;
+      left: -50%;
+      right: -50%;
+      display: none;
+      padding: 10px;
+      top: 98%; }
+      .filters .add-filter .add-filter-form:before {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 0 5px 5px;
+        border-color: #BA1C1E transparent;
+        display: block;
+        width: 0;
+        z-index: 0;
+        margin-left: -5px;
+        top: -6px;
+        left: 50%; }
+      .filters .add-filter .add-filter-form:after {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 0 5px 5px;
+        border-color: #FFFFFF transparent;
+        display: block;
+        width: 0;
+        z-index: 1;
+        margin-left: -5px;
+        top: -5px;
+        left: 50%; }
+      .filters .add-filter .add-filter-form .select-filter select {
+        border: solid 1px gray;
+        border-radius: 0;
+        width: 100%;
+        padding: 5px; }
+      .filters .add-filter .add-filter-form .select-filter:before {
+        content: '>';
+        font: 11px "Consolas", monospace;
+        color: #aaa;
+        -webkit-transform: rotate(90deg);
+        transform: rotate(90deg);
+        right: 8px;
+        top: 2px;
+        padding: 0 0 2px;
+        border-bottom: 1px solid #ddd;
+        position: absolute;
+        pointer-events: none; }
+      .filters .add-filter .add-filter-form .select-filter:after {
+        content: '';
+        right: 6px;
+        top: 0px;
+        width: 20px;
+        height: 20px;
+        background: #f8f8f8;
+        position: absolute;
+        pointer-events: none;
+        display: block; }
+      .filters .add-filter .add-filter-form .define-filter {
+        width: 100%;
+        border: solid 1px gray;
+        padding: 5px;
+        border-radius: 0; }
+      .filters .add-filter .add-filter-form .add-filter-button {
+        border: solid 1px #BA1C1E;
+        color: #BA1C1E;
+        background: #FFFFFF; }
+  .filters .apply-filters {
+    border: solid 1px #BA1C1E;
+    color: #BA1C1E; }
 
 .pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
   background-color: #E0E0E0;
