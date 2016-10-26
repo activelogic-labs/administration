@@ -10,7 +10,7 @@
         <span>Add Filter</span>
     </div>
     <form class="add-filter-form">
-        <div class="select-filter-label">Select a filter</div>
+        <div class="select-filter-label">Select a Filter</div>
         <div class="select-filter">
             <select name="filterColumn">
                 <option selected disabled>Filters</option>
@@ -20,7 +20,6 @@
             </select>
         </div>
         <div class="define-filter-label">Filter Value</div>
-        {{--<input class="define-filter" name="filterValue" placeholder="Filter Value">--}}
         <button class="filter-button add-filter-button">Add</button>
     </form>
 </div>

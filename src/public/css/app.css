@@ -954,7 +954,8 @@ body {
         border: solid 1px gray;
         border-radius: 0;
         width: 100%;
-        padding: 5px; }
+        padding: 5px;
+        margin: 5px 0 10px 0; }
       .filters .add-filter .add-filter-form .select-filter:before {
         content: '>';
         font: 11px "Consolas", monospace;
@@ -981,11 +982,14 @@ body {
         width: 100%;
         border: solid 1px gray;
         padding: 5px;
-        border-radius: 0; }
+        border-radius: 0;
+        margin: 5px 0 10px 0; }
       .filters .add-filter .add-filter-form .add-filter-button {
         border: solid 1px #BA1C1E;
         color: #BA1C1E;
-        background: #FFFFFF; }
+        background: #FFFFFF;
+        display: inherit;
+        margin: 5px auto; }
   .filters .apply-filters {
     border: solid 1px #BA1C1E;
     color: #BA1C1E; }

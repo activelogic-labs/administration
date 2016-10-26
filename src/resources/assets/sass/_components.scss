@@ -115,6 +115,7 @@
                     border-radius: 0;
                     width: 100%;
                     padding: 5px;
+                    margin: 5px 0 10px 0;
 
                 }
 
@@ -153,6 +154,7 @@
                 border: solid 1px gray;
                 padding: 5px;
                 border-radius: 0;
+                margin: 5px 0 10px 0;
 
             }
 
@@ -160,6 +162,8 @@
                 border: solid 1px $theme-primary;
                 color: $theme-primary;
                 background: #FFFFFF;
+                display: inherit;
+                margin: 5px auto;
             }
         }
     }

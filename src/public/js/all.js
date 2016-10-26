@@ -14,7 +14,7 @@ var self,
         },
 
         addFilterForm: $(".add-filter-form"),
-        filterSelect: $("[name=filterColumn"),
+        filterSelect: $("[name=filterColumn]"),
 
         filters: $(".applied-filters"),
 
@@ -29,6 +29,14 @@ var self,
         bindUIActions: function() {
             buttons.newFilter.on("click", function() {
                 self.addFilterForm.toggle();
+            });
+
+            $(document).mouseup(function (event) {
+                console.log(event.target);
+                if (!self.addFilterForm.is(event.target) && self.addFilterForm.has(event.target).length === 0) {
+                    console.log("outside form");
+                    self.addFilterForm.hide();
+                }
             });
 
             self.filterSelect.change(function() {

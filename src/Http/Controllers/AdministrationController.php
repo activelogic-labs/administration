@@ -332,7 +332,7 @@ class AdministrationController extends Controller
             $rawData = array_fill_keys(array_keys($fields), null);
         }
 
-        $data = $this->buildComponents($model, $fields, $this->fieldDefinitions, [$rawData]);
+        $data = $this->buildComponentsFromData($model, $fields, $this->fieldDefinitions, [$rawData]);
 
         $info = [
             'group_title' => "General Information",

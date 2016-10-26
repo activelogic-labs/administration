@@ -138,7 +138,9 @@
     @endif
 
     <script>
-        Filters.init({!! json_encode($filterable) !!});
+        @if(isset($filterable))
+            Filters.init({!! json_encode($filterable) !!});
+        @endif
     </script>
 
     @stack("js")
