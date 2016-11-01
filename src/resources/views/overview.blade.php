@@ -2,6 +2,7 @@
 
 @section("header")
     <div class="header" style="height: auto;">
+        {{--NOTE: include filter language only when filtering--}}
         <h1>{{ $title }} <small>{{ $data->total()}} {{ \Illuminate\Support\Str::plural($title) }} found matching filters</small></h1>
         @if($filterable)
             <div class="filters">
@@ -14,6 +15,7 @@
                     @each('administration::components.filter', $filters, 'filter')
                 </div>
                 <div class="filter-actions">
+                    @include('administration::components.sort', $sorts, 'sorts')
                     @include('administration::components.add-filter')
                     @include('administration::components.apply-filters')
                 </div>

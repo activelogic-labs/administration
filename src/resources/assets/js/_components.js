@@ -3,7 +3,7 @@
  */
 
 
-var self,
+let self,
     settings,
     buttons,
     Filters = {

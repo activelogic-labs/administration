@@ -95,6 +95,7 @@ trait ComponentBuilder
         if (is_string($model)) {
             $model = new $model();
         }
+//        dd(get_class_methods($model));
 
         //--- Get Primary Key
         $primaryKey = $model->getKeyName();

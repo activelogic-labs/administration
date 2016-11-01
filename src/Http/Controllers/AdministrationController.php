@@ -42,6 +42,7 @@ class AdministrationController extends Controller
     public $class;
     public $routes;
     public $filters = [];
+    public $sorts = [];
 
     /**
      * Section constructor.
@@ -65,6 +66,12 @@ class AdministrationController extends Controller
         if ($request->has('filters')) {
             foreach ($request->input('filters') as $column => $value) {
                 $this->filters[$column] = $value;
+            }
+        }
+
+        if ($request->has('sorts')) {
+            foreach ($request->input('sorts') as $column => $direction) {
+                $this->sorts[$column] = $direction;
             }
         }
 
@@ -98,6 +105,7 @@ class AdministrationController extends Controller
             'overviewTitleButtons' => $this->buildTitleButtons($this->titleButtons),
             'filterable' => $this->filterable,
             'filters' => $this->filters,
+            'sorts' => $this->sorts,
             'data' => $data,
             'page_links' => $links,
             'title_buttons' => $this->titleButtons,
@@ -417,7 +425,7 @@ class AdministrationController extends Controller
 
         }
 
-        $dataGroup['data'] = $this->buildComponents($model, $this->buildFields($dataGroup['group_fields']), $this->fieldDefinitions, [$modelData]);
+        $dataGroup['data'] = $this->buildComponentsFromData($model, $this->buildFields($dataGroup['group_fields']), $this->fieldDefinitions, [$modelData]);
 
         return $dataGroup;
     }
