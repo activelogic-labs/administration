@@ -11,13 +11,22 @@ let self,
             newFilter: $(".new-filter-button"),
             applyFilters: $(".apply-filters"),
             removeFilter: $(".remove-filter"),
-            addFilter: $(".add-filter-button")
+            addFilter: $(".add-filter-button"),
+
+            newSort: $(".new-sort-button"),
+            addSort: $(".add-sort-button"),
+            removeSort: $(".remove-sort"),
+
         },
 
         addFilterForm: $(".add-filter-form"),
         filterSelect: $("[name=filterColumn]"),
 
         filters: $(".applied-filters"),
+
+        addSortForm: $(".add-sort-form"),
+
+        sorts: $(".applied-sorts"),
 
         init: function(filterSettings) {
             self = this;
@@ -26,9 +35,15 @@ let self,
 
             this.bindUIActions();
             this.removeAppliedFiltersFromSelection();
+
+            if (self.sorts.children(":not(:first-child)").length != 0) {
+                buttons.newSort.hide();
+            };
         },
 
         bindUIActions: function() {
+            //--- Filtering
+            //NOTE: The open and close events firing at the same time
             buttons.newFilter.on("click", function() {
                 self.addFilterForm.toggle();
             });
@@ -38,6 +53,12 @@ let self,
                     self.addFilterForm.find("[name=filterColumn] :first-child").prop('selected', 'selected');
                     self.addFilterForm.find(".filter-input").hide();
                     self.addFilterForm.hide();
+                }
+
+                if (!self.addSortForm.is(event.target) && self.addSortForm.has(event.target).length === 0) {
+                    self.addSortForm.find("[name=filterColumn] :first-child").prop('selected', 'selected');
+                    self.addSortForm.find(".filter-input").hide();
+                    self.addSortForm.hide();
                 }
             });
 
@@ -91,6 +112,33 @@ let self,
             if (self.filters.children(":not(:first-child)").length !== 0) {
                 self.bindApplyFiltersAction();
             }
+
+            //--- Sorting
+            buttons.newSort.click(function() {
+                self.addSortForm.toggle();
+            });
+
+            self.addSortForm.submit(function(event) {
+                event.preventDefault();
+
+                let column = $(this).find("[name=sortColumn] :selected").html();
+                let direction = $(this).find("[name=sortDirection] :selected").val();
+
+                self.addSort(column, direction);
+
+                self.addSortForm.toggle();
+                buttons.newSort.hide();
+
+                self.bindApplyFiltersAction();
+            });
+
+            buttons.removeSort.click(function() {
+                $(this).parent().remove();
+
+                buttons.newSort.show();
+
+                self.bindApplyFiltersAction();
+            });
         },
 
         addFilter: function(column, value) {
@@ -100,6 +148,15 @@ let self,
             newFilter.find(".value").html(value);
 
             self.filters.append(newFilter);
+        },
+
+        addSort: function(column, direction) {
+            let newSort = self.sorts.find('.sort').first().clone(true);
+
+            newSort.find(".column").html(column);
+            newSort.find('.direction').html(direction);
+
+            self.sorts.append(newSort);
         },
 
         bindApplyFiltersAction: function() {
@@ -118,6 +175,17 @@ let self,
                     }
 
                     url += "filters[" + encodeURI(column) + "]=" + encodeURI(value);
+                });
+
+                self.sorts.children(":not(:first-child)").each(function(index, sort) {
+                    let column = $(sort).find(".column").html();
+                    let direction = $(sort).find(".direction").html();
+
+                    if (index != 0) {
+                        url += '&';
+                    }
+
+                    url += "sorts[" + encodeURI(column) + "]=" + encodeURI(direction);
                 });
 
                 window.location = url;

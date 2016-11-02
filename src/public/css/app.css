@@ -960,7 +960,6 @@ body {
         content: '>';
         font: 11px "Consolas", monospace;
         color: #aaa;
-        -webkit-transform: rotate(90deg);
         transform: rotate(90deg);
         right: 8px;
         top: 2px;
@@ -997,6 +996,106 @@ body {
     border-style: solid;
     border-color: #E8E7E5;
     border-width: 1px; }
+  .filters .applied-sorts {
+    display: inherit; }
+  .filters .sort {
+    background-color: #8e1517;
+    color: #FFFFFF;
+    border: solid 1px #BA1C1E; }
+    .filters .sort:first-child {
+      display: none; }
+    .filters .sort .column:after {
+      content: ':'; }
+    .filters .sort .direction {
+      color: #F5F5F5; }
+      .filters .sort .direction:after {
+        content: '';
+        margin-right: 10px; }
+    .filters .sort .remove-sort {
+      color: white; }
+  .filters .add-sort {
+    display: inline-block;
+    position: relative; }
+    .filters .add-sort .new-sort-button {
+      border: solid 1px #BA1C1E;
+      color: #BA1C1E; }
+      .filters .add-sort .new-sort-button i {
+        margin-right: 5px; }
+    .filters .add-sort .add-sort-form {
+      border: solid 1px #BA1C1E;
+      background: #FFFFFF;
+      width: 200px;
+      position: absolute;
+      left: -50%;
+      right: -50%;
+      display: none;
+      padding: 10px;
+      top: 98%; }
+      .filters .add-sort .add-sort-form:before {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 0 5px 5px;
+        border-color: #BA1C1E transparent;
+        display: block;
+        width: 0;
+        z-index: 0;
+        margin-left: -5px;
+        top: -6px;
+        left: 50%; }
+      .filters .add-sort .add-sort-form:after {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 0 5px 5px;
+        border-color: #FFFFFF transparent;
+        display: block;
+        width: 0;
+        z-index: 1;
+        margin-left: -5px;
+        top: -5px;
+        left: 50%; }
+      .filters .add-sort .add-sort-form .select-sort select {
+        border: solid 1px gray;
+        border-radius: 0;
+        width: 100%;
+        padding: 5px;
+        margin: 5px 0 10px 0; }
+      .filters .add-sort .add-sort-form .select-sort:before {
+        content: '>';
+        font: 11px "Consolas", monospace;
+        color: #aaa;
+        transform: rotate(90deg);
+        right: 8px;
+        top: 2px;
+        padding: 0 0 2px;
+        border-bottom: 1px solid #ddd;
+        position: absolute;
+        pointer-events: none; }
+      .filters .add-sort .add-sort-form .select-sort:after {
+        content: '';
+        right: 6px;
+        top: 0px;
+        width: 20px;
+        height: 20px;
+        background: #f8f8f8;
+        position: absolute;
+        pointer-events: none;
+        display: block; }
+      .filters .add-sort .add-sort-form .sort-input .define-sort {
+        width: 100%;
+        border: solid 1px gray;
+        border-radius: 0;
+        margin: 5px 0 10px 0; }
+        .filters .add-sort .add-sort-form .sort-input .define-sort select {
+          width: 100%;
+          padding: 5px; }
+      .filters .add-sort .add-sort-form .sort-input .add-sort-button {
+        border: solid 1px #BA1C1E;
+        color: #BA1C1E;
+        background: #FFFFFF;
+        display: inherit;
+        margin: 5px auto; }
 
 .pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
   background-color: #E0E0E0;

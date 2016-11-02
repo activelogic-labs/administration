@@ -42,12 +42,27 @@
             <ul>
                 @foreach($navigation as $nav)
 
-                    <li>
-                        <a href="{{ $nav->url }}">
-                            <i class="fa {{ $nav->icon }}"></i>
-                            <span>{{ $nav->title }}</span>
-                        </a>
-                    </li>
+                    @if(isset($nav->model))
+
+                        @can('view', $nav->class)
+                            <li>
+                                <a href="{{ $nav->url }}">
+                                    <i class="fa {{ $nav->icon }}"></i>
+                                    <span>{{ $nav->title }}</span>
+                                </a>
+                            </li>
+                        @endcan
+
+                    @else
+
+                        <li>
+                            <a href="{{ $nav->url }}">
+                                <i class="fa {{ $nav->icon }}"></i>
+                                <span>{{ $nav->title }}</span>
+                            </a>
+                        </li>
+
+                    @endif
 
                 @endforeach
             </ul>

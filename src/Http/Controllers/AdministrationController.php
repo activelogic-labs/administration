@@ -10,6 +10,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class AdministrationController extends Controller
@@ -27,6 +28,7 @@ class AdministrationController extends Controller
     public $detailGroups;
     public $titleButtons = [];
     public $filterable = [];
+    public $sortable = [];
 
     public $enableAddingRecords = true;
     public $enableExportingRecords = true;
@@ -42,6 +44,7 @@ class AdministrationController extends Controller
     public $class;
     public $routes;
     public $filters = [];
+    public $forcedFilters = [];
     public $sorts = [];
 
     /**
@@ -63,6 +66,8 @@ class AdministrationController extends Controller
      */
     public function index(Request $request)
     {
+        $user = Auth::loginUsingId(1);
+
         if ($request->has('filters')) {
             foreach ($request->input('filters') as $column => $value) {
                 $this->filters[$column] = $value;
@@ -97,6 +102,7 @@ class AdministrationController extends Controller
 
         return Core::view( Core::PAGE_TYPE_OVERVIEW, [
             'title' => $this->title,
+            'model' => $this->model,
             'detail_url' => Core::url($this->slug . "/detail"),
             'import_url' => Core::url($this->slug . "/import_data"),
             'export_url' => Core::url($this->slug . "/export_data"),
@@ -105,6 +111,7 @@ class AdministrationController extends Controller
             'overviewTitleButtons' => $this->buildTitleButtons($this->titleButtons),
             'filterable' => $this->filterable,
             'filters' => $this->filters,
+            'sortable' => $this->sortable,
             'sorts' => $this->sorts,
             'data' => $data,
             'page_links' => $links,
@@ -417,7 +424,15 @@ class AdministrationController extends Controller
      */
     public function buildStandardDataGroup($dataGroup, $model)
     {
-        $modelData = $model->getAttributes();
+        if (isset($dataGroup['relationship'])) {
+
+            $modelData = $model->{$dataGroup['relationship']}->getAttributes();
+
+        } else {
+
+            $modelData = $model->getAttributes();
+
+        }
 
         if (empty($modelData)) {
 

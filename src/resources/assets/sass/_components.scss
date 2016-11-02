@@ -149,7 +149,6 @@
                 display: none;
 
                 .define-filter-label {
-
                 }
 
                 .define-filter {
@@ -178,5 +177,162 @@
         border-color: #E8E7E5;
         border-width: 1px;
 
+    }
+
+    .applied-sorts {
+        display: inherit;
+    }
+
+    .sort {
+        background-color: darken($theme-primary, 10%);
+        color: #FFFFFF;
+        border: solid 1px $theme-primary;
+
+        &:first-child {
+            display: none;
+
+        }
+
+        .column {
+
+            &:after {
+                content: ':';
+            }
+        }
+
+        .direction {
+            color: #F5F5F5;
+
+            &:after {
+                content: '';
+                margin-right: 10px;
+            }
+        }
+
+        .remove-sort {
+            color: white;
+        }
+    }
+
+    .add-sort {
+        display: inline-block;
+        position: relative;
+
+        .new-sort-button {
+            border: solid 1px $theme-primary;
+            color: $theme-primary;
+
+            i {
+                margin-right: 5px;
+            }
+        }
+
+        .add-sort-form {
+            border: solid 1px $theme-primary;
+            background: #FFFFFF;
+            width: 200px;
+            position: absolute;
+            left: -50%;
+            right: -50%;
+            display: none;
+            padding: 10px;
+            top: 98%;
+
+            &:before {
+                content: '';
+                position: absolute;
+                border-style: solid;
+                border-width: 0 5px 5px;
+                border-color: $theme-primary transparent;
+                display: block;
+                width: 0;
+                z-index: 0;
+                margin-left: -5px;
+                top: -6px;
+                left: 50%;
+            }
+
+            &:after {
+                content: '';
+                position: absolute;
+                border-style: solid;
+                border-width: 0 5px 5px;
+                border-color: #FFFFFF transparent;
+                display: block;
+                width: 0;
+                z-index: 1;
+                margin-left: -5px;
+                top: -5px;
+                left: 50%;
+            }
+
+            .select-sort-label {
+
+            }
+
+            .select-sort {
+
+                select {
+                    border: solid 1px gray;
+                    border-radius: 0;
+                    width: 100%;
+                    padding: 5px;
+                    margin: 5px 0 10px 0;
+
+                }
+
+                &:before {
+                    content:'>';
+                    font:11px "Consolas", monospace;
+                    color:#aaa;
+                    -webkit-transform:rotate(90deg);
+                    -moz-transform:rotate(90deg);
+                    -ms-transform:rotate(90deg);
+                    transform:rotate(90deg);
+                    right:8px; top:2px;
+                    padding:0 0 2px;
+                    border-bottom:1px solid #ddd;
+                    position:absolute;
+                    pointer-events:none;
+                }
+
+                &:after {
+                    content:'';
+                    right:6px; top:0px;
+                    width:20px; height:20px;
+                    background:#f8f8f8;
+                    position:absolute;
+                    pointer-events:none;
+                    display:block;
+                }
+            }
+
+            .sort-input {
+
+                .define-sort-label {
+                }
+
+                .define-sort {
+                    width: 100%;
+                    border: solid 1px gray;
+                    border-radius: 0;
+                    margin: 5px 0 10px 0;
+
+                    select {
+                        width: 100%;
+                        padding: 5px;
+                    }
+
+                }
+
+                .add-sort-button {
+                    border: solid 1px $theme-primary;
+                    color: $theme-primary;
+                    background: #FFFFFF;
+                    display: inherit;
+                    margin: 5px auto;
+                }
+            }
+        }
     }
 }

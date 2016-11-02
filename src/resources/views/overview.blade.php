@@ -14,8 +14,18 @@
                     </div>
                     @each('administration::components.filter', $filters, 'filter')
                 </div>
+                @if($sortable)
+                    <div class="applied-sorts">
+                        <div class="sort filter-button">
+                            <span class="column"></span>
+                            <span class="direction"></span>
+                            <a class="remove-sort"><i class="fa fa-times-circle"></i></a>
+                        </div>
+                        @each('administration::components.sort', $sorts, 'sort')
+                    </div>
+                @endif
                 <div class="filter-actions">
-                    @include('administration::components.sort', $sorts, 'sorts')
+                    @include('administration::components.add-sort')
                     @include('administration::components.add-filter')
                     @include('administration::components.apply-filters')
                 </div>
@@ -25,7 +35,9 @@
         <div class="buttons">
 
             @if($enable_adding_records)
-                <a href="{{ $detail_url }}"><i class="icon fa fa-plus"></i> Create New {{ \Illuminate\Support\Str::singular($title) }}</a>
+                @can('create', $model)
+                    <a href="{{ $detail_url }}"><i class="icon fa fa-plus"></i> Create New {{ \Illuminate\Support\Str::singular($title) }}</a>
+                @endcan
             @endif
 
             @if($enable_exporting_records)

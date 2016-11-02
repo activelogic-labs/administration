@@ -11,6 +11,7 @@ use Activelogiclabs\Administration\Admin\FieldComponents\Text;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 
+//NOTE: Refactor to remove variable passing
 trait ComponentBuilder
 {
     public function buildComponentsWithFilters($model, $fields, $definitions = [], $filters = [])
@@ -117,32 +118,101 @@ trait ComponentBuilder
 
         if (!empty($filters)) {
 
-            foreach ($filters as $column => $value) {
-                $filter = $this->filterable[Str::snake($column)];
+//            foreach ($filters as $column => $value) {
+//                $filter = $this->filterable[Str::snake($column)];
+//
+//                if (isset($filter['scope'])) {
+//
+//                    if (method_exists($model, "scope" . ucfirst($filter['scope']))) {
+//
+//                        $query->{$filter['scope']}($value);
+//
+//                    } else {
+//
+//                        throw new FilterException("Query scope does not exist on model");
+//
+//                    }
+//
+//                    continue;
+//
+//                }
+//
+//                $query->where(Str::snake($column), $value);
+//            }
+            $query = $this->applyFilters($query, $model, $filters);
 
-                if (isset($filter['scope'])) {
+        }
 
-                    if (method_exists($model, "scope" . ucfirst($filter['scope']))) {
+        if (!empty($this->forcedFilters)) {
 
-                        $query->{$filter['scope']}($value);
+            $query = $this->applyFilters($query, $model, $this->forcedFilters);
 
-                    } else {
+        }
 
-                        throw new FilterException("Query scope does not exist on model");
+        if (!empty($this->sorts)) {
 
-                    }
-
-                    continue;
-
-                }
-
-                $query->where(Str::snake($column), $value);
-            }
+            $query = $this->applySorts($query, $model, $this->sorts);
 
         }
 
         return $query->paginate();
     }
+
+    protected function applyFilters($query, $model, $filters)
+    {
+        foreach ($filters as $column => $value) {
+            $filter = $this->filterable[Str::snake($column)];
+
+            if (isset($filter['scope'])) {
+
+                if (method_exists($model, "scope" . ucfirst($filter['scope']))) {
+
+                    $query->{$filter['scope']}($value);
+
+                } else {
+
+                    throw new FilterException("Query scope does not exist on model");
+
+                }
+
+                continue;
+
+            }
+
+            $query->where(Str::snake($column), $value);
+        }
+
+        return $query;
+    }
+
+    protected function applySorts($query, $model, $sorts)
+    {
+        foreach ($sorts as $column => $direction) {
+            $sort = $this->sortable[Str::snake($column)];
+
+            if (isset($sort['scope'])) {
+
+                if (method_exists($model, "scope" .  ucfirst($sort['scope']))) {
+
+                    $query->{$sort['scope']}($direction);
+
+                } else {
+
+                    throw new SortException("Query scope does not exist on model");
+
+                }
+
+                continue;
+
+            }
+
+            $query->orderBy(Str::snake($column), $direction);
+        }
+
+        return $query;
+    }
 }
 
 class FilterException extends \Exception {}
+
+class SortException extends \Exception {}

@@ -6,6 +6,6 @@
 
 <div class="sort filter-button">
     <span class="column">{{ $key }}</span>
-    <span class="direction">{{ $filter }}</span>
+    <span class="direction">{{ $sort }}</span>
     <a class="remove-sort"><i class="fa fa-times-circle"></i></a>
 </div>
