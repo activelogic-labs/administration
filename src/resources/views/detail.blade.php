@@ -14,6 +14,8 @@
 
     <form method="POST" id="detailForm" action="{{ $save_url }}" enctype="multipart/form-data">
 
+        {{ csrf_field() }}
+
         @foreach($detailGroups as $detailGroup)
 
             <!-- Group: Standard -->
