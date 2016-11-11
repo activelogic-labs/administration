@@ -44,7 +44,7 @@
 
                     @if(isset($nav->model))
 
-                        @can('view', $nav->class)
+                        @can('navView', $nav->class)
                             <li>
                                 <a href="{{ $nav->url }}">
                                     <i class="fa {{ $nav->icon }}"></i>
