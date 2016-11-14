@@ -21,6 +21,8 @@
         @endforeach
     @endif
 
+    <script src="https://use.fontawesome.com/d1e2052865.js"></script>
+
 </head>
 <body id="app-layout">
 
@@ -44,7 +46,7 @@
 
                     @if(isset($nav->model))
 
-                        @can('view', $nav->class)
+                        @can('navView', $nav->class)
                             <li>
                                 <a href="{{ $nav->url }}">
                                     <i class="fa {{ $nav->icon }}"></i>

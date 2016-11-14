@@ -66,8 +66,6 @@ class AdministrationController extends Controller
      */
     public function index(Request $request)
     {
-        $user = Auth::loginUsingId(1);
-
         if ($request->has('filters')) {
             foreach ($request->input('filters') as $column => $value) {
                 $this->filters[$column] = $value;

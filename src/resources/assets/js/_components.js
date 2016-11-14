@@ -74,7 +74,7 @@ let self,
                 self.addFilterForm.find(".filter-input").show();
 
                 if (filterConfig.hasOwnProperty('type')) {
-                    window["Filters"][filterConfig.type + "Input"](filterConfig);
+                    self[filterConfig.type + "Input"](filterConfig);
                 } else {
                     self.stringInput();
                 }

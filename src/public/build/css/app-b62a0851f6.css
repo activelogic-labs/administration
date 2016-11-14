@@ -577,7 +577,8 @@ body {
 
 #main #content .toolbar {
   height: 54px;
-  background: #BA1C1E; }
+  background: #BA1C1E;
+  color: white; }
   #main #content .toolbar .buttons {
     display: block;
     margin: 17px 17px 0 0;
