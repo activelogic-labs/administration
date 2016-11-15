@@ -160,8 +160,9 @@ let self,
         },
 
         bindApplyFiltersAction: function() {
-            buttons.applyFilters.css("color", "#BA1C1E");
-            buttons.applyFilters.css("border-color", "#BA1C1E");
+            // buttons.applyFilters.css("color", "#BA1C1E");
+            // buttons.applyFilters.css("border-color", "#BA1C1E");
+            buttons.applyFilters.addClass('active-filters');
 
             buttons.applyFilters.on("click", function() {
                 var url = $(location).attr('pathname') + "?";

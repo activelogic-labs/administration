@@ -997,6 +997,9 @@ body {
     border-style: solid;
     border-color: #E8E7E5;
     border-width: 1px; }
+    .filters .apply-filters .active-filters {
+      color: #BA1C1E;
+      border-color: #BA1C1E; }
   .filters .applied-sorts {
     display: inherit; }
   .filters .sort {
