@@ -5,7 +5,9 @@
         <h1>{{ $title }} <span id="subtitle">{{ $subtitle }}</span></h1>
         <div class="buttons">
             <a id="backButton" href="{{ $back_url }}"><i class="fa fa-angle-left"></i> Back</a>
-            <a id="deleteButton" href="{{ $delete_url }}" style="border: solid 1px #c50000; color: #c50000" onClick="Javascript:return confirm('Are you sure you want to delete this record?');"><i class="fa fa-trash"></i> Delete</a>
+            @can('create', $model)
+                <a id="deleteButton" href="{{ $delete_url }}" style="border: solid 1px #c50000; color: #c50000" onClick="Javascript:return confirm('Are you sure you want to delete this record?');"><i class="fa fa-trash"></i> Delete</a>
+            @endcan
         </div>
     </div>
 @endsection
@@ -23,10 +25,12 @@
 
                 <div class="data-header">
                     <h1>{{ $detailGroup['group_title'] }}</h1>
-                    <ul>
-                        <li><span><i class="fa fa-pencil"></i> Click field to edit</span></li>
-                        <li><input type="submit" name="submit" value="Save" /></li>
-                    </ul>
+                    @can('create', $model)
+                        <ul>
+                            <li><span><i class="fa fa-pencil"></i> Click field to edit</span></li>
+                            <li><input type="submit" name="submit" value="Save" /></li>
+                        </ul>
+                    @endcan
                     <div class="clearfix"></div>
                 </div>
 
@@ -36,7 +40,11 @@
                         @foreach($detailGroup['group_fields'] as $id => $value)
                             <div class="data-group-field">
                                 <div class="title">{{ $value }}</div>
-                                <div class="value">{!! $row[$id]->fieldView() !!}</div>
+                                @if(Auth::User()->can('create', $model))
+                                    <div class="value">{!! $row[$id]->fieldView() !!}</div>
+                                @else
+                                    <div class="value">{!! $row[$id]->dataView() !!}</div>
+                                @endif
                             </div>
                         @endforeach
                     @endforeach
@@ -53,8 +61,10 @@
                 <div class="data-header">
                     <h1>{{ $detailGroup['group_title'] }}</h1>
                     <ul>
-                        <li><span><i class="fa fa-pencil"></i> Click field to edit, then click save</span></li>
-                        <li><input type="submit" name="submit" value="Save" /></li>
+                        @can('create', $model)
+                            <li><span><i class="fa fa-pencil"></i> Click field to edit, then click save</span></li>
+                            <li><input type="submit" name="submit" value="Save" /></li>
+                        @endcan
                     </ul>
                     <div class="clearfix"></div>
                 </div>
@@ -71,8 +81,10 @@
                 <div class="data-header">
                     <h1>{{ $detailGroup['group_title'] }}</h1>
                     <ul>
-                        <li><span><i class="fa fa-pencil"></i> Click field to edit</span></li>
-                        <li><input type="submit" name="submit" value="Save" /></li>
+                        @can('create', $model)
+                            <li><span><i class="fa fa-pencil"></i> Click field to edit</span></li>
+                            <li><input type="submit" name="submit" value="Save" /></li>
+                        @endcan
                     </ul>
                     <div class="clearfix"></div>
                 </div>

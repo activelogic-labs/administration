@@ -156,7 +156,8 @@ class AdministrationController extends Controller
             'back_url' => Core::url($this->slug),
             'title' => 'Details',
             'subtitle' => $id,
-            'detailGroups' => $detailGroups
+            'detailGroups' => $detailGroups,
+            'model' => $this->model
         ]);
     }
 
