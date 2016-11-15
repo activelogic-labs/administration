@@ -24,7 +24,7 @@ class Password extends FieldComponent
      */
     public function fieldView()
     {
-        $placeholder = "* * * * *";
+        $placeholder = "Enter your password...";
 
         if (!empty($this->value)) {
             $placeholder = "* * * * *";
