@@ -80,26 +80,6 @@ class AdministrationController extends Controller
             }
         }
 
-        $data = $this->buildComponentsWithFilters($this->model, $this->buildFields($this->overviewFields), $this->fieldDefinitions, $this->filters);
-        return $this->baseIndex($data);
-    }
-
-    /**
-     * @param array $rawDataArray
-     * @return mixed
-     */
-    public function baseIndex($data)
-    {
-        if(empty($data)){
-            $data = [];
-        }
-
-        if(is_array($data)){
-            $data = $this->buildComponents($this->model, $this->buildFields($this->overviewFields), $this->fieldDefinitions, [], $data);
-        }
-
-        $links = $data->appends($this->paginateFilters())->links('administration::pagination.admin-pagination');
-
         return Core::view( Core::PAGE_TYPE_OVERVIEW, [
             'title' => $this->title,
             'model' => $this->model,
@@ -107,14 +87,12 @@ class AdministrationController extends Controller
             'import_url' => Core::url($this->slug . "/import_data"),
             'export_url' => Core::url($this->slug . "/export_data"),
             'sort_url' => Core::url($this->slug . "/overview/sort"),
-            'overviewFields' => $this->buildFields($this->overviewFields),
             'overviewTitleButtons' => $this->buildTitleButtons($this->titleButtons),
             'filterable' => $this->filterable,
             'filters' => $this->filters,
             'sortable' => $this->sortable,
             'sorts' => $this->sorts,
-            'data' => $data,
-            'page_links' => $links,
+            'dataset' => $this->buildComponents(),
             'title_buttons' => $this->titleButtons,
             'enable_adding_records' => $this->enableAddingRecords,
             'enable_exporting_records' => $this->enableExportingRecords,
@@ -296,45 +274,6 @@ class AdministrationController extends Controller
         }
 
         return $detailGroups;
-    }
-
-    /**
-     * Build Fields
-     *
-     * @param array $fields
-     * @return array
-     */
-    protected function buildFields($fields = [], $includeHiddenFields = false)
-    {
-        if (empty($fields)) {
-
-            $model = new $this->model();
-
-            $columns = [];
-
-            foreach ($model->getConnection()->getSchemaBuilder()->getColumnListing($model->getTable()) as $column) {
-                $columns[$column] = ucwords(str_replace("_", " ", $column));
-            }
-
-            if($includeHiddenFields == false){
-                $hidden = $model->getHidden();
-                if (!empty($hidden)) {
-                    foreach ($hidden as $remove) {
-                        unset($columns[$remove]);
-                    }
-                }
-            }
-
-            //TODO: Deal with visible fields
-            if ($model->usesTimestamps()) {
-                unset($columns[$model->getCreatedAtColumn()]);
-                unset($columns[$model->getUpdatedAtColumn()]);
-            }
-
-            $fields = $columns;
-        }
-
-        return $fields;
     }
 
     /**
