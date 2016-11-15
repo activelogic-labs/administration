@@ -24,13 +24,19 @@ class Password extends FieldComponent
      */
     public function fieldView()
     {
-        return "<input type=\"password\" name=\"{$this->name}\" placeholder=\"Enter to reset password...\">";
+        $placeholder = "* * * * *";
+
+        if (!empty($this->value)) {
+            $placeholder = "* * * * *";
+        }
+
+        return "<input type=\"password\" name=\"{$this->name}\" placeholder=\"{$placeholder}\">";
     }
 
     public function onSubmit()
     {
         if($this->value){
-            return Hash::make($this->value);
+            return bcrypt($this->value);
         }
 
         return null;

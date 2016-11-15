@@ -177,7 +177,7 @@
         border-color: #E8E7E5;
         border-width: 1px;
 
-        .active-filters {
+        &.active-filters {
             color: $theme-primary;
             border-color: $theme-primary;
         }
