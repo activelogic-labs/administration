@@ -961,6 +961,7 @@ body {
         content: '>';
         font: 11px "Consolas", monospace;
         color: #aaa;
+        -webkit-transform: rotate(90deg);
         transform: rotate(90deg);
         right: 8px;
         top: 2px;
@@ -1069,6 +1070,7 @@ body {
         content: '>';
         font: 11px "Consolas", monospace;
         color: #aaa;
+        -webkit-transform: rotate(90deg);
         transform: rotate(90deg);
         right: 8px;
         top: 2px;
