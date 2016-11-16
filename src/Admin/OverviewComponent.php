@@ -2,6 +2,8 @@
 
 namespace Activelogiclabs\Administration\Admin;
 
+use Illuminate\Pagination\LengthAwarePaginator;
+
 class OverviewComponent
 {
     public $label;
@@ -9,4 +11,5 @@ class OverviewComponent
     public $data;
     public $pagination;
     public $overviewFields;
+    public $total;
 }

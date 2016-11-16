@@ -1,10 +1,11 @@
 @extends("administration::layouts.admin")
 
 @section("header")
+
     <div class="header" style="height: auto;">
         {{--NOTE: include filter language only when filtering--}}
         @if(count($dataset) == 1)
-            <h1>{{ $title }} <small>{{ $dataset[0]->data->total()}} {{ \Illuminate\Support\Str::plural($title) }} found matching filters</small></h1>
+            <h1>{{ $title }} <small>{{ $dataset[0]->total }} {{ \Illuminate\Support\Str::plural($title) }} found matching filters</small></h1>
         @else
             <h1>{{ $title }}</h1>
         @endif
@@ -69,7 +70,7 @@
 
         @endif
 
-        @if($overviewComponent->data->total() == 0)
+        @if($overviewComponent->total == 0)
 
             <div class="missing_records">There are no records...</div>
 
@@ -96,6 +97,7 @@
             </table>
 
             <!-- Pagination -->
+            {{ $overviewComponent->pagination }}
 
         @endif
 

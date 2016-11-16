@@ -54,11 +54,23 @@ trait ComponentBuilder
                 }
 
                 $overviewComponent = new OverviewComponent();
-                $overviewComponent->data = $paginator->setCollection(collect($dataSet));
                 $overviewComponent->label = $label;
                 $overviewComponent->caption = $caption;
-                $overviewComponent->pagination = false;
                 $overviewComponent->overviewFields = $this->buildFields($group_fields);
+                $overviewComponent->pagination = false;
+
+                if(empty($group_overview['pagination']) && $group_overview['pagination'] == true){
+
+                    $overviewComponent->data = $paginator->setCollection(collect($dataSet));
+                    $overviewComponent->pagination = $overviewComponent->data->appends($this->paginateFilters())->links('administration::pagination.admin-pagination');
+                    $overviewComponent->total = $overviewComponent->data->total();
+
+                }else{
+
+                    $overviewComponent->data = collect($dataSet);
+                    $overviewComponent->total = $overviewComponent->data->count();
+
+                }
 
                 $data[] = $overviewComponent;
             }
@@ -83,6 +95,8 @@ trait ComponentBuilder
         $overviewComponent->data = $paginator->setCollection(collect($dataSet));
         $overviewComponent->pagination = false;
         $overviewComponent->overviewFields = $this->buildFields($this->overviewFields);
+        $overviewComponent->pagination = $overviewComponent->data->appends($this->paginateFilters())->links('administration::pagination.admin-pagination');
+        $overviewComponent->total = $overviewComponent->data->total();
 
         return [$overviewComponent];
     }
