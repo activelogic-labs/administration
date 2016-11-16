@@ -67,7 +67,7 @@
                 color:#6D6D6D;
                 margin:0;
                 padding:25px 25px 0;
-                span{
+                small{
                     font-size:12px;
                     color:#C0C0C0;
                     display:inline-block;
@@ -148,6 +148,19 @@
                     margin-left:15px;
                 }
             }
+
+            h2{
+              color:#6D6D6D;
+              font-size:16px;
+              padding:10px 0 15px 0;
+              small{
+                font-size:12px;
+                display:inline-block;
+                margin-left:10px;
+                color:lighten(#6D6D6D, 20);
+              }
+            }
+
             form{
                 input[type='submit']{
                     display: inline-block;

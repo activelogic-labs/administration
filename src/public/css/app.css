@@ -467,6 +467,9 @@ body {
     color: #153263;
     background: #FBFBFB; }
 
+.pagination_alignment {
+  text-align: center; }
+
 .dropzone {
   padding: 100px;
   border: dashed 1px #000000;
@@ -600,7 +603,7 @@ body {
     color: #6D6D6D;
     margin: 0;
     padding: 25px 25px 0; }
-    #main #content .header h1 span {
+    #main #content .header h1 small {
       font-size: 12px;
       color: #C0C0C0;
       display: inline-block;
@@ -667,6 +670,15 @@ body {
       color: #B5B3AF;
       display: inline-block;
       margin-left: 15px; }
+  #main #content .area h2 {
+    color: #6D6D6D;
+    font-size: 16px;
+    padding: 10px 0 15px 0; }
+    #main #content .area h2 small {
+      font-size: 12px;
+      display: inline-block;
+      margin-left: 10px;
+      color: #a0a0a0; }
   #main #content .area form input[type='submit'] {
     display: inline-block;
     margin: 0;
@@ -893,11 +905,15 @@ body {
     padding: 5px 10px;
     font-weight: 300;
     display: inline-block;
-    margin: 0 5px; }
+    margin: 0 5px;
+    cursor: pointer; }
   .filters .filter {
     background-color: #BA1C1E;
     color: #FFFFFF;
     border: solid 1px #BA1C1E; }
+    .filters .filter:hover {
+      background-color: #8e1517;
+      border: solid 1px #8e1517; }
     .filters .filter:first-child {
       display: none; }
     .filters .filter .column:after {
@@ -914,9 +930,13 @@ body {
     position: relative; }
     .filters .add-filter .new-filter-button {
       border: solid 1px #BA1C1E;
-      color: #BA1C1E; }
+      color: #BA1C1E;
+      cursor: pointer; }
       .filters .add-filter .new-filter-button i {
         margin-right: 5px; }
+      .filters .add-filter .new-filter-button:hover {
+        border: solid 1px #610f10;
+        color: #610f10; }
     .filters .add-filter .add-filter-form {
       border: solid 1px #BA1C1E;
       background: #FFFFFF;
@@ -1000,7 +1020,11 @@ body {
     border-width: 1px; }
     .filters .apply-filters.active-filters {
       color: #BA1C1E;
-      border-color: #BA1C1E; }
+      border-color: #BA1C1E;
+      cursor: pointer; }
+      .filters .apply-filters.active-filters:hover {
+        border: solid 1px #610f10;
+        color: #610f10; }
   .filters .applied-sorts {
     display: inherit; }
   .filters .sort {
@@ -1108,5 +1132,8 @@ body {
   border-color: #CCCCCC;
   color: #000;
   font-size: 12px; }
+
+.pagination > .disabled > a, .pagination > .disabled > a:focus, .pagination > .disabled > a:hover, .pagination > .disabled > span, .pagination > .disabled > span:focus, .pagination > .disabled > span:hover {
+  line-height: 17px; }
 
 /*# sourceMappingURL=app.css.map */

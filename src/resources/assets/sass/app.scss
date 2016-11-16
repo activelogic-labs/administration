@@ -16,3 +16,7 @@
   color:#000;
   font-size:12px;
 }
+
+.pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover{
+  line-height: 17px;
+}

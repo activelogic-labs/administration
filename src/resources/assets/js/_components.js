@@ -39,7 +39,7 @@ let self,
             if (self.sorts.children(":not(:first-child)").length != 0) {
                 buttons.newSort.hide();
             };
-        },
+        }, 
 
         bindUIActions: function() {
             //--- Filtering

@@ -97,7 +97,9 @@
             </table>
 
             <!-- Pagination -->
-            {{ $overviewComponent->pagination }}
+            <div class="pagination_alignment">
+                {{ $overviewComponent->pagination }}
+            </div>
 
         @endif
 

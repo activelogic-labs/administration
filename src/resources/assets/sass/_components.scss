@@ -19,12 +19,18 @@
         font-weight: 300;
         display: inline-block;
         margin: 0 5px;
+        cursor:pointer;
     }
 
     .filter {
         background-color: $theme-primary;
         color: #FFFFFF;
         border: solid 1px $theme-primary;
+
+        &:hover{
+          background-color: darken($theme-primary, 10);
+          border: solid 1px darken($theme-primary, 10);
+        }
 
         &:first-child {
             display: none;
@@ -59,9 +65,15 @@
         .new-filter-button {
             border: solid 1px $theme-primary;
             color: $theme-primary;
+            cursor:pointer;
 
             i {
                 margin-right: 5px;
+            }
+
+            &:hover{
+              border: solid 1px darken($theme-primary, 20);
+              color:darken($theme-primary, 20);
             }
         }
 
@@ -180,6 +192,11 @@
         &.active-filters {
             color: $theme-primary;
             border-color: $theme-primary;
+            cursor:pointer;
+            &:hover{
+              border: solid 1px darken($theme-primary, 20);
+              color:darken($theme-primary, 20);
+            }
         }
     }
 
