@@ -19,10 +19,10 @@
         @foreach($detailGroups as $detailGroup)
 
             <!-- Group: Standard -->
-            @if($detailGroup['group_type'] == \Activelogiclabs\Administration\Admin\Core::GROUP_STANDARD)
+            @if($detailGroup->type == \Activelogiclabs\Administration\Admin\Core::GROUP_STANDARD)
 
                 <div class="data-header">
-                    <h1>{{ $detailGroup['group_title'] }}</h1>
+                    <h1>{{ $detailGroup->label }}</h1>
                     <ul>
                         <li><span><i class="fa fa-pencil"></i> Click field to edit</span></li>
                         <li><input type="submit" name="submit" value="Save" /></li>
@@ -32,8 +32,8 @@
 
                 <div class="data-group">
 
-                    @foreach($detailGroup['data'] as $key => $row)
-                        @foreach($detailGroup['group_fields'] as $id => $value)
+                    @foreach($detailGroup->data as $key => $row)
+                        @foreach($detailGroup->fields as $id => $value)
                             <div class="data-group-field">
                                 <div class="title">{{ $value }}</div>
                                 <div class="value">{!! $row[$id]->fieldView() !!}</div>
@@ -48,10 +48,10 @@
             @endif
 
             <!-- Group: WYSIWYG -->
-            @if($detailGroup['group_type'] == \Activelogiclabs\Administration\Admin\Core::GROUP_WYSIWYG)
+            @if($detailGroup->type == \Activelogiclabs\Administration\Admin\Core::GROUP_WYSIWYG)
 
                 <div class="data-header">
-                    <h1>{{ $detailGroup['group_title'] }}</h1>
+                    <h1>{{ $detailGroup->label }}</h1>
                     <ul>
                         <li><span><i class="fa fa-pencil"></i> Click field to edit, then click save</span></li>
                         <li><input type="submit" name="submit" value="Save" /></li>
@@ -60,16 +60,16 @@
                 </div>
 
                 <div class="data-group group_wysiwyg">
-                    {!! $detailGroup['data']->fieldView() !!}
+                    {!! $detailGroup->data->fieldView() !!}
                 </div>
 
             @endif
 
             <!-- Group: Full -->
-            @if($detailGroup['group_type'] == \Activelogiclabs\Administration\Admin\Core::GROUP_FULL)
+            @if($detailGroup->type == \Activelogiclabs\Administration\Admin\Core::GROUP_FULL)
 
                 <div class="data-header">
-                    <h1>{{ $detailGroup['group_title'] }}</h1>
+                    <h1>{{ $detailGroup->label }}</h1>
                     <ul>
                         <li><span><i class="fa fa-pencil"></i> Click field to edit</span></li>
                         <li><input type="submit" name="submit" value="Save" /></li>
@@ -78,7 +78,7 @@
                 </div>
 
                 <div class="data-group full_page">
-                    {!! $detailGroup['data']->fieldView() !!}
+                    {!! $detailGroup->data->fieldView() !!}
                 </div>
 
             @endif

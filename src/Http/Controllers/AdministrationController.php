@@ -4,6 +4,7 @@ namespace Activelogiclabs\Administration\Http\Controllers;
 
 use Activelogiclabs\Administration\Admin\ComponentBuilder;
 use Activelogiclabs\Administration\Admin\Core;
+use Activelogiclabs\Administration\Admin\DetailComponent;
 use Activelogiclabs\Administration\Admin\FieldComponent;
 use App\Http\Controllers\Controller;
 use App\User;
@@ -92,7 +93,7 @@ class AdministrationController extends Controller
             'filters' => $this->filters,
             'sortable' => $this->sortable,
             'sorts' => $this->sorts,
-            'dataset' => $this->buildComponents(),
+            'dataset' => $this->buildOverviewComponents(),
             'title_buttons' => $this->titleButtons,
             'enable_adding_records' => $this->enableAddingRecords,
             'enable_exporting_records' => $this->enableExportingRecords,
@@ -122,11 +123,13 @@ class AdministrationController extends Controller
         //--- New Record
         if (is_null($id)) {
 
-            $detailGroups = $this->createRecord();
+            $model = new $this->model();
+            $detailGroups = $this->buildDetailGroups($model);
 
         } else {
 
-            $detailGroups = $this->loadRecord($id);
+            $model = $this->retrieveModel($id);
+            $detailGroups = $this->buildDetailGroups($model);
 
         }
 
@@ -226,31 +229,6 @@ class AdministrationController extends Controller
     }
 
     /**
-     * Create Record
-     *
-     * @return array
-     */
-    private function createRecord()
-    {
-        $model = new $this->model();
-
-        return $this->buildDetailGroups($model);
-    }
-
-    /**
-     * Load Record
-     *
-     * @param $id
-     * @return array
-     */
-    private function loadRecord($id)
-    {
-        $model = $this->retrieveModel($id);
-
-        return $this->buildDetailGroups($model);
-    }
-
-    /**
      * Build Detail Groups
      *
      * @param $model
@@ -290,23 +268,20 @@ class AdministrationController extends Controller
 
         if ($attr = $model->getAttributes()) {
 
-            $rawData = $attr;
+            $raw_data = $attr;
 
         } else {
 
-            $rawData = array_fill_keys(array_keys($fields), null);
+            $raw_data = array_fill_keys(array_keys($fields), null);
+
         }
 
-        $data = $this->buildComponentsFromData($model, $fields, $this->fieldDefinitions, [$rawData]);
+        $detailComponent = new DetailComponent();
+        $detailComponent->type = Core::GROUP_STANDARD;
+        $detailComponent->fields = $fields;
+        $detailComponent->data = $this->buildDetailViewComponents([$raw_data]);
 
-        $info = [
-            'group_title' => "General Information",
-            'group_type' => Core::GROUP_STANDARD,
-            'group_fields' => $fields,
-            'data' => $data
-        ];
-
-        return $info;
+        return $detailComponent;
     }
 
     /**
@@ -379,9 +354,12 @@ class AdministrationController extends Controller
 
         }
 
-        $dataGroup['data'] = $this->buildComponentsFromData($model, $this->buildFields($dataGroup['group_fields']), $this->fieldDefinitions, [$modelData]);
+        $detailComponent = new DetailComponent();
+        $detailComponent->type = Core::GROUP_STANDARD;
+        $detailComponent->fields = $dataGroup['group_fields'];
+        $detailComponent->data = $this->buildDetailViewComponents([$modelData]);
 
-        return $dataGroup;
+        return $detailComponent;
     }
 
     /**
@@ -395,8 +373,11 @@ class AdministrationController extends Controller
      */
     public function buildFullDataGroup($dataGroup, $model)
     {
-        $dataGroup['data'] = $this->buildComponent($dataGroup['field'], $model->{$dataGroup['field']}, $this->fieldDefinitions);
-        return $dataGroup;
+        $detailComponent = new DetailComponent();
+        $detailComponent->type = Core::GROUP_FULL;
+        $detailComponent->data = $this->buildComponent($dataGroup['field'], $model->{$dataGroup['field']}, $this->fieldDefinitions);
+
+        return $detailComponent;
     }
 
     /**
@@ -408,7 +389,10 @@ class AdministrationController extends Controller
      */
     public function buildWysiwygDataGroup($dataGroup, $model)
     {
-        $dataGroup['data'] = $this->buildComponent($dataGroup['field'], $model->{$dataGroup['field']}, $this->fieldDefinitions);
+        $detailComponent = new DetailComponent();
+        $detailComponent->type = Core::GROUP_WYSIWYG;
+        $detailComponent->data = $this->buildComponent($dataGroup['field'], $model->{$dataGroup['field']}, $this->fieldDefinitions);
+
         return $dataGroup;
     }
 

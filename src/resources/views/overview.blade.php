@@ -3,12 +3,11 @@
 @section("header")
     <div class="header" style="height: auto;">
         {{--NOTE: include filter language only when filtering--}}
-
-        {{--@if(count($dataset) == 1)--}}
-            {{--<h1>{{ $title }} <small>{{ $dataset[0]->total()}} {{ \Illuminate\Support\Str::plural($title) }} found matching filters</small></h1>--}}
-        {{--@else--}}
-            {{--<h1>{{ $title }}</h1>--}}
-        {{--@endif--}}
+        @if(count($dataset) == 1)
+            <h1>{{ $title }} <small>{{ $dataset[0]->data->total()}} {{ \Illuminate\Support\Str::plural($title) }} found matching filters</small></h1>
+        @else
+            <h1>{{ $title }}</h1>
+        @endif
 
         @if($filterable)
             <div class="filters">
@@ -65,7 +64,7 @@
         @if(count($dataset) > 1)
 
             <div>
-                <h2>{{ $overviewComponent->label }} <span>{{ $overviewComponent->caption }}</span></h2>
+                <h2>{{ $overviewComponent->label }} <small>{{ $overviewComponent->caption }}</small></h2>
             </div>
 
         @endif

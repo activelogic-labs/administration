@@ -15,21 +15,17 @@ trait ComponentBuilder
     public $sorts;
     public $scopes;
     public $forcedFilters;
-    public $rawData;
 
     /**
-     * Builds the components for the section
+     * Build Overview Components
      *
-     * @param $model
-     * @param $fields
-     * @param array $definitions
-     * @return mixed
+     * @return array
+     * @throws \Exception
      */
-    public function buildComponents()
+    public function buildOverviewComponents()
     {
         $fields = $this->overviewFields;
 
-        // Overview Groups
         if(isset($fields[0])){
 
             $data = [];
@@ -70,48 +66,48 @@ trait ComponentBuilder
             return $data;
         }
 
-        //
         $dataSet = [];
+        $paginator = self::retrieveData($this->overviewFields);
 
-        if (is_null($this->rawData)) {
+        foreach ($paginator as $id => $row) {
 
-            $paginator = self::retrieveData($this->overviewFields);
+            foreach ($row->getAttributes() as $key => $value) {
 
-            foreach ($paginator as $id => $row) {
-
-                foreach ($row->getAttributes() as $key => $value) {
-
-                    $dataSet[$row->{$row->getKeyName()}][$key] = self::buildComponent($key, $value);
-
-                }
-
-            }
-
-            $overviewComponent = new OverviewComponent();
-            $overviewComponent->data = $paginator->setCollection(collect($dataSet));
-            $overviewComponent->pagination = false;
-            $overviewComponent->overviewFields = $this->buildFields($this->overviewFields);
-
-            return [$overviewComponent];
-        }
-
-        //
-        foreach ($this->rawData as $id => $row) {
-
-            foreach ($row as $key => $value) {
-
-                $dataSet[$id][$key] = self::buildComponent($key, $value);
+                $dataSet[$row->{$row->getKeyName()}][$key] = self::buildComponent($key, $value);
 
             }
 
         }
 
         $overviewComponent = new OverviewComponent();
-        $overviewComponent->data = new LengthAwarePaginator(collect($dataSet), count($dataSet), 15);
+        $overviewComponent->data = $paginator->setCollection(collect($dataSet));
         $overviewComponent->pagination = false;
         $overviewComponent->overviewFields = $this->buildFields($this->overviewFields);
 
         return [$overviewComponent];
+    }
+
+    /**
+     * Build Detail View Components
+     *
+     * @return array
+     * @throws \Exception
+     */
+    public function buildDetailViewComponents($rawData)
+    {
+        foreach ($rawData as $id => $row) {
+
+            foreach ($row as $key => $value) {
+
+                $dataSet[$id][$key] = self::buildComponent($key, $value, $this->fieldDefinitions);
+
+            }
+
+        }
+
+        $paginator = new LengthAwarePaginator(collect($dataSet), count($dataSet), 15);
+
+        return $paginator;
     }
 
     public function buildComponent($name, $value)
@@ -190,8 +186,15 @@ trait ComponentBuilder
 
     protected function applyScopes($query, $scopes)
     {
-        foreach($scopes as $scope){
-            $query->{Str::camel($scope)}();
+        foreach ($scopes as $scope) {
+
+            if($scope){
+                if (!method_exists($query, "scope" . ucfirst($scope))) {
+                    Throw new \Exception("Query scope '" . $scope . "' does not exist on model");
+                }
+
+                $query->{Str::camel($scope)}();
+            }
         }
 
         return $query;
