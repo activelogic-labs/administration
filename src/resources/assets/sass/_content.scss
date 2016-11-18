@@ -152,7 +152,7 @@
             h2{
               color:#6D6D6D;
               font-size:16px;
-              padding:10px 0 15px 0;
+              padding:0;
               small{
                 font-size:12px;
                 display:inline-block;
@@ -178,5 +178,8 @@
                 }
             }
         }
+      .table{
+        margin-bottom:45px;
+      }
     }
 }

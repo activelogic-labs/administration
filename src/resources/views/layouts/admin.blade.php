@@ -44,9 +44,9 @@
             <ul>
                 @foreach($navigation as $nav)
 
-                    @if(isset($nav->model))
+                    @if(isset($nav->class))
 
-                        @can('navView', $nav->class)
+                        @can('view.nav', $nav->class)
                             <li>
                                 <a href="{{ $nav->url }}">
                                     <i class="fa {{ $nav->icon }}"></i>

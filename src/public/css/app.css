@@ -673,7 +673,7 @@ body {
   #main #content .area h2 {
     color: #6D6D6D;
     font-size: 16px;
-    padding: 10px 0 15px 0; }
+    padding: 0; }
     #main #content .area h2 small {
       font-size: 12px;
       display: inline-block;
@@ -691,6 +691,9 @@ body {
     #main #content .area form input[type='submit']:hover {
       border: solid 1px #000;
       color: #000; }
+
+#main #content .table {
+  margin-bottom: 45px; }
 
 #main #content #menu_anchor {
   display: none; }
