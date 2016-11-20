@@ -26,6 +26,7 @@ class AdministrationController extends Controller
 
     public $fieldDefinitions;
     public $overviewFields;
+    public $disableOverviewPagination = false;
     public $modules;
     public $detailGroups;
     public $titleButtons = [];
@@ -35,6 +36,8 @@ class AdministrationController extends Controller
     public $enableAddingRecords = true;
     public $enableExportingRecords = true;
     public $enableDetailView = true;
+
+    public $linkOut;
 
     /**
      * System Definitions
@@ -58,6 +61,11 @@ class AdministrationController extends Controller
 
         $this->slug = strtolower(str_replace("Controller", "", end($uriArray)));
         $this->url = Core::url($this->slug);
+
+        if($this->linkOut){
+            $this->url = $this->linkOut;
+        }
+
         $this->class = get_called_class();
     }
 
@@ -326,7 +334,47 @@ class AdministrationController extends Controller
                 return $this->buildWysiwygDataGroup($dataGroup, $model);
 
                 break;
+
+            case Core::GROUP_MANY:
+
+                return $this->buildManyDataGroup($dataGroup, $model);
+
+                break;
         }
+    }
+
+    /**
+     * Build "MANY" Data Group
+     * Polymorphic relationships, many-to-many, one-to-many, etc...
+     * Relationship would be defined in the model
+     *
+     * @param $dataGroup
+     * @param $model
+     * @return mixed
+     * @throws \Exception
+     */
+    public function buildManyDataGroup($dataGroup, $model)
+    {
+        if(empty($dataGroup['group_title'])){
+            Throw new \Exception("You must define a 'group_title' in your configuration for this detail group.");
+        }
+
+        if(empty($dataGroup['fields'])){
+            Throw new \Exception("You must define an array of 'fields' in your configuration for this detail group.");
+        }
+
+        $controller = new $dataGroup['relationship_controller']();
+        $controller->overviewFields = $dataGroup['fields'];
+        $controller->disableOverviewPagination = true;
+
+        $detailComponent = new DetailComponent();
+        $detailComponent->label = $dataGroup['group_title'];
+        $detailComponent->type = Core::GROUP_MANY;
+        $detailComponent->fields = $dataGroup['fields'];
+        $detailComponent->controller = $controller;
+        $detailComponent->data = $controller->buildOverviewComponents();
+
+        return $detailComponent;
     }
 
     /**

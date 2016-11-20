@@ -83,6 +83,29 @@
 
             @endif
 
+            <!-- Group: MANY -->
+                @if($detailGroup->type == \Activelogiclabs\Administration\Admin\Core::GROUP_MANY)
+
+                    <div class="data-header">
+                        <h1>{{ $detailGroup->label }}</h1>
+                        <ul>
+                            <li><a href="#">New</a></li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div class="data-group full_page">
+
+                        @include('administration::partials.overview_component', [
+                            'dataset' => $detailGroup->data,
+                            'enableDetailView' => true,
+                            'detail_url' => \Activelogiclabs\Administration\Admin\Core::url($detailGroup->controller->slug . "/detail")
+                        ])
+
+                    </div>
+
+                @endif
+
         @endforeach
 
     </form>

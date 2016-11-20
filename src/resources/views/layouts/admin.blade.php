@@ -47,12 +47,14 @@
                     @if(isset($nav->class))
 
                         @can('view.nav', $nav->class)
+
                             <li>
-                                <a href="{{ $nav->url }}">
+                                <a href="{{ $nav->url }}" @if($nav->linkOut) target="_blank" @endif>
                                     <i class="fa {{ $nav->icon }}"></i>
                                     <span>{{ $nav->title }}</span>
                                 </a>
                             </li>
+
                         @endcan
 
                     @else

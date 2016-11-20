@@ -4,7 +4,10 @@ namespace Activelogiclabs\Administration\Http\ViewComposers;
 
 use Illuminate\View\View;
 
-class OverviewComposer
+class OverviewComponentComposer
 {
-    public function compose(View $view){}
+    public function compose(View $view)
+    {
+
+    }
 }

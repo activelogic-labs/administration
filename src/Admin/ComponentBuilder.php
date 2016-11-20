@@ -37,8 +37,21 @@ trait ComponentBuilder
                 $model_scope = empty($fields[$key]['model_scope']) ? null : $fields[$key]['model_scope'];
                 $group_fields = empty($fields[$key]['fields']) ? null : $fields[$key]['fields'];
 
+                $paginate = true;
+
+                if(isset($group_overview['pagination'])){
+                    if($group_overview['pagination'] == false){
+                        $paginate = false;
+                    }
+                }
+
+                if($this->disableOverviewPagination == true){
+                    $paginate = false;
+                }
+
                 $paginator = self::retrieveData($group_fields, [
-                    'model_scopes' => [$model_scope]
+                    'model_scopes' => [$model_scope],
+                    'paginate' => $paginate
                 ]);
 
                 foreach ($paginator as $id => $row) {
@@ -78,8 +91,12 @@ trait ComponentBuilder
             return $data;
         }
 
+        $paginate = $this->disableOverviewPagination ? false : true;
+
         $dataSet = [];
-        $paginator = self::retrieveData($this->overviewFields);
+        $paginator = self::retrieveData($this->overviewFields, [
+            'paginate' => $paginate
+        ]);
 
         foreach ($paginator as $id => $row) {
 
@@ -92,11 +109,10 @@ trait ComponentBuilder
         }
 
         $overviewComponent = new OverviewComponent();
-        $overviewComponent->data = $paginator->setCollection(collect($dataSet));
-        $overviewComponent->pagination = false;
+        $overviewComponent->data = $dataSet;
         $overviewComponent->overviewFields = $this->buildFields($this->overviewFields);
-        $overviewComponent->pagination = $overviewComponent->data->appends($this->paginateFilters())->links('administration::pagination.admin-pagination');
-        $overviewComponent->total = $overviewComponent->data->total();
+        $overviewComponent->pagination = $paginate ? $paginator->appends($this->paginateFilters())->links('administration::pagination.admin-pagination') : false;
+        $overviewComponent->total = $paginator->total();
 
         return [$overviewComponent];
     }
@@ -149,6 +165,10 @@ trait ComponentBuilder
      */
     public function retrieveData($_fields = [], $args = [])
     {
+        if(!isset($args['paginate'])){
+            $args['paginate'] = true;
+        }
+
         $fields = $this->buildFields($_fields);
 
         $model = $this->model;
@@ -193,6 +213,13 @@ trait ComponentBuilder
 
         if ($sorts) {
             $query = $this->applySorts($query, $model, $sorts);
+        }
+
+        if($args['paginate'] == false){
+            $records = $query->get();
+            $totalRecords = $records->count();
+
+            return new LengthAwarePaginator($records, $totalRecords, $totalRecords, 1);
         }
 
         return $query->paginate();

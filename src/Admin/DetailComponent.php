@@ -8,4 +8,5 @@ class DetailComponent
     public $type;
     public $fields;
     public $data;
+    public $controller;
 }
