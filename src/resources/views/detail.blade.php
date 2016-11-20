@@ -4,7 +4,7 @@
     <div class="header">
         <h1>{{ $title }} <span id="subtitle">{{ $subtitle }}</span></h1>
         <div class="buttons">
-            <a id="backButton" href="{{ $back_url }}"><i class="fa fa-angle-left"></i> Back</a>
+            <a id="backButton" href="{{ \Illuminate\Support\Facades\URL::previous() }}"><i class="fa fa-angle-left"></i> Back</a>
             <a id="deleteButton" href="{{ $delete_url }}" style="border: solid 1px #c50000; color: #c50000" onClick="Javascript:return confirm('Are you sure you want to delete this record?');"><i class="fa fa-trash"></i> Delete</a>
         </div>
         <div class="clearfix"></div>
@@ -110,6 +110,8 @@
         @endforeach
 
     </form>
+
+    @include("administration::partials.modal")
 
 @endsection
 

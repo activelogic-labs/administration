@@ -7,6 +7,10 @@
     }
 }
 
+@media (min-width: 768px) {
+  .modal-dialog{ width:80%; }
+}
+
 // Tablet
 @media (max-width: 768px) {
   #main #content .header h1{

@@ -95,7 +95,6 @@ class AdministrationController extends Controller
             'import_url' => Core::url($this->slug . "/import_data"),
             'export_url' => Core::url($this->slug . "/export_data"),
             'sort_url' => Core::url($this->slug . "/overview/sort"),
-            'overviewTitleButtons' => $this->buildTitleButtons($this->titleButtons),
             'filterable' => $this->filterable,
             'filters' => $this->filters,
             'sortable' => $this->sortable,
@@ -293,20 +292,6 @@ class AdministrationController extends Controller
     }
 
     /**
-     * Build Title Buttons
-     *
-     * @param $titleButtons
-     */
-    public function buildTitleButtons($titleButtons)
-    {
-        if (empty($titleButtons)) {
-
-
-
-        }
-    }
-
-    /**
      * Build Detail Group
      *
      * @param $dataGroup
@@ -386,9 +371,13 @@ class AdministrationController extends Controller
      */
     public function buildStandardDataGroup($dataGroup, $model)
     {
+        $modelData = [];
+
         if (isset($dataGroup['relationship'])) {
 
-            $modelData = $model->{$dataGroup['relationship']}->getAttributes();
+            if($model->{$dataGroup['relationship']} != null){
+                $modelData = $model->{$dataGroup['relationship']}->getAttributes();
+            }
 
         } else {
 
@@ -403,6 +392,7 @@ class AdministrationController extends Controller
         }
 
         $detailComponent = new DetailComponent();
+        $detailComponent->label = $dataGroup['group_title'];
         $detailComponent->type = Core::GROUP_STANDARD;
         $detailComponent->fields = $dataGroup['group_fields'];
         $detailComponent->data = $this->buildDetailViewComponents([$modelData]);

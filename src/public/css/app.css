@@ -698,6 +698,10 @@ body {
 #main #content #menu_anchor {
   display: none; }
 
+@media (min-width: 768px) {
+  .modal-dialog {
+    width: 80%; } }
+
 @media (max-width: 768px) {
   #main #content .header h1 {
     width: 100%;
@@ -1147,5 +1151,8 @@ body {
 
 .pagination > .disabled > a, .pagination > .disabled > a:focus, .pagination > .disabled > a:hover, .pagination > .disabled > span, .pagination > .disabled > span:focus, .pagination > .disabled > span:hover {
   line-height: 17px; }
+
+.modal-content {
+  border-radius: 0; }
 
 /*# sourceMappingURL=app.css.map */
