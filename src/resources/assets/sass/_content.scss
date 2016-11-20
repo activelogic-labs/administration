@@ -59,7 +59,7 @@
         .header{
             background:#FFF;
             box-shadow: 1px 1px 5px #D5D4D3;
-            height:64px;
+            min-height:64px;
 
             h1{
                 float:left;
@@ -67,7 +67,7 @@
                 color:#6D6D6D;
                 margin:0;
                 padding:25px 25px 0;
-                small{
+                span{
                     font-size:12px;
                     color:#C0C0C0;
                     display:inline-block;

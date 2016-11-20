@@ -596,14 +596,14 @@ body {
 #main #content .header {
   background: #FFF;
   box-shadow: 1px 1px 5px #D5D4D3;
-  height: 64px; }
+  min-height: 64px; }
   #main #content .header h1 {
     float: left;
     font-size: 16px;
     color: #6D6D6D;
     margin: 0;
     padding: 25px 25px 0; }
-    #main #content .header h1 small {
+    #main #content .header h1 span {
       font-size: 12px;
       color: #C0C0C0;
       display: inline-block;
@@ -698,19 +698,28 @@ body {
 #main #content #menu_anchor {
   display: none; }
 
-@media (max-width: 1115px) {
+@media (max-width: 768px) {
+  #main #content .header h1 {
+    width: 100%;
+    text-align: center;
+    float: none; }
+  #main #content .header .buttons {
+    float: none;
+    width: 100%;
+    text-align: center;
+    padding: 20px 0;
+    margin: 0; }
   #main #content #menu_anchor {
     display: inline-block; }
   #main #navigation {
-    display: none; } }
+    display: none; }
+  .data-group .data-group-field {
+    width: 100% !important; } }
 
 @media (max-width: 970px) {
   .table th td {
     border: none; }
   .table tr td {
-    border: none; }
-  .data-group .data-group-field {
-    width: 100%;
     border: none; } }
 
 .stacktable {
@@ -771,12 +780,12 @@ body {
         margin: 0;
         padding: 5px 10px;
         text-decoration: none;
-        border: solid 1px #E8E7E5;
+        border: solid 1px #6D6D6D;
         color: #6D6D6D;
         font-size: 12px; }
         .data-header ul li a:hover {
-          color: #464646;
-          border: solid 1px #cdccca; }
+          color: #000;
+          border: solid 1px #000; }
       .data-header ul li span {
         display: inline-block;
         margin: 6px 0 0;

@@ -7,6 +7,7 @@
             <a id="backButton" href="{{ $back_url }}"><i class="fa fa-angle-left"></i> Back</a>
             <a id="deleteButton" href="{{ $delete_url }}" style="border: solid 1px #c50000; color: #c50000" onClick="Javascript:return confirm('Are you sure you want to delete this record?');"><i class="fa fa-trash"></i> Delete</a>
         </div>
+        <div class="clearfix"></div>
     </div>
 @endsection
 
@@ -89,7 +90,7 @@
                     <div class="data-header">
                         <h1>{{ $detailGroup->label }}</h1>
                         <ul>
-                            <li><a href="#">New</a></li>
+                            <li><a href="#"><i class="fa fa-plus" aria-hidden="true"></i> New</a></li>
                         </ul>
                         <div class="clearfix"></div>
                     </div>

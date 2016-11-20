@@ -145,7 +145,7 @@ class AdministrationController extends Controller
             'delete_url' => Core::url($this->slug . "/delete/" . $id),
             'back_url' => Core::url($this->slug),
             'title' => 'Details',
-            'subtitle' => $id,
+            'subtitle' => "Edit Record #".$id,
             'detailGroups' => $detailGroups,
             'model' => $this->model
         ]);
