@@ -130,7 +130,7 @@
     </div>
 
     <!-- JavaScript -->
-    <script src="/vendor/administration/components/jquery/dist/jquery.min.js"></script>
+    <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="/vendor/administration/components/stacktable.js/stacktable.js"></script>
     <script src="/vendor/administration/components/dropzone/dist/min/dropzone.min.js"></script>
