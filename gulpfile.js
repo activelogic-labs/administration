@@ -31,8 +31,8 @@ elixir(function(mix) {
 
         //Versioning
         .version([
-            'css/app.css',
-            'js/all.js'
+            'css/administration-app.css',
+            'js/administration-all.js'
         ])
 
         .publish('php ../../../artisan vendor:publish --tag=admin-public --force')

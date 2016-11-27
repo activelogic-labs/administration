@@ -13,7 +13,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <link href="{{ elixir('css/app.css', 'vendor/administration/build') }}" rel="stylesheet">
+    <link href="{{ elixir('css/administration-app.css', 'vendor/administration/build') }}" rel="stylesheet">
 
     @if(!empty(config('admin.styles')))
         @foreach (config('admin.styles') as $style)
@@ -146,7 +146,7 @@
 
     </script>
 
-    <script src="{{ elixir('js/all.js', 'vendor/administration/build') }}"></script>
+    <script src="{{ elixir('js/administration-all.js', 'vendor/administration/build') }}"></script>
 
     @if(!empty(config('admin.scripts')))
         @foreach (config('admin.scripts') as $script)
