@@ -26,6 +26,7 @@ class Core
     const GROUP_FULL = 'full';
     const GROUP_WYSIWYG = 'wysiwyg';
     const GROUP_MANY = 'many';
+    const GROUP_RELATIONSHIP = 'relationship';
 
     /**
      * Get Configuration Value

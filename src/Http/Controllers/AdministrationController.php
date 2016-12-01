@@ -126,17 +126,18 @@ class AdministrationController extends Controller
      */
     public function detail($id = null)
     {
+        $isNewRecord = false;
+
         //--- New Record
         if (is_null($id)) {
-
             $model = new $this->model();
             $detailGroups = $this->buildDetailGroups($model);
+            $isNewRecord = true;
+        }
 
-        } else {
-
+        else {
             $model = $this->retrieveModel($id);
             $detailGroups = $this->buildDetailGroups($model);
-
         }
 
         return Core::view( Core::PAGE_TYPE_DETAIL, [
@@ -146,15 +147,22 @@ class AdministrationController extends Controller
             'title' => 'Details',
             'subtitle' => "Edit Record #".$id,
             'detailGroups' => $detailGroups,
-            'model' => $this->model
+            'model' => $this->model,
+            'isNewRecord' => $isNewRecord
         ]);
     }
 
+    /**
+     * Save
+     *
+     * @param Request $request
+     * @return mixed
+     */
     public function saveForm(Request $request)
     {
         try{
 
-            $a = $request->input('content_wysiwyg');
+            dd($request->toArray());
 
             $model = new $this->model;
 
@@ -303,28 +311,25 @@ class AdministrationController extends Controller
         switch ($dataGroup['group_type']) {
 
             Case Core::GROUP_STANDARD:
-
                 return $this->buildStandardDataGroup($dataGroup, $model);
+                break;
 
+            Case Core::GROUP_RELATIONSHIP:
+                return $this->buildStandardDataGroup($dataGroup, $model);
                 break;
 
             case Core::GROUP_FULL:
-
                 return $this->buildFullDataGroup($dataGroup, $model);
-
                 break;
 
             case Core::GROUP_WYSIWYG:
-
                 return $this->buildWysiwygDataGroup($dataGroup, $model);
-
                 break;
 
             case Core::GROUP_MANY:
-
                 return $this->buildManyDataGroup($dataGroup, $model);
-
                 break;
+
         }
     }
 
@@ -392,10 +397,17 @@ class AdministrationController extends Controller
         }
 
         $detailComponent = new DetailComponent();
-        $detailComponent->label = $dataGroup['group_title'];
         $detailComponent->type = Core::GROUP_STANDARD;
+        $detailComponent->label = $dataGroup['group_title'];
         $detailComponent->fields = $dataGroup['group_fields'];
-        $detailComponent->data = $this->buildDetailViewComponents([$modelData]);
+        $detailComponent->relationship = null;
+
+        if(isset($dataGroup['relationship'])){
+            $detailComponent->type = Core::GROUP_RELATIONSHIP;
+            $detailComponent->relationship = $dataGroup['relationship'];
+        }
+
+        $detailComponent->data = $this->buildDetailViewComponents([$modelData], $detailComponent->relationship);
 
         return $detailComponent;
     }

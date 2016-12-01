@@ -14,6 +14,7 @@ abstract class FieldComponent
     public $label;
     public $value;
     public $definition;
+    public $relationship;
 
     /**
      * FieldComponent constructor.
@@ -22,11 +23,12 @@ abstract class FieldComponent
      * @param null $value
      * @param array $definition
      */
-    public function __construct($name = null, $value = null, $definition = [])
+    public function __construct($name = null, $value = null, $definition = [], $relationship = null)
     {
         $this->name = $name;
         $this->value = $value;
         $this->definition = $definition;
+        $this->relationship = $relationship;
     }
 
     abstract function dataView();
@@ -202,5 +204,19 @@ abstract class FieldComponent
         }
 
         return $query->paginate();
+    }
+
+    /**
+     * Build Field Name (With relationship respected)
+     *
+     * @param $name
+     */
+    protected function field_name($name)
+    {
+        if($this->relationship){
+            return $this->relationship .'['.$name.']';
+        }
+
+        return $name;
     }
 }

@@ -21,6 +21,7 @@
         @endforeach
     @endif
 
+    <link rel="stylesheet" href="/vendor/administration/components/selectize/dist/css/selectize.default.css" />
     <script src="https://use.fontawesome.com/d1e2052865.js"></script>
 
 </head>
@@ -138,6 +139,9 @@
     <script src="/vendor/administration/components/dropzone/dist/min/dropzone.min.js"></script>
     <script src="//cdn.ckeditor.com/4.5.10/standard/ckeditor.js"></script>
 
+    <script src="/vendor/administration/components/microplugin/src/microplugin.js"></script>
+    <script src="/vendor/administration/components/selectize/dist/js/selectize.min.js"></script>
+
     <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.2/Chart.bundle.min.js"></script>
     <script>
 
@@ -160,6 +164,7 @@
         @if(isset($filterable))
             Filters.init({!! json_encode($filterable) !!});
         @endif
+
     </script>
 
     @stack("js")

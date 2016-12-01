@@ -5,7 +5,8 @@
         <h1>{{ $title }} <span id="subtitle">{{ $subtitle }}</span></h1>
         <div class="buttons">
             <a id="backButton" href="{{ \Illuminate\Support\Facades\URL::previous() }}"><i class="fa fa-angle-left"></i> Back</a>
-            <a id="deleteButton" href="{{ $delete_url }}" style="border: solid 1px #c50000; color: #c50000" onClick="Javascript:return confirm('Are you sure you want to delete this record?');"><i class="fa fa-trash"></i> Delete</a>
+            <a id="deleteButton" href="{{ $delete_url }}" onClick="Javascript:return confirm('Are you sure you want to delete this record?');"><i class="fa fa-trash"></i> Delete</a>
+            <a href="#" id="saveDetailForm"><i class="fa fa-floppy-o"></i> Save</a>
         </div>
         <div class="clearfix"></div>
     </div>
@@ -13,50 +14,72 @@
 
 @section("content")
 
-    <form method="POST" id="detailForm" action="{{ $save_url }}" enctype="multipart/form-data">
 
+    <form method="POST" id="detailForm" action="{{ $save_url }}" enctype="multipart/form-data">
         {{ csrf_field() }}
 
         @foreach($detailGroups as $detailGroup)
 
             <!-- Group: Standard -->
-            @if($detailGroup->type == \Activelogiclabs\Administration\Admin\Core::GROUP_STANDARD)
+                @if($detailGroup->type == \Activelogiclabs\Administration\Admin\Core::GROUP_STANDARD)
 
-                <div class="data-header">
-                    <h1>{{ $detailGroup->label }}</h1>
-                    <ul>
-                        <li><span><i class="fa fa-pencil"></i> Click field to edit</span></li>
-                        <li><input type="submit" name="submit" value="Save" /></li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
+                    <div class="data-header">
+                        <h1>{{ $detailGroup->label }}</h1>
+                        <div class="clearfix"></div>
+                    </div>
 
-                <div class="data-group">
+                    <div class="data-group">
 
-                    @foreach($detailGroup->data as $key => $row)
-                        @foreach($detailGroup->fields as $id => $value)
-                            <div class="data-group-field">
-                                <div class="title">{{ $value }}</div>
-                                <div class="value">{!! $row[$id]->fieldView() !!}</div>
-                            </div>
+                        @foreach($detailGroup->data as $key => $row)
+                            @foreach($detailGroup->fields as $id => $value)
+                                <div class="data-group-field">
+                                    <div class="title">{{ $value }}</div>
+                                    <div class="value">{!! $row[$id]->fieldView() !!}</div>
+                                </div>
+                            @endforeach
                         @endforeach
-                    @endforeach
 
-                    <div class="clearfix"></div>
+                        <div class="clearfix"></div>
 
-                </div>
+                    </div>
 
-            @endif
+                @endif
+
+            <!-- Group: Relationship -->
+                @if($detailGroup->type == \Activelogiclabs\Administration\Admin\Core::GROUP_RELATIONSHIP)
+
+                    <div class="data-header">
+                        <h1>RELATIONSHIP GROUP NOT WORKING</h1>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    {{--<div class="data-header">--}}
+                        {{--<h1>{{ $detailGroup->label }}</h1>--}}
+                        {{--<div class="clearfix"></div>--}}
+                    {{--</div>--}}
+
+                    {{--<div class="data-group">--}}
+
+                        {{--@foreach($detailGroup->data as $key => $row)--}}
+                            {{--@foreach($detailGroup->fields as $id => $value)--}}
+                                {{--<div class="data-group-field">--}}
+                                    {{--<div class="title">{{ $value }}</div>--}}
+                                    {{--<div class="value">{!! $row[$id]->fieldView() !!}</div>--}}
+                                {{--</div>--}}
+                            {{--@endforeach--}}
+                        {{--@endforeach--}}
+
+                        {{--<div class="clearfix"></div>--}}
+
+                    {{--</div>--}}
+
+                @endif
 
             <!-- Group: WYSIWYG -->
             @if($detailGroup->type == \Activelogiclabs\Administration\Admin\Core::GROUP_WYSIWYG)
 
                 <div class="data-header">
                     <h1>{{ $detailGroup->label }}</h1>
-                    <ul>
-                        <li><span><i class="fa fa-pencil"></i> Click field to edit, then click save</span></li>
-                        <li><input type="submit" name="submit" value="Save" /></li>
-                    </ul>
                     <div class="clearfix"></div>
                 </div>
 
@@ -71,10 +94,6 @@
 
                 <div class="data-header">
                     <h1>{{ $detailGroup->label }}</h1>
-                    <ul>
-                        <li><span><i class="fa fa-pencil"></i> Click field to edit</span></li>
-                        <li><input type="submit" name="submit" value="Save" /></li>
-                    </ul>
                     <div class="clearfix"></div>
                 </div>
 
@@ -84,28 +103,28 @@
 
             @endif
 
-            <!-- Group: MANY -->
-                @if($detailGroup->type == \Activelogiclabs\Administration\Admin\Core::GROUP_MANY)
+            <!-- Group: MANY (For existing records only) -->
+            @if($detailGroup->type == \Activelogiclabs\Administration\Admin\Core::GROUP_MANY && $isNewRecord == false)
 
-                    <div class="data-header">
-                        <h1>{{ $detailGroup->label }}</h1>
-                        <ul>
-                            <li><a href="#"><i class="fa fa-plus" aria-hidden="true"></i> New</a></li>
-                        </ul>
-                        <div class="clearfix"></div>
-                    </div>
+                <div class="data-header">
+                    <h1>{{ $detailGroup->label }}</h1>
+                    <ul>
+                        <li><a href="#"><i class="fa fa-plus" aria-hidden="true"></i> New</a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
 
-                    <div class="data-group full_page">
+                <div class="data-group full_page">
 
-                        @include('administration::partials.overview_component', [
-                            'dataset' => $detailGroup->data,
-                            'enableDetailView' => true,
-                            'detail_url' => \Activelogiclabs\Administration\Admin\Core::url($detailGroup->controller->slug . "/detail")
-                        ])
+                    @include('administration::partials.overview_component', [
+                        'dataset' => $detailGroup->data,
+                        'enableDetailView' => true,
+                        'detail_url' => \Activelogiclabs\Administration\Admin\Core::url($detailGroup->controller->slug . "/detail")
+                    ])
 
-                    </div>
+                </div>
 
-                @endif
+            @endif
 
         @endforeach
 

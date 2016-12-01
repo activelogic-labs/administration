@@ -123,16 +123,12 @@ trait ComponentBuilder
      * @return array
      * @throws \Exception
      */
-    public function buildDetailViewComponents($rawData)
+    public function buildDetailViewComponents($rawData, $relationship = null)
     {
         foreach ($rawData as $id => $row) {
-
             foreach ($row as $key => $value) {
-
-                $dataSet[$id][$key] = self::buildComponent($key, $value, $this->fieldDefinitions);
-
+                $dataSet[$id][$key] = self::buildComponent($key, $value, $relationship);
             }
-
         }
 
         $paginator = new LengthAwarePaginator(collect($dataSet), count($dataSet), 15);
@@ -140,7 +136,16 @@ trait ComponentBuilder
         return $paginator;
     }
 
-    public function buildComponent($name, $value)
+    /**
+     * Build Component
+     *
+     * @param $name
+     * @param $value
+     * @param null $relationship
+     * @return Text
+     * @throws \Exception
+     */
+    public function buildComponent($name, $value, $relationship = null)
     {
         $definitions = $this->fieldDefinitions;
 
@@ -149,10 +154,10 @@ trait ComponentBuilder
         }
 
         if (!isset($definitions[$name])) {
-            return new Text($name, $value);
+            return new Text($name, $value, null, $relationship);
         }
 
-        return new $definitions[$name]['type']($name, $value, $definitions[$name]);
+        return new $definitions[$name]['type']($name, $value, $definitions[$name], $relationship);
     }
 
     /**

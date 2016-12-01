@@ -1,5 +1,11 @@
 
 $(function(){
+
+    $("#saveDetailForm").click(function(e){
+        e.preventDefault();
+        $("#detailForm").submit();
+    });
+
     $(".data-group .data-group-field").each(function(i, domElem){
 
         var currentElement = $(domElem);

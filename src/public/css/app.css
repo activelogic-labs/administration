@@ -622,6 +622,16 @@ body {
       #main #content .header .buttons a:hover {
         color: #464646;
         border: solid 1px #cdccca; }
+      #main #content .header .buttons a i {
+        margin-right: 5px; }
+    #main #content .header .buttons #deleteButton {
+      border: solid 1px #c50000;
+      color: #c50000; }
+    #main #content .header .buttons #saveDetailForm {
+      background: #c50000;
+      color: #FFF;
+      border: solid 1px #740000;
+      cursor: pointer; }
 
 #main #content .error {
   background: #9f0000;
@@ -1142,6 +1152,52 @@ body {
         background: #FFFFFF;
         display: inherit;
         margin: 5px auto; }
+
+.combobox {
+  border: solid 1px #FFF; }
+  .combobox.active {
+    border: solid 1px #E9E9E9;
+    color: #000; }
+    .combobox.active label {
+      color: #000; }
+  .combobox label {
+    font-size: 12px;
+    color: #9F9F9F;
+    font-weight: normal;
+    padding: 7px;
+    cursor: pointer;
+    margin: 0;
+    display: block; }
+  .combobox ul {
+    display: none;
+    position: absolute;
+    border: solid 1px #E9E9E9;
+    background: #FFF;
+    padding: 0;
+    margin: -1px 0 0 -1px;
+    z-index: 99;
+    max-height: 250px;
+    overflow: auto; }
+    .combobox ul li {
+      display: block;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      border-bottom: solid 1px #E9E9E9; }
+      .combobox ul li input {
+        border: none !important;
+        background: #F9F9F9 !important;
+        color: #7C7C7C !important; }
+      .combobox ul li a {
+        display: block;
+        text-decoration: none;
+        padding: 8px;
+        color: #7C7C7C;
+        font-size: 12px; }
+        .combobox ul li a:hover {
+          background: #F9F9F9; }
+      .combobox ul li:last-child {
+        border-bottom: none; }
 
 .pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
   background-color: #E0E0E0;

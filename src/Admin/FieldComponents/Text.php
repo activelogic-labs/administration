@@ -23,7 +23,9 @@ class Text extends FieldComponent
      */
     public function fieldView()
     {
-        return "<input type=\"text\" name=\"{$this->name}\" value=\"{$this->value}\" placeholder=\"Enter value...\">";
+        $fieldName = $this->field_name($this->name);
+
+        return "<input type=\"text\" name=\"{$fieldName}\" value=\"{$this->value}\" placeholder=\"Enter value...\">";
     }
 
     public function onSubmit()

@@ -9,4 +9,5 @@ class DetailComponent
     public $fields;
     public $data;
     public $controller;
+    public $relationship;
 }

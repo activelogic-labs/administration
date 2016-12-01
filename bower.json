@@ -6,7 +6,8 @@
     "jquery": "^3.1.0",
     "stacktable.js": "stackable.js#^1.0.1",
     "dropzone": "^4.3.0",
-    "vue": "^1.0.26"
+    "selectize": "^0.12.4",
+    "microplugin": "^0.0.3"
   },
   "authors": [
     "Robert Kehoe <robert@activelogiclabs.com>",

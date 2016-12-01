@@ -89,7 +89,21 @@
                         color: #464646;
                         border:solid 1px #cdccca;
                     }
+                  i{
+                    margin-right:5px;
+                  }
                 }
+              #deleteButton{
+                border: solid 1px #c50000;
+                color: #c50000
+              }
+
+              #saveDetailForm{
+                background:#c50000;
+                color:#FFF;
+                border:solid 1px #740000;
+                cursor:pointer;
+              }
             }
         }
         .error{
