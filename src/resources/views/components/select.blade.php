@@ -1,5 +1,8 @@
 <div class="combobox" name="{{ $name }}" value="{{ $selected }}">
-    <label></label>
+    <label>
+        <span></span>
+        <i class="fa fa-caret-down" aria-hidden="true"></i>
+    </label>
 
     <ul>
         <li><input type="text" name="search" value="" placeholder="Search..." /></li>

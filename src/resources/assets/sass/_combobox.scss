@@ -6,6 +6,9 @@
     color:#000;
     label{
       color:#000;
+      i{
+        display:inline-block;
+      }
     }
   }
   label{
@@ -16,6 +19,16 @@
     cursor:pointer;
     margin:0;
     display:block;
+    span{
+      padding:0 !important;
+      margin:0 !important;
+    }
+    i{
+      display:none;
+      float:right;
+      margin-top:3px;
+      margin-right:5px;
+    }
   }
   ul{
     display:none;
@@ -35,7 +48,7 @@
       border-bottom:solid 1px #E9E9E9;
       input{
         border:none !important;
-        background:#F9F9F9 !important;
+        background:#FFFFFF !important;
         color:#7C7C7C !important;
       }
       a{
@@ -44,8 +57,9 @@
         padding:8px;
         color:#7C7C7C;
         font-size:12px;
+        background:#F9F9F9;
         &:hover{
-          background: #F9F9F9;
+          background: #FFFFFF;
         }
       }
       &:last-child{

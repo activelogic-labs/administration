@@ -60,6 +60,8 @@ var combobox = function(element)
         searchInput.blur(function(){
             setTimeout(function(){
 
+                self.clearSearch();
+
                 self.hide();
 
             }, 100);
@@ -82,8 +84,6 @@ var combobox = function(element)
     {
         var self = this;
 
-        console.log("options: ", this.options);
-
         this.options.click(function(e){
             e.preventDefault();
             self.optionSelect($(this));
@@ -96,6 +96,12 @@ var combobox = function(element)
     this.optionSelect = function(element) {
         this.configureHiddenInputString(element.attr('value'));
         this.setLabel(element.html());
+    };
+
+    /**
+     * Clear Search
+     */
+    this.clearSearch = function(){
         this.searchField.val("");
         this.element.find("ul li").removeClass('hidden');
     };
@@ -113,7 +119,7 @@ var combobox = function(element)
      * @param name
      */
     this.setLabel = function(name) {
-        this.element.find("label").html(name);
+        this.element.find("label span").html(name);
     };
 
     /**
