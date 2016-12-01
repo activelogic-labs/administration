@@ -1,7 +1,7 @@
 /**
  * Created by daltongibbs on 10/24/16.
+ * Test 1
  */
-
 
 let self,
     settings,

@@ -22,12 +22,12 @@ elixir(function(mix) {
         //Sass compilation
         .sass([
             '*.scss'
-        ])
+        ], 'src/public/css/administration-app.css')
 
         //Javascript compilation
         .scripts([
             '*.js'
-        ])
+        ], 'src/public/js/administration-all.js')
 
         //Versioning
         .version([
