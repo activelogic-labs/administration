@@ -59,7 +59,7 @@
         .header{
             background:#FFF;
             box-shadow: 1px 1px 5px #D5D4D3;
-            height:64px;
+            min-height:64px;
 
             h1{
                 float:left;
@@ -89,7 +89,21 @@
                         color: #464646;
                         border:solid 1px #cdccca;
                     }
+                  i{
+                    margin-right:5px;
+                  }
                 }
+              #deleteButton{
+                border: solid 1px #c50000;
+                color: #c50000
+              }
+
+              #saveDetailForm{
+                background:#c50000;
+                color:#FFF;
+                border:solid 1px #740000;
+                cursor:pointer;
+              }
             }
         }
         .error{
@@ -148,6 +162,19 @@
                     margin-left:15px;
                 }
             }
+
+            h2{
+              color:#6D6D6D;
+              font-size:16px;
+              padding:0;
+              small{
+                font-size:12px;
+                display:inline-block;
+                margin-left:10px;
+                color:lighten(#6D6D6D, 20);
+              }
+            }
+
             form{
                 input[type='submit']{
                     display: inline-block;
@@ -165,5 +192,8 @@
                 }
             }
         }
+      .table{
+        margin-bottom:45px;
+      }
     }
 }

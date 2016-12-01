@@ -4,6 +4,7 @@ namespace Activelogiclabs\Administration\Http\Controllers;
 
 use Activelogiclabs\Administration\Admin\ComponentBuilder;
 use Activelogiclabs\Administration\Admin\Core;
+use Activelogiclabs\Administration\Admin\DetailComponent;
 use Activelogiclabs\Administration\Admin\FieldComponent;
 use App\Http\Controllers\Controller;
 use App\User;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
 class AdministrationController extends Controller
@@ -24,6 +26,7 @@ class AdministrationController extends Controller
 
     public $fieldDefinitions;
     public $overviewFields;
+    public $disableOverviewPagination = false;
     public $modules;
     public $detailGroups;
     public $titleButtons = [];
@@ -33,6 +36,8 @@ class AdministrationController extends Controller
     public $enableAddingRecords = true;
     public $enableExportingRecords = true;
     public $enableDetailView = true;
+
+    public $linkOut;
 
     /**
      * System Definitions
@@ -56,6 +61,11 @@ class AdministrationController extends Controller
 
         $this->slug = strtolower(str_replace("Controller", "", end($uriArray)));
         $this->url = Core::url($this->slug);
+
+        if($this->linkOut){
+            $this->url = $this->linkOut;
+        }
+
         $this->class = get_called_class();
     }
 
@@ -78,26 +88,6 @@ class AdministrationController extends Controller
             }
         }
 
-        $data = $this->buildComponentsWithFilters($this->model, $this->buildFields($this->overviewFields), $this->fieldDefinitions, $this->filters);
-        return $this->baseIndex($data);
-    }
-
-    /**
-     * @param array $rawDataArray
-     * @return mixed
-     */
-    public function baseIndex($data)
-    {
-        if(empty($data)){
-            $data = [];
-        }
-
-        if(is_array($data)){
-            $data = $this->buildComponents($this->model, $this->buildFields($this->overviewFields), $this->fieldDefinitions, [], $data);
-        }
-
-        $links = $data->appends($this->paginateFilters())->links('administration::pagination.admin-pagination');
-
         return Core::view( Core::PAGE_TYPE_OVERVIEW, [
             'title' => $this->title,
             'model' => $this->model,
@@ -105,14 +95,11 @@ class AdministrationController extends Controller
             'import_url' => Core::url($this->slug . "/import_data"),
             'export_url' => Core::url($this->slug . "/export_data"),
             'sort_url' => Core::url($this->slug . "/overview/sort"),
-            'overviewFields' => $this->buildFields($this->overviewFields),
-            'overviewTitleButtons' => $this->buildTitleButtons($this->titleButtons),
             'filterable' => $this->filterable,
             'filters' => $this->filters,
             'sortable' => $this->sortable,
             'sorts' => $this->sorts,
-            'data' => $data,
-            'page_links' => $links,
+            'dataset' => $this->buildOverviewComponents(),
             'title_buttons' => $this->titleButtons,
             'enable_adding_records' => $this->enableAddingRecords,
             'enable_exporting_records' => $this->enableExportingRecords,
@@ -139,15 +126,18 @@ class AdministrationController extends Controller
      */
     public function detail($id = null)
     {
+        $isNewRecord = false;
+
         //--- New Record
         if (is_null($id)) {
+            $model = new $this->model();
+            $detailGroups = $this->buildDetailGroups($model);
+            $isNewRecord = true;
+        }
 
-            $detailGroups = $this->createRecord();
-
-        } else {
-
-            $detailGroups = $this->loadRecord($id);
-
+        else {
+            $model = $this->retrieveModel($id);
+            $detailGroups = $this->buildDetailGroups($model);
         }
 
         return Core::view( Core::PAGE_TYPE_DETAIL, [
@@ -155,17 +145,24 @@ class AdministrationController extends Controller
             'delete_url' => Core::url($this->slug . "/delete/" . $id),
             'back_url' => Core::url($this->slug),
             'title' => 'Details',
-            'subtitle' => $id,
+            'subtitle' => "Edit Record #".$id,
             'detailGroups' => $detailGroups,
-            'model' => $this->model
+            'model' => $this->model,
+            'isNewRecord' => $isNewRecord
         ]);
     }
 
+    /**
+     * Save
+     *
+     * @param Request $request
+     * @return mixed
+     */
     public function saveForm(Request $request)
     {
         try{
 
-            $a = $request->input('content_wysiwyg');
+            dd($request->toArray());
 
             $model = new $this->model;
 
@@ -247,31 +244,6 @@ class AdministrationController extends Controller
     }
 
     /**
-     * Create Record
-     *
-     * @return array
-     */
-    private function createRecord()
-    {
-        $model = new $this->model();
-
-        return $this->buildDetailGroups($model);
-    }
-
-    /**
-     * Load Record
-     *
-     * @param $id
-     * @return array
-     */
-    private function loadRecord($id)
-    {
-        $model = $this->retrieveModel($id);
-
-        return $this->buildDetailGroups($model);
-    }
-
-    /**
      * Build Detail Groups
      *
      * @param $model
@@ -298,45 +270,6 @@ class AdministrationController extends Controller
     }
 
     /**
-     * Build Fields
-     *
-     * @param array $fields
-     * @return array
-     */
-    protected function buildFields($fields = [], $includeHiddenFields = false)
-    {
-        if (empty($fields)) {
-
-            $model = new $this->model();
-
-            $columns = [];
-
-            foreach ($model->getConnection()->getSchemaBuilder()->getColumnListing($model->getTable()) as $column) {
-                $columns[$column] = ucwords(str_replace("_", " ", $column));
-            }
-
-            if($includeHiddenFields == false){
-                $hidden = $model->getHidden();
-                if (!empty($hidden)) {
-                    foreach ($hidden as $remove) {
-                        unset($columns[$remove]);
-                    }
-                }
-            }
-
-            //TODO: Deal with visible fields
-            if ($model->usesTimestamps()) {
-                unset($columns[$model->getCreatedAtColumn()]);
-                unset($columns[$model->getUpdatedAtColumn()]);
-            }
-
-            $fields = $columns;
-        }
-
-        return $fields;
-    }
-
-    /**
      * Build Default Detail Group
      *
      * @param $model
@@ -350,37 +283,20 @@ class AdministrationController extends Controller
 
         if ($attr = $model->getAttributes()) {
 
-            $rawData = $attr;
+            $raw_data = $attr;
 
         } else {
 
-            $rawData = array_fill_keys(array_keys($fields), null);
-        }
-
-        $data = $this->buildComponentsFromData($model, $fields, $this->fieldDefinitions, [$rawData]);
-
-        $info = [
-            'group_title' => "General Information",
-            'group_type' => Core::GROUP_STANDARD,
-            'group_fields' => $fields,
-            'data' => $data
-        ];
-
-        return $info;
-    }
-
-    /**
-     * Build Title Buttons
-     *
-     * @param $titleButtons
-     */
-    public function buildTitleButtons($titleButtons)
-    {
-        if (empty($titleButtons)) {
-
-
+            $raw_data = array_fill_keys(array_keys($fields), null);
 
         }
+
+        $detailComponent = new DetailComponent();
+        $detailComponent->type = Core::GROUP_STANDARD;
+        $detailComponent->fields = $fields;
+        $detailComponent->data = $this->buildDetailViewComponents([$raw_data]);
+
+        return $detailComponent;
     }
 
     /**
@@ -395,23 +311,60 @@ class AdministrationController extends Controller
         switch ($dataGroup['group_type']) {
 
             Case Core::GROUP_STANDARD:
-
                 return $this->buildStandardDataGroup($dataGroup, $model);
+                break;
 
+            Case Core::GROUP_RELATIONSHIP:
+                return $this->buildStandardDataGroup($dataGroup, $model);
                 break;
 
             case Core::GROUP_FULL:
-
                 return $this->buildFullDataGroup($dataGroup, $model);
-
                 break;
 
             case Core::GROUP_WYSIWYG:
-
                 return $this->buildWysiwygDataGroup($dataGroup, $model);
-
                 break;
+
+            case Core::GROUP_MANY:
+                return $this->buildManyDataGroup($dataGroup, $model);
+                break;
+
         }
+    }
+
+    /**
+     * Build "MANY" Data Group
+     * Polymorphic relationships, many-to-many, one-to-many, etc...
+     * Relationship would be defined in the model
+     *
+     * @param $dataGroup
+     * @param $model
+     * @return mixed
+     * @throws \Exception
+     */
+    public function buildManyDataGroup($dataGroup, $model)
+    {
+        if(empty($dataGroup['group_title'])){
+            Throw new \Exception("You must define a 'group_title' in your configuration for this detail group.");
+        }
+
+        if(empty($dataGroup['fields'])){
+            Throw new \Exception("You must define an array of 'fields' in your configuration for this detail group.");
+        }
+
+        $controller = new $dataGroup['relationship_controller']();
+        $controller->overviewFields = $dataGroup['fields'];
+        $controller->disableOverviewPagination = true;
+
+        $detailComponent = new DetailComponent();
+        $detailComponent->label = $dataGroup['group_title'];
+        $detailComponent->type = Core::GROUP_MANY;
+        $detailComponent->fields = $dataGroup['fields'];
+        $detailComponent->controller = $controller;
+        $detailComponent->data = $controller->buildOverviewComponents();
+
+        return $detailComponent;
     }
 
     /**
@@ -423,9 +376,13 @@ class AdministrationController extends Controller
      */
     public function buildStandardDataGroup($dataGroup, $model)
     {
+        $modelData = [];
+
         if (isset($dataGroup['relationship'])) {
 
-            $modelData = $model->{$dataGroup['relationship']}->getAttributes();
+            if($model->{$dataGroup['relationship']} != null){
+                $modelData = $model->{$dataGroup['relationship']}->getAttributes();
+            }
 
         } else {
 
@@ -439,9 +396,20 @@ class AdministrationController extends Controller
 
         }
 
-        $dataGroup['data'] = $this->buildComponentsFromData($model, $this->buildFields($dataGroup['group_fields']), $this->fieldDefinitions, [$modelData]);
+        $detailComponent = new DetailComponent();
+        $detailComponent->type = Core::GROUP_STANDARD;
+        $detailComponent->label = $dataGroup['group_title'];
+        $detailComponent->fields = $dataGroup['group_fields'];
+        $detailComponent->relationship = null;
 
-        return $dataGroup;
+        if(isset($dataGroup['relationship'])){
+            $detailComponent->type = Core::GROUP_RELATIONSHIP;
+            $detailComponent->relationship = $dataGroup['relationship'];
+        }
+
+        $detailComponent->data = $this->buildDetailViewComponents([$modelData], $detailComponent->relationship);
+
+        return $detailComponent;
     }
 
     /**
@@ -455,8 +423,11 @@ class AdministrationController extends Controller
      */
     public function buildFullDataGroup($dataGroup, $model)
     {
-        $dataGroup['data'] = $this->buildComponent($dataGroup['field'], $model->{$dataGroup['field']}, $this->fieldDefinitions);
-        return $dataGroup;
+        $detailComponent = new DetailComponent();
+        $detailComponent->type = Core::GROUP_FULL;
+        $detailComponent->data = $this->buildComponent($dataGroup['field'], $model->{$dataGroup['field']}, $this->fieldDefinitions);
+
+        return $detailComponent;
     }
 
     /**
@@ -468,7 +439,10 @@ class AdministrationController extends Controller
      */
     public function buildWysiwygDataGroup($dataGroup, $model)
     {
-        $dataGroup['data'] = $this->buildComponent($dataGroup['field'], $model->{$dataGroup['field']}, $this->fieldDefinitions);
+        $detailComponent = new DetailComponent();
+        $detailComponent->type = Core::GROUP_WYSIWYG;
+        $detailComponent->data = $this->buildComponent($dataGroup['field'], $model->{$dataGroup['field']}, $this->fieldDefinitions);
+
         return $dataGroup;
     }
 

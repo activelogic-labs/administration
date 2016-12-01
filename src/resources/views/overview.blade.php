@@ -1,9 +1,15 @@
 @extends("administration::layouts.admin")
 
 @section("header")
+
     <div class="header" style="height: auto;">
         {{--NOTE: include filter language only when filtering--}}
-        <h1>{{ $title }} <small>{{ $data->total()}} {{ \Illuminate\Support\Str::plural($title) }} found matching filters</small></h1>
+        @if(count($dataset) == 1)
+            <h1>{{ $title }} <small>{{ $dataset[0]->total }} {{ \Illuminate\Support\Str::plural($title) }} found matching filters</small></h1>
+        @else
+            <h1>{{ $title }}</h1>
+        @endif
+
         @if($filterable)
             <div class="filters">
                 <div class="applied-filters">
@@ -54,36 +60,49 @@
 
 @section("content")
 
-    @if($data->total() == 0)
+    @foreach($dataset as $key => $overviewComponent)
 
-        <div class="missing_records">There are no records...</div>
+        @if(count($dataset) > 1)
 
-    @else
+            <div>
+                <h2>{{ $overviewComponent->label }} <small>{{ $overviewComponent->caption }}</small></h2>
+            </div>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    @foreach($overviewFields as $key => $value)
-                        <th>{{ $value }}</th>
-                    @endforeach
-                </tr>
-            </thead>
+        @endif
 
-            <tbody>
-                @foreach($data as $key => $row)
-                    <tr @if($enableDetailView) href="{{ $detail_url . "/" . $row['id']->value }}" @else class="no_link" @endif>
-                        @foreach($overviewFields as $id => $value)
-                            <td>{!! $row[$id]->dataView() !!}</td>
+        @if($overviewComponent->total == 0)
+
+            <div class="missing_records">There are no records...</div>
+
+        @else
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        @foreach($overviewComponent->overviewFields as $value)
+                            <th>{{ $value }}</th>
                         @endforeach
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
 
-        <div align="center">
-            {{ $page_links }}
-        </div>
+                <tbody>
+                    @foreach($overviewComponent->data as $row)
+                        <tr @if($enableDetailView) href="{{ $detail_url . "/" . $row['id']->value }}" @else class="no_link" @endif>
+                            @foreach($overviewComponent->overviewFields as $id => $value)
+                                <td>{!! $row[$id]->dataView() !!}</td>
+                            @endforeach
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
 
-    @endif
+            <!-- Pagination -->
+            <div class="pagination_alignment">
+                {{ $overviewComponent->pagination }}
+            </div>
+
+        @endif
+
+    @endforeach
 
 @endsection

@@ -1,3 +1,4 @@
+// Desktop
 #main{
     #content{
         #menu_anchor{
@@ -6,7 +7,24 @@
     }
 }
 
-@media (max-width: 1115px) {
+@media (min-width: 768px) {
+  .modal-dialog{ width:80%; }
+}
+
+// Tablet
+@media (max-width: 768px) {
+  #main #content .header h1{
+    width:100%;
+    text-align:center;
+    float:none;
+  }
+  #main #content .header .buttons{
+    float:none;
+    width:100%;
+    text-align:center;
+    padding:20px 0;
+    margin:0;
+  }
     #main{
         #content{
             #menu_anchor{
@@ -17,8 +35,12 @@
             display:none;
         }
     }
+  .data-group .data-group-field{
+    width:100% !important;
+  }
 }
 
+// Mobile
 @media (max-width: 970px) {
     .table{
         th{
@@ -32,10 +54,5 @@
             }
         }
     }
-    .data-group{
-        .data-group-field{
-            width:100%;
-            border:none;
-        }
-    }
+
 }
