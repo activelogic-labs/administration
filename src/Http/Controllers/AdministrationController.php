@@ -162,8 +162,6 @@ class AdministrationController extends Controller
     {
         try{
 
-            dd($request->toArray());
-
             $model = new $this->model;
 
             if($request->id){

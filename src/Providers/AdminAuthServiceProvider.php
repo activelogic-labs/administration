@@ -1,9 +1,4 @@
 <?php
-/**
- * Created by Dalton Gibbs
- * Date: 11/1/16
- * Time: 8:21 PM
- */
 
 namespace Activelogiclabs\Administration\Providers;
 

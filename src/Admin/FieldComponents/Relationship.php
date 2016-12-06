@@ -25,14 +25,22 @@ class Relationship extends FieldComponent
     public function fieldView()
     {
         $related = new $this->definition['model']();
-        $options = $related->get();
+
+        if(isset($this->definition['scope'])){
+
+            $options = $related->{$this->definition['scope']}()->get();
+
+        }else{
+
+            $options = $related->get();
+
+        }
 
         $optionsArray = [];
         $foreignKey = isset($this->definition['foreign_key']) ? $this->definition['foreign_key'] : "id";
-        $foreignValue = $this->definition['display'];
 
         foreach($options as $option){
-            $optionsArray[$option->$foreignKey] = $option->$foreignValue;
+            $optionsArray[$option->$foreignKey] = $this->formatValueDisplay($option);
         }
 
         $viewData = [
@@ -47,5 +55,32 @@ class Relationship extends FieldComponent
     public function onSubmit()
     {
         return $this->value;
+    }
+
+    /**
+     * Extract Display Variables
+     *
+     * @param $value
+     */
+    private function formatValueDisplay($option)
+    {
+        if(strpos($this->definition['display'], '$') !== false){
+
+            preg_match_all('/\$[a-zA-Z0-9_]+/', $this->definition['display'], $matches);
+
+            $optionValue = $this->definition['display'];
+
+            foreach($matches[0] as $match){
+
+                $optionVariable = trim( str_replace('$', "", $match) );
+
+                $optionValue = str_replace($match, $option->{$optionVariable}, $optionValue);
+
+            }
+
+            return $optionValue;
+        }
+
+        return $option->{$this->definition['display']};
     }
 }

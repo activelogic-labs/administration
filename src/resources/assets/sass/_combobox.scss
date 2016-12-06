@@ -60,6 +60,7 @@
         background:#F9F9F9;
         &:hover{
           background: #FFFFFF;
+          color:#000;
         }
       }
       &:last-child{
@@ -67,4 +68,12 @@
       }
     }
   }
+  &.emptyValue{
+    label{
+      span{
+        color:#d3d3d3 !important;
+      }
+    }
+  }
 }
+

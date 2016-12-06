@@ -29,7 +29,24 @@ var combobox = function(element)
         hiddenInputString.val(value);
         hiddenInputString.attr('name', this.name);
 
+        this.toggleEmptyValueClass(value);
         this.element.prepend(hiddenInputString);
+    };
+
+    /**
+     * Toggle Placeholder Text Clacss
+     */
+    this.toggleEmptyValueClass = function(value = null)
+    {
+        if(value.length == 0){
+
+            this.element.addClass("emptyValue");
+
+        }else{
+
+            this.element.removeClass("emptyValue");
+
+        }
     };
 
     /**
@@ -94,8 +111,10 @@ var combobox = function(element)
      * Option Select
      */
     this.optionSelect = function(element) {
+        console.log("Value: ", element.attr('value'));
         this.configureHiddenInputString(element.attr('value'));
         this.setLabel(element.html());
+        this.toggleEmptyValueClass(element.attr('value'));
     };
 
     /**
@@ -141,6 +160,10 @@ var combobox = function(element)
             }
 
         });
+
+        if(labelString.length == 0){
+            labelString = "Select option...";
+        }
 
         return labelString;
     };

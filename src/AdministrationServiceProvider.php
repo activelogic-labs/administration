@@ -13,6 +13,7 @@ use Activelogiclabs\Administration\Commands\AdminControllerMakeCommand;
 use Activelogiclabs\Administration\Commands\MakeAdministrationCommand;
 use Activelogiclabs\Administration\Http\Middleware\GlobalViewData;
 use Activelogiclabs\Administration\Providers\AdminAuthServiceProvider;
+use Activelogiclabs\Administration\Providers\BladeServiceProvider;
 use Activelogiclabs\Administration\Providers\ViewComposerServiceProvider;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
@@ -26,7 +27,8 @@ class AdministrationServiceProvider extends ServiceProvider {
 
     protected $providers = [
         AdminAuthServiceProvider::class,
-        ViewComposerServiceProvider::class
+        ViewComposerServiceProvider::class,
+        BladeServiceProvider::class
     ];
 
     public function boot()
