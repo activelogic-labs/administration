@@ -66,15 +66,35 @@ class Relationship extends FieldComponent
     {
         if(strpos($this->definition['display'], '$') !== false){
 
-            preg_match_all('/\$[a-zA-Z0-9_]+/', $this->definition['display'], $matches);
+            preg_match_all('/\$[a-zA-Z0-9_.]+/', $this->definition['display'], $matches);
 
             $optionValue = $this->definition['display'];
 
             foreach($matches[0] as $match){
 
                 $optionVariable = trim( str_replace('$', "", $match) );
+                $optionValue = $option->{$optionVariable};
 
-                $optionValue = str_replace($match, $option->{$optionVariable}, $optionValue);
+                if(strpos($optionVariable, '.') !== false){
+
+                    $arr = explode('.', $optionVariable);
+                    $chainString = "";
+
+                    foreach($arr as $i => $var){
+
+                        if($i > 0){
+
+                            $chainString .= "{$var}->";
+
+                        }
+
+                    }
+
+                    $chainString = substr(trim($chainString), 0, -2);
+                    $optionValue = $option->{$arr[0]}->$chainString;
+                }
+
+                $optionValue = str_replace($match, $optionValue, $optionValue);
 
             }
 
@@ -83,4 +103,5 @@ class Relationship extends FieldComponent
 
         return $option->{$this->definition['display']};
     }
+
 }
