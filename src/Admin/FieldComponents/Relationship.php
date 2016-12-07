@@ -68,7 +68,7 @@ class Relationship extends FieldComponent
 
             preg_match_all('/\$[a-zA-Z0-9_.]+/', $this->definition['display'], $matches);
 
-            $optionValue = $this->definition['display'];
+            $optionFinalValue = $this->definition['display'];
 
             foreach($matches[0] as $match){
 
@@ -92,13 +92,15 @@ class Relationship extends FieldComponent
 
                     $chainString = substr(trim($chainString), 0, -2);
                     $optionValue = $option->{$arr[0]}->$chainString;
+
+                    $optionFinalValue = str_replace($match, $optionValue, $optionFinalValue);
+                    continue;
                 }
 
-                $optionValue = str_replace($match, $optionValue, $optionValue);
-
+                $optionFinalValue = str_replace($match, $optionValue, $optionFinalValue);
             }
 
-            return $optionValue;
+            return $optionFinalValue;
         }
 
         return $option->{$this->definition['display']};
