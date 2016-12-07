@@ -92,9 +92,6 @@ class Relationship extends FieldComponent
 
                     $chainString = substr(trim($chainString), 0, -2);
                     $optionValue = $option->{$arr[0]}->$chainString;
-
-                    $optionFinalValue = str_replace($match, $optionValue, $optionFinalValue);
-                    continue;
                 }
 
                 $optionFinalValue = str_replace($match, $optionValue, $optionFinalValue);
