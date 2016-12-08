@@ -1213,6 +1213,12 @@ body {
   .combobox.emptyValue label span {
     color: #d3d3d3 !important; }
 
+.bootstrap-datetimepicker-widget {
+  border-radius: 0; }
+  .bootstrap-datetimepicker-widget span {
+    padding: 0 !important;
+    border: none !important; }
+
 .pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
   background-color: #E0E0E0;
   border-color: #CCCCCC;

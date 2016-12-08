@@ -4,7 +4,8 @@
   "author": "ActiveLogic Labs, Llc.",
   "dependencies": {
     "stacktable.js": "stackable.js#^1.0.1",
-    "dropzone": "^4.3.0"
+    "dropzone": "^4.3.0",
+    "eonasdan-bootstrap-datetimepicker": "^4.17.43"
   },
   "authors": [
     "Robert Kehoe <robert@activelogiclabs.com>",

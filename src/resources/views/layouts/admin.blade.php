@@ -14,6 +14,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link href="{{ elixir('css/administration-app.css', 'vendor/administration/build') }}" rel="stylesheet">
+    <link rel="stylesheet" href="/vendor/administration/components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
 
     @if(!empty(config('admin.styles')))
         @foreach (config('admin.styles') as $style)
@@ -132,17 +133,17 @@
         </div>
     </div>
 
-    <!-- JavaScript -->
     <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="/vendor/administration/components/stacktable.js/stacktable.js"></script>
     <script src="/vendor/administration/components/dropzone/dist/min/dropzone.min.js"></script>
     <script src="//cdn.ckeditor.com/4.5.10/standard/ckeditor.js"></script>
-
     <script src="/vendor/administration/components/microplugin/src/microplugin.js"></script>
     <script src="/vendor/administration/components/selectize/dist/js/selectize.min.js"></script>
-
     <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.2/Chart.bundle.min.js"></script>
+    <script type="text/javascript" src="/vendor/administration/components/moment/min/moment.min.js"></script>
+    <script type="text/javascript" src="/vendor/administration/components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+
     <script>
 
         Chart.defaults.global.responsive = false;
@@ -155,19 +156,43 @@
     <script src="{{ elixir('js/administration-all.js', 'vendor/administration/build') }}"></script>
 
     @if(!empty(config('admin.scripts')))
+
         @foreach (config('admin.scripts') as $script)
+
             <script src="{{ $script }}"></script>
+
         @endforeach
+
     @endif
 
     <script>
+
         @if(isset($filterable))
+
             Filters.init({!! json_encode($filterable) !!});
+
         @endif
+
+        $(function(){
+
+            $(".datepicker").datetimepicker({
+                format : "MMMM DD, YYYY"
+            });
+
+            $(".timepicker").datetimepicker({
+                format : "h:mm A"
+            });
+
+            $(".datetimepicker").datetimepicker({
+                format : "MMMM DD, YYYY @ h:mm A"
+            });
+
+        });
 
     </script>
 
     @stack("js")
+
     @yield("scripts")
 
 </body>
