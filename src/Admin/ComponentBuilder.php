@@ -268,7 +268,12 @@ trait ComponentBuilder
 
             }
 
-            $query->where(Str::snake($column), $value);
+            if (Str::snake($column) != 'id') {
+                $query->where(Str::snake($column), 'LIKE', "%{$value}%");
+            } else {
+                $query->where(Str::snake($column), $value);
+
+            }
         }
 
         return $query;
