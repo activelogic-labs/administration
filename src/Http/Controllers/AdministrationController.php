@@ -19,7 +19,6 @@ class AdministrationController extends Controller
 {
     use ComponentBuilder;
 
-    public $model;
     public $title;
     public $icon = 'fa-chevron-right';
     public $paginationLength = 10;
