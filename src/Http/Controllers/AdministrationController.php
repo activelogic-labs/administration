@@ -5,34 +5,36 @@ namespace Activelogiclabs\Administration\Http\Controllers;
 use Activelogiclabs\Administration\Admin\ComponentBuilder;
 use Activelogiclabs\Administration\Admin\Core;
 use Activelogiclabs\Administration\Admin\DetailComponent;
-use Activelogiclabs\Administration\Admin\FieldComponent;
 use App\Http\Controllers\Controller;
-use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Str;
 
-class AdministrationController extends Controller
-{
+class AdministrationController extends Controller {
+
     use ComponentBuilder;
 
     public $title;
-    public $icon = 'fa-chevron-right';
-    public $paginationLength = 10;
+
+    public $icon                      = 'fa-chevron-right';
+
+    public $paginationLength          = 10;
 
     public $disableOverviewPagination = false;
-    public $modules;
-    public $detailGroups;
-    public $titleButtons = [];
-    public $filterable = [];
-    public $sortable = [];
 
-    public $enableAddingRecords = true;
-    public $enableExportingRecords = true;
-    public $enableDetailView = true;
+    public $modules;
+
+    public $detailGroups;
+
+    public $titleButtons              = [];
+
+    public $filterable                = [];
+
+    public $sortable                  = [];
+
+    public $enableAddingRecords       = true;
+
+    public $enableExportingRecords    = true;
+
+    public $enableDetailView          = true;
 
     public $linkOut;
 
@@ -42,21 +44,24 @@ class AdministrationController extends Controller
      * @var
      */
     public $slug;
+
     public $url;
+
     public $class;
+
     public $routes;
 
     /**
      * Section constructor.
      */
-    public function __construct()
-    {
+    public function __construct() {
+
         $uriArray = explode("\\", get_called_class());
 
         $this->slug = strtolower(str_replace("Controller", "", end($uriArray)));
-        $this->url = Core::url($this->slug);
+        $this->url  = Core::url($this->slug);
 
-        if($this->linkOut){
+        if ($this->linkOut) {
             $this->url = $this->linkOut;
         }
 
@@ -68,8 +73,8 @@ class AdministrationController extends Controller
      *
      * @return mixed
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
+
         if ($request->has('filters')) {
             foreach ($request->input('filters') as $column => $value) {
                 $this->filters[$column] = $value;
@@ -82,7 +87,7 @@ class AdministrationController extends Controller
             }
         }
 
-        return Core::view( Core::PAGE_TYPE_OVERVIEW, [
+        return Core::view(Core::PAGE_TYPE_OVERVIEW, [
             'title' => $this->title,
             'model' => $this->model,
             'detail_url' => Core::url($this->slug . "/detail"),
@@ -101,15 +106,19 @@ class AdministrationController extends Controller
         ]);
     }
 
-    public function paginateFilters()
-    {
+    public function paginateFilters() {
+
         $formatted = [];
 
-        foreach ($this->filters as $column => $value) {
-            $formatted["filters[$column]"] = $value;
-        }
+        if ($this->filters) {
 
-        return $formatted;
+            foreach ($this->filters as $column => $value) {
+                $formatted["filters[$column]"] = $value;
+            }
+
+            return $formatted;
+
+        }
     }
 
     /**
@@ -118,28 +127,26 @@ class AdministrationController extends Controller
      * @param null $id
      * @return mixed
      */
-    public function detail($id = null)
-    {
+    public function detail($id = null) {
+
         $isNewRecord = false;
 
         //--- New Record
         if (is_null($id)) {
-            $model = new $this->model();
+            $model        = new $this->model();
             $detailGroups = $this->buildDetailGroups($model);
-            $isNewRecord = true;
-        }
-
-        else {
-            $model = $this->retrieveModel($id);
+            $isNewRecord  = true;
+        } else {
+            $model        = $this->retrieveModel($id);
             $detailGroups = $this->buildDetailGroups($model);
         }
 
-        return Core::view( Core::PAGE_TYPE_DETAIL, [
+        return Core::view(Core::PAGE_TYPE_DETAIL, [
             'save_url' => Core::url($this->slug . "/save/" . $id),
             'delete_url' => Core::url($this->slug . "/delete/" . $id),
             'back_url' => Core::url($this->slug),
             'title' => 'Details',
-            'subtitle' => "Edit Record #".$id,
+            'subtitle' => "Edit Record #" . $id,
             'detailGroups' => $detailGroups,
             'model' => $this->model,
             'isNewRecord' => $isNewRecord
@@ -152,22 +159,22 @@ class AdministrationController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function saveForm(Request $request)
-    {
-        try{
+    public function saveForm(Request $request) {
+
+        try {
 
             $model = new $this->model;
 
-            if($request->id){
+            if ($request->id) {
                 $model = $model::find($request->id);
             }
 
-            foreach($this->buildFields() as $field => $label){
+            foreach ($this->buildFields() as $field => $label) {
 
-                $component = $this->buildComponent($field, $request->$field, $this->fieldDefinitions);
+                $component   = $this->buildComponent($field, $request->$field, $this->fieldDefinitions);
                 $submitValue = $component->onSubmit();
 
-                if($submitValue != null){
+                if ($submitValue != null) {
                     $model->$field = $submitValue;
                 }
 
@@ -175,11 +182,11 @@ class AdministrationController extends Controller
 
             $model->save();
 
-            Core::setSuccessResponse("Object #".$model->id." has been saved");
+            Core::setSuccessResponse("Object #" . $model->id . " has been saved");
 
-            return redirect( $this->url . "/detail/" . $model->id );
+            return redirect($this->url . "/detail/" . $model->id);
 
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return redirect()->back()->withErrors($e->getMessage());
 
@@ -194,8 +201,8 @@ class AdministrationController extends Controller
      * @param null $field
      * @return mixed
      */
-    public function deleteField(Request $request, $id = null, $field = null)
-    {
+    public function deleteField(Request $request, $id = null, $field = null) {
+
         $model = $this->model;
         $model = $model::find($id);
 
@@ -221,8 +228,8 @@ class AdministrationController extends Controller
      * @param null $id
      * @return mixed
      */
-    public function deleteRecord(Request $request, $id = null)
-    {
+    public function deleteRecord(Request $request, $id = null) {
+
         if (empty($id)) {
             return redirect()->back();
         }
@@ -241,8 +248,8 @@ class AdministrationController extends Controller
      * @param $model
      * @return array
      */
-    private function buildDetailGroups($model)
-    {
+    private function buildDetailGroups($model) {
+
         $detailGroups = [];
 
         if (empty($this->detailGroups)) {
@@ -267,8 +274,8 @@ class AdministrationController extends Controller
      * @param $model
      * @return array
      */
-    public function buildDefaultDetailGroup($model)
-    {
+    public function buildDefaultDetailGroup($model) {
+
         $fields = $this->buildFields();
 
         unset($fields[$model->getKeyName()]);
@@ -283,10 +290,10 @@ class AdministrationController extends Controller
 
         }
 
-        $detailComponent = new DetailComponent();
-        $detailComponent->type = Core::GROUP_STANDARD;
+        $detailComponent         = new DetailComponent();
+        $detailComponent->type   = Core::GROUP_STANDARD;
         $detailComponent->fields = $fields;
-        $detailComponent->data = $this->buildDetailViewComponents([$raw_data]);
+        $detailComponent->data   = $this->buildDetailViewComponents([$raw_data]);
 
         return $detailComponent;
     }
@@ -298,8 +305,8 @@ class AdministrationController extends Controller
      * @param $model
      * @return mixed
      */
-    private function buildDetailGroup($dataGroup, $model)
-    {
+    private function buildDetailGroup($dataGroup, $model) {
+
         switch ($dataGroup['group_type']) {
 
             Case Core::GROUP_STANDARD:
@@ -335,26 +342,26 @@ class AdministrationController extends Controller
      * @return mixed
      * @throws \Exception
      */
-    public function buildManyDataGroup($dataGroup, $model)
-    {
-        if(empty($dataGroup['group_title'])){
+    public function buildManyDataGroup($dataGroup, $model) {
+
+        if (empty($dataGroup['group_title'])) {
             Throw new \Exception("You must define a 'group_title' in your configuration for this detail group.");
         }
 
-        if(empty($dataGroup['fields'])){
+        if (empty($dataGroup['fields'])) {
             Throw new \Exception("You must define an array of 'fields' in your configuration for this detail group.");
         }
 
-        $controller = new $dataGroup['relationship_controller']();
-        $controller->overviewFields = $dataGroup['fields'];
+        $controller                            = new $dataGroup['relationship_controller']();
+        $controller->overviewFields            = $dataGroup['fields'];
         $controller->disableOverviewPagination = true;
 
-        $detailComponent = new DetailComponent();
-        $detailComponent->label = $dataGroup['group_title'];
-        $detailComponent->type = Core::GROUP_MANY;
-        $detailComponent->fields = $dataGroup['fields'];
+        $detailComponent             = new DetailComponent();
+        $detailComponent->label      = $dataGroup['group_title'];
+        $detailComponent->type       = Core::GROUP_MANY;
+        $detailComponent->fields     = $dataGroup['fields'];
         $detailComponent->controller = $controller;
-        $detailComponent->data = $controller->buildOverviewComponents();
+        $detailComponent->data       = $controller->buildOverviewComponents();
 
         return $detailComponent;
     }
@@ -366,13 +373,13 @@ class AdministrationController extends Controller
      * @param $model
      * @return mixed
      */
-    public function buildStandardDataGroup($dataGroup, $model)
-    {
+    public function buildStandardDataGroup($dataGroup, $model) {
+
         $modelData = [];
 
         if (isset($dataGroup['relationship'])) {
 
-            if($model->{$dataGroup['relationship']} != null){
+            if ($model->{$dataGroup['relationship']} != null) {
                 $modelData = $model->{$dataGroup['relationship']}->getAttributes();
             }
 
@@ -388,14 +395,14 @@ class AdministrationController extends Controller
 
         }
 
-        $detailComponent = new DetailComponent();
-        $detailComponent->type = Core::GROUP_STANDARD;
-        $detailComponent->label = $dataGroup['group_title'];
-        $detailComponent->fields = $dataGroup['group_fields'];
+        $detailComponent               = new DetailComponent();
+        $detailComponent->type         = Core::GROUP_STANDARD;
+        $detailComponent->label        = $dataGroup['group_title'];
+        $detailComponent->fields       = $dataGroup['group_fields'];
         $detailComponent->relationship = null;
 
-        if(isset($dataGroup['relationship'])){
-            $detailComponent->type = Core::GROUP_RELATIONSHIP;
+        if (isset($dataGroup['relationship'])) {
+            $detailComponent->type         = Core::GROUP_RELATIONSHIP;
             $detailComponent->relationship = $dataGroup['relationship'];
         }
 
@@ -413,9 +420,9 @@ class AdministrationController extends Controller
      *
      * @ToDo: I don't think this works... It expects one field but an array is commonly passed back. Need to re-think this.
      */
-    public function buildFullDataGroup($dataGroup, $model)
-    {
-        $detailComponent = new DetailComponent();
+    public function buildFullDataGroup($dataGroup, $model) {
+
+        $detailComponent       = new DetailComponent();
         $detailComponent->type = Core::GROUP_FULL;
         $detailComponent->data = $this->buildComponent($dataGroup['field'], $model->{$dataGroup['field']}, $this->fieldDefinitions);
 
@@ -429,9 +436,9 @@ class AdministrationController extends Controller
      * @param $model
      * @return mixed
      */
-    public function buildWysiwygDataGroup($dataGroup, $model)
-    {
-        $detailComponent = new DetailComponent();
+    public function buildWysiwygDataGroup($dataGroup, $model) {
+
+        $detailComponent       = new DetailComponent();
         $detailComponent->type = Core::GROUP_WYSIWYG;
         $detailComponent->data = $this->buildComponent($dataGroup['field'], $model->{$dataGroup['field']}, $this->fieldDefinitions);
 
@@ -444,8 +451,8 @@ class AdministrationController extends Controller
      * @param $id
      * @return mixed
      */
-    private function retrieveModel($id)
-    {
+    private function retrieveModel($id) {
+
         $model = $this->model;
         $model = $model::findOrNew($id);
 
@@ -457,27 +464,27 @@ class AdministrationController extends Controller
      *
      * @return mixed
      */
-    public function exportData()
-    {
+    public function exportData() {
+
         $headers = [
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
             'Content-type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename='.$this->slug.'.csv',
+            'Content-Disposition' => 'attachment; filename=' . $this->slug . '.csv',
             'Expires' => '0',
             'Pragma' => 'public'
         ];
 
         //TODO: rewrite to avoid storing large data sets in memory
         $model = new $this->model();
-        $data = $model::all();
+        $data  = $model::all();
 
-        if($data->count() == 0){
+        if ($data->count() == 0) {
             return redirect()->back()->withErrors("There is no data to export");
         }
 
         $data = $data->toArray();
 
-        $callback = function() use ($data, $model) {
+        $callback = function () use ($data, $model) {
 
             if ($model->usesTimestamps()) {
                 unset($data[0][$model->getKeyName()]);
@@ -488,7 +495,7 @@ class AdministrationController extends Controller
             $out = fopen('php://output', 'w');
             fputcsv($out, array_keys($data[1]));
 
-            foreach($data as $line) {
+            foreach ($data as $line) {
                 if ($model->usesTimestamps()) {
                     unset($line[$model->getKeyName()]);
                     unset($line[$model->getCreatedAtColumn()]);
