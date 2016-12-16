@@ -19,12 +19,11 @@ class AdministrationController extends Controller
 {
     use ComponentBuilder;
 
+    public $model;
     public $title;
     public $icon = 'fa-chevron-right';
     public $paginationLength = 10;
 
-    public $fieldDefinitions;
-    public $overviewFields;
     public $disableOverviewPagination = false;
     public $modules;
     public $detailGroups;
@@ -47,9 +46,6 @@ class AdministrationController extends Controller
     public $url;
     public $class;
     public $routes;
-    public $filters = [];
-    public $forcedFilters = [];
-    public $sorts = [];
 
     /**
      * Section constructor.
